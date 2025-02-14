@@ -1,0 +1,5 @@
+export class URL {
+  static readonly HOSTNAME = '';
+  static readonly API_URL = URL.HOSTNAME + '/api';
+  static readonly AUTH_URL = URL.API_URL + '/auth';
+}

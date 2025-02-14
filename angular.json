@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "untitled": {
+    "form-gui": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/untitled",
+            "outputPath": "dist/form-gui",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -58,12 +58,15 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "proxyConfig": "proxy-config.json"
+          },
           "configurations": {
             "production": {
-              "buildTarget": "untitled:build:production"
+              "buildTarget": "form-gui:build:production"
             },
             "development": {
-              "buildTarget": "untitled:build:development"
+              "buildTarget": "form-gui:build:development"
             }
           },
           "defaultConfiguration": "development"
