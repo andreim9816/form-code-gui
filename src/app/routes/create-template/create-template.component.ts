@@ -21,7 +21,7 @@ import {AutoExpandDirective} from '../../directive/auto-expand.directive';
     MatFabButton,
     NgForOf,
     NgIf,
-    AutoExpandDirective
+    AutoExpandDirective,
   ],
   templateUrl: './create-template.component.html',
   styleUrls: ['./create-template.component.css']
@@ -36,6 +36,8 @@ export class CreateTemplateComponent implements OnInit {
   currentSection: Section;
   currentSectionField: SectionField;
 
+  mockData = true;
+
   constructor(
     private readonly fb: FormBuilder) {
   }
@@ -45,6 +47,49 @@ export class CreateTemplateComponent implements OnInit {
       companyCtrl: ['ANAF', Validators.required],
       formNameCtrl: ['', Validators.required]
     });
+
+    if (this.mockData) {
+      this.sections = [
+        {
+          sectionFields: [
+            {
+              addedDate: new Date(),
+              contentType: ContentType.STRING,
+              contentString: 'abcdef'
+            },
+            {
+              addedDate: new Date(),
+              contentType: ContentType.STRING,
+              contentString: 'ghijkl'
+            },
+            {
+              addedDate: new Date(),
+              contentType: ContentType.STRING,
+              contentString: 'mn'
+            }
+          ]
+        },
+        {
+          sectionFields: [
+            {
+              addedDate: new Date(),
+              contentType: ContentType.STRING,
+              contentString: 'xyz'
+            },
+            {
+              addedDate: new Date(),
+              contentType: ContentType.STRING,
+              contentString: 'tuv'
+            },
+            {
+              addedDate: new Date(),
+              contentType: ContentType.STRING,
+              contentString: 'ciolacu'
+            }
+          ]
+        },
+      ] as Section[];
+    }
   }
 
   addNewSection(): void {

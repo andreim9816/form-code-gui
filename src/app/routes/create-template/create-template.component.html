@@ -29,11 +29,11 @@
         </div>
         <div class="row">
           <div class="col">
-            <textarea autoExpand class="auto-expand"></textarea>
-            <ul>
+            <ul class="d-flex flex-column">
               <li *ngFor="let section of sections; index as sectionIndex" class="mb-2">
-                <div *ngFor="let sectionField of section.sectionFields; index as sectionFieldIndex"
-                     (click)="setCursorPosition($event, section, sectionField, sectionIndex, sectionFieldIndex)">
+                <div class="d-flex flex-wrap">
+                  <div *ngFor="let sectionField of section.sectionFields; index as sectionFieldIndex"
+                       (click)="setCursorPosition($event, section, sectionField, sectionIndex, sectionFieldIndex)">
                   <textarea
                     autoExpand
                     *ngIf="sectionField.contentType === ContentType.STRING"
@@ -41,6 +41,7 @@
                     style="height: 30px"
                     (keydown)="onKeyDown($event, section, sectionField, sectionIndex, sectionFieldIndex)"
                   >{{ sectionField.contentString }}</textarea>
+                  </div>
                 </div>
               </li>
             </ul>
