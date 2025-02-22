@@ -1,0 +1,14 @@
+<button (click)="newElem1()">new elem on list 1</button>
+<button (click)="newElem2()">new elem on list 2</button>
+
+<input>
+<input>
+
+<p>lists:</p>
+<div *ngFor="let elem1 of list1; index as idx1">
+  <p>{{idx1}}</p>
+  <div *ngFor="let elem2 of list2; index as idx2">
+    <p>{{idx2}}</p>
+  </div>
+</div>
+

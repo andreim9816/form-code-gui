@@ -1,4 +1,4 @@
-import {UserType} from './UserType';
+import {UserType} from '../model/UserType';
 
 export interface UserDto {
   id: number;

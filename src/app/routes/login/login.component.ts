@@ -3,8 +3,7 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {Router} from "@angular/router";
 import {AuthService} from '../../service/AuthService';
 import {StorageService} from '../../service/StorageService';
-import {UserDto} from '../../model/UserDto';
-import {CookieService} from 'ngx-cookie-service';
+import {UserDto} from '../../dto/UserDto';
 import {MatFormField} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 import {UserType} from '../../model/UserType';
@@ -31,7 +30,6 @@ export class LoginComponent implements OnInit {
   constructor(private readonly fb: FormBuilder,
               private readonly authService: AuthService,
               private readonly storageService: StorageService,
-              private readonly cookieService: CookieService,
               private readonly router: Router) {
   }
 
@@ -49,8 +47,8 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     if (this.loginForm.valid) {
       const body = {
-        username: 'user1',
-        password: 'password1'
+        username: 'user2',
+        password: 'password2'
       };
 
       this.authService.loginUser(body).subscribe({
@@ -59,6 +57,7 @@ export class LoginComponent implements OnInit {
             this.userType = userDto.userType;
             this.isLoginFailed = false;
             this.isLoggedIn = true;
+            this.router.navigateByUrl('/template')
           },
           error: (err: any) => {
             this.errorMessage = err.error.message;

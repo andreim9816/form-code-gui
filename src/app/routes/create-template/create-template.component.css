@@ -1,0 +1,33 @@
+
+.auto-expand {
+    width: auto; /* Initial width can be set to auto or any specific width */
+    min-width: 100px; /* Minimum width to ensure it's visible */
+    max-width: 100%; /* Maximum width to prevent it from growing too large */
+    overflow: hidden; /* Hide overflow */
+    white-space: nowrap; /* Prevent line breaks within the textarea */
+}
+
+
+.popover-container {
+    width: 100%; /* Ensure the container takes the full width */
+}
+
+.popover {
+    width: 100% !important; /* Ensure the popover takes the full width */
+    max-width: none; /* Remove the max-width constraint */
+    border-radius: 10px; /* Adjust to change the shape */
+}
+
+.custom-popover {
+    display: flex;
+    flex-direction: column;
+}
+
+.popover-item {
+    text-align: left;
+    padding: 10px;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}

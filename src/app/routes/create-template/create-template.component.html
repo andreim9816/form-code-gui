@@ -1,0 +1,61 @@
+<div class="container">
+  <form form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="row">
+      <div class="col-2">
+        <button mat-button class="d-block" (click)="addText()">Text</button>
+        <button mat-button class="d-block" (click)="show()">Display info</button>
+        <button mat-button class="d-block">Number</button>
+        <button mat-button class="d-block">Checkbox</button>
+        <button mat-button class="d-block">Rating</button>
+        <button mat-button class="d-block">Date/Time</button>
+        <button mat-button class="d-block">Multiple choice</button>
+      </div>
+      <div class="col-8 border-start border-end">
+        <div class="row">
+          <div class="col">
+            <mat-form-field>
+              <mat-label>Company</mat-label>
+              <input matInput readonly formControlName="companyCtrl">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <mat-form-field>
+              <mat-label>Form name</mat-label>
+              <input matInput formControlName="formNameCtrl">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <textarea autoExpand class="auto-expand"></textarea>
+            <ul>
+              <li *ngFor="let section of sections; index as sectionIndex" class="mb-2">
+                <div *ngFor="let sectionField of section.sectionFields; index as sectionFieldIndex"
+                     (click)="setCursorPosition($event, section, sectionField, sectionIndex, sectionFieldIndex)">
+                  <textarea
+                    autoExpand
+                    *ngIf="sectionField.contentType === ContentType.STRING"
+                    class="form-control auto-expand"
+                    style="height: 30px"
+                    (keydown)="onKeyDown($event, section, sectionField, sectionIndex, sectionFieldIndex)"
+                  >{{ sectionField.contentString }}</textarea>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <button mat-fab class="w-100" (click)="addNewSection()">+ Add a new section</button>
+          </div>
+        </div>
+        <button mat-button type="submit">Submit</button>
+      </div>
+      <div class="col-2">
+        <p>col 2</p>
+      </div>
+    </div>
+  </form>
+</div>

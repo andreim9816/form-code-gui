@@ -1,16 +1,21 @@
 <div class="container default-padding outline-box">
   <h2>Welcome!</h2>
   <br>
-  <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
-    <div class="no-gutters">
-      <mat-form-field>
-        <input formControlName="username" matInput placeholder="Username">
-      </mat-form-field>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()"
+        class="container">
+    <div class="row">
+      <div class="col">
+        <mat-form-field>
+          <input formControlName="username" matInput placeholder="Username">
+        </mat-form-field>
+      </div>
     </div>
-    <div class="row no-gutters">
-      <mat-form-field>
-        <input formControlName="password" matInput placeholder="Password" type="password">
-      </mat-form-field>
+    <div class="row">
+      <div class="col">
+        <mat-form-field>
+          <input formControlName="password" matInput placeholder="Passowrd" type="password">
+        </mat-form-field>
+      </div>
     </div>
     <button class="btn btn-primary" type="submit">Login</button>
   </form>

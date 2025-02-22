@@ -5,15 +5,21 @@
         <img alt="Logo" src="favicon.ico">
       </a>
 
-      <!--      <a *ngIf="!isLoggedIn()" mat-button routerLink="/login" routerLinkActive="active">Login</a>-->
-      <!--      <a *ngIf="!isLoggedIn()" mat-button routerLink="/register" routerLinkActive="active">Register</a>-->
-      <!--      <a *ngIf="isLoggedIn()" mat-button routerLink="/accounts" routerLinkActive="active">Accounts</a>-->
-      <!--      <a (click)="logout()" *ngIf="isLoggedIn()" mat-button>Logout</a>-->
+      <a *ngIf="!isLoggedIn()" mat-button routerLink="/login" routerLinkActive="active">Login</a>
+      <a mat-button routerLink="/template-stuff" routerLinkActive="active">template-stuff</a>
+      <a mat-button routerLink="/template" routerLinkActive="active">template</a>
+      <a mat-button routerLink="/tests" routerLinkActive="active">tests</a>
+      <div *ngIf="isLoggedIn()" class="d-inline">
+        <a *ngIf="isCompanyManager()" mat-button>Add a new company</a>
+        <a *ngIf="isCompliance()" mat-button>Add a new form</a>
+        <a *ngIf="isCompliance()" mat-button>Forms</a>
+        <a (click)="logout()" mat-button>Logout</a>
+      </div>
     </div>
 
-    <!--    <div *ngIf="isLoggedIn()" style="position:absolute; right: 24px">-->
-    <!--      <a disabled mat-button>Hello, {{this.computeName()}}!</a>-->
-    <!--    </div>-->
+    <div *ngIf="isLoggedIn()" style="position:absolute; right: 24px">
+      <a disabled mat-button>Hello, {{ this.computeName() }}!</a>
+    </div>
 
   </mat-toolbar-row>
 

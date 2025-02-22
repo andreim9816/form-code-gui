@@ -1,0 +1,14 @@
+.form-control {
+  display: inline-block;
+  width: auto;
+  margin-bottom: 10px;
+}
+
+input[type='checkbox'] {
+  margin-right: 5px;
+}
+
+
+ textarea {
+   resize: both;
+ }

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {URL} from "../util/URL";
-import {UserDto} from "../model/UserDto";
+import {UserDto} from "../dto/UserDto";
 
 const httpOptions = {
   headers: new HttpHeaders({
