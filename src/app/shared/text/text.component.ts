@@ -9,8 +9,7 @@ import {Section} from '../../model/Section';
   imports: [
     CommonModule,
   ],
-  templateUrl: './text.component.html',
-  styleUrl: './text.component.css'
+  templateUrl: './text.component.html'
 })
 export class TextComponent {
   @Input()

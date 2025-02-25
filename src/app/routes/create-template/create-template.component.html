@@ -5,7 +5,7 @@
         <button mat-button class="d-block" (click)="addText()">Simple text</button>
         <button mat-button class="d-block" (click)="addText()">Input text</button>
         <button mat-button class="d-block" (click)="show()">Display info</button>
-        <button mat-button class="d-block">Number</button>
+        <button mat-button class="d-block" (click)="addNumber()">Number</button>
         <button mat-button class="d-block">Checkbox</button>
         <button mat-button class="d-block">Rating</button>
         <button mat-button class="d-block">Date/Time</button>
@@ -34,7 +34,7 @@
               <li *ngFor="let section of sections; index as sectionIndex" class="mb-2">
                 <div class="d-flex flex-wrap">
                   <div *ngFor="let sectionField of section.sectionFields; index as sectionFieldIndex"
-                       class="mb-2 me-2">
+                       class="mb-2 me-1">
                     <!--todo: depending on the text field type (can be input or simple <p> styling should be different)-->
                     <app-text
                       *ngIf="sectionField.contentType === ContentType.STRING"
@@ -44,6 +44,9 @@
                       [sectionField]="sectionField"
                       (sectionData)="setDataFromTextComponent($event)"
                     ></app-text>
+                    <app-number
+                      *ngIf="sectionField.contentType === ContentType.NUMBER"
+                    ></app-number>
                   </div>
                 </div>
               </li>

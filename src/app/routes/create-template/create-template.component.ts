@@ -8,6 +8,7 @@ import {CommonModule, NgForOf, NgIf} from '@angular/common';
 import {SectionField} from '../../model/SectionField';
 import {ContentType} from '../../model/ContentType';
 import {TextComponent} from '../../shared/text/text.component';
+import {NumberComponent} from '../../shared/number/number.component';
 
 @Component({
   selector: 'app-create-template',
@@ -22,6 +23,7 @@ import {TextComponent} from '../../shared/text/text.component';
     NgForOf,
     NgIf,
     TextComponent,
+    NumberComponent,
   ],
   templateUrl: './create-template.component.html'
 })
@@ -104,35 +106,74 @@ export class CreateTemplateComponent implements OnInit {
     this.sections.push(newSection);
   }
 
-  addText(): void {
+  addNumber(): void {
     if (
       this.currentSectionField?.contentType === ContentType.STRING
       && this.currentSectionIndex != null
       && this.currentSectionFieldIndex != null
       && this.cursorPositionInField != null
     ) {
+      const contentInFieldBefore = this.currentSectionField.contentString?.slice(0, this.cursorPositionInField) ?? '';
+      const contentInFieldAfter = this.currentSectionField.contentString?.slice(this.cursorPositionInField) ?? '';
 
-      const contentInNewField = this.currentSectionField.contentString?.slice(this.cursorPositionInField) ?? '';
+      const newNumberField = this.newNumberField();
+      const fieldBefore = this.newTextField(contentInFieldBefore);
+      const fieldAfter = this.newTextField(contentInFieldAfter);
 
-      const newSectionField = this.newTextField(contentInNewField);
-
-      // new elem
-      this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex + 1, newSectionField);
-
-      // delete and add again
-      const replacedSectionField = this.newTextField(this.currentSectionField.contentString?.slice(0, this.cursorPositionInField) ?? '');
       this.removeAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex);
-      this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex, replacedSectionField);
 
-      this.cursorPositionInField = null;
-      this.currentSectionIndex = null;
-      this.currentSectionFieldIndex = null;
-      this.currentSection = null;
-      this.currentSectionField = null;
+      if ((fieldBefore.contentString ?? '').length > 0) {
+        this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex++, fieldBefore);
+      }
+      this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex++, newNumberField);
+      if ((fieldAfter.contentString ?? '').length > 0) {
+        this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex, fieldAfter);
+      }
+      this.clearPositions();
+    }
+  }
+
+  addText(): void {
+    if (
+      this.currentSectionField?.contentType === ContentType.STRING
+      && this.currentSectionField.contentString !== ''
+      && this.currentSectionIndex != null
+      && this.currentSectionFieldIndex != null
+      && this.cursorPositionInField != null
+    ) {
+      const contentInFieldBefore = this.currentSectionField.contentString?.slice(0, this.cursorPositionInField) ?? '';
+      const contentInFieldAfter = this.currentSectionField.contentString?.slice(this.cursorPositionInField) ?? '';
+
+      const newField = this.newTextField();
+      const fieldBefore = this.newTextField(contentInFieldBefore);
+      const fieldAfter = this.newTextField(contentInFieldAfter);
+
+      this.removeAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex);
+
+      if ((fieldBefore.contentString ?? '').length > 0) {
+        this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex++, fieldBefore);
+      }
+
+      this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex++, newField);
+
+      if ((fieldAfter.contentString ?? '').length > 0) {
+        this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex, fieldAfter);
+      }
+
+      this.cursorPositionInField = 0;
+      this.currentSectionField = newField;
     }
   }
 
   submit(): void {
+  }
+
+  clearPositions(): void {
+    this.cursorPositionInField = null;
+    this.currentSectionIndex = null;
+    this.currentSectionFieldIndex = null;
+    this.currentSection = null;
+    this.currentSectionField = null;
   }
 
   newTextField(content: string = ''): SectionField {
@@ -140,6 +181,16 @@ export class CreateTemplateComponent implements OnInit {
       addedDate: new Date(),
       contentType: ContentType.STRING,
       contentString: content,
+      contentDate: null,
+      contentNumber: null
+    } as SectionField;
+  }
+
+  newNumberField(): SectionField {
+    return {
+      addedDate: new Date(),
+      contentType: ContentType.NUMBER,
+      contentString: null,
       contentDate: null,
       contentNumber: null
     } as SectionField;
