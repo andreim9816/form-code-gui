@@ -1,0 +1,48 @@
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {ContentType} from "../../model/ContentType";
+import {CommonModule} from "@angular/common";
+import {SectionField} from '../../model/SectionField';
+import {Section} from '../../model/Section';
+
+@Component({
+  selector: 'app-text',
+  imports: [
+    CommonModule,
+  ],
+  templateUrl: './text.component.html',
+  styleUrl: './text.component.css'
+})
+export class TextComponent {
+  @Input()
+  sectionField: SectionField;
+  @Input()
+  section: Section;
+  @Input()
+  sectionIndex: number;
+  @Input()
+  sectionFieldIndex: number;
+
+  @Output()
+  sectionData = new EventEmitter<any>();
+
+  readonly ContentType = ContentType;
+
+  onKeyDown(event: Event, section: Section, sectionField: SectionField, sectionIndex: number, sectionFieldIndex: number): void {
+    setTimeout(() => {
+      sectionField.contentString = (event.target as any).value;
+      this.setCursorPosition(event, section, sectionField, sectionIndex, sectionFieldIndex);
+    }, 0);
+  }
+
+  setCursorPosition(event: Event, section: Section, sectionField: SectionField, sectionIndex: number, sectionFieldIndex: number) {
+    const target = event.target as HTMLInputElement;
+
+    this.sectionData.emit({
+      cursorPositionInField: target.selectionStart as number,
+      currentSection: section,
+      currentSectionField: sectionField,
+      currentSectionIndex: sectionIndex,
+      currentSectionFieldIndex: sectionFieldIndex
+    })
+  }
+}

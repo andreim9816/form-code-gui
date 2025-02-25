@@ -1,0 +1,7 @@
+.auto-expand {
+  width: auto; /* Initial width can be set to auto or any specific width */
+  min-width: 20px; /* Minimum width to ensure it's visible */
+  max-width: 100%; /* Maximum width to prevent it from growing too large */
+  overflow: hidden; /* Hide overflow */
+  white-space: nowrap; /* Prevent line breaks within the textarea */
+}

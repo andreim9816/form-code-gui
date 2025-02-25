@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatButton, MatFabButton} from '@angular/material/button';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
@@ -7,7 +7,7 @@ import {Section} from '../../model/Section';
 import {CommonModule, NgForOf, NgIf} from '@angular/common';
 import {SectionField} from '../../model/SectionField';
 import {ContentType} from '../../model/ContentType';
-import {AutoExpandDirective} from '../../directive/auto-expand.directive';
+import {TextComponent} from '../../shared/text/text.component';
 
 @Component({
   selector: 'app-create-template',
@@ -21,20 +21,23 @@ import {AutoExpandDirective} from '../../directive/auto-expand.directive';
     MatFabButton,
     NgForOf,
     NgIf,
-    AutoExpandDirective,
+    TextComponent,
   ],
-  templateUrl: './create-template.component.html',
-  styleUrls: ['./create-template.component.css']
+  templateUrl: './create-template.component.html'
 })
 export class CreateTemplateComponent implements OnInit {
 
   form: FormGroup;
   sections: Section[] = [];
-  cursorPosition: number;
-  currentSectionPosition: number;
-  currentSectionFieldPosition: number;
-  currentSection: Section;
-  currentSectionField: SectionField;
+
+  @Input()
+  cursorPositionInField: number | null;
+
+  currentSectionIndex: number | null;
+  currentSectionFieldIndex: number | null;
+
+  currentSection: Section | null;
+  currentSectionField: SectionField | null;
 
   mockData = true;
 
@@ -55,17 +58,17 @@ export class CreateTemplateComponent implements OnInit {
             {
               addedDate: new Date(),
               contentType: ContentType.STRING,
-              contentString: 'abcdef'
+              contentString: 'abcdefghijkl'
             },
             {
               addedDate: new Date(),
               contentType: ContentType.STRING,
-              contentString: 'ghijkl'
+              contentString: 'mno'
             },
             {
               addedDate: new Date(),
               contentType: ContentType.STRING,
-              contentString: 'mn'
+              contentString: 'pqrstuvwxyz'
             }
           ]
         },
@@ -102,48 +105,34 @@ export class CreateTemplateComponent implements OnInit {
   }
 
   addText(): void {
-    if (this.currentSectionField.contentType === ContentType.STRING) {
-      const contentInTheNewField = this.currentSectionField.contentString?.slice(this.cursorPosition) ?? '';
+    if (
+      this.currentSectionField?.contentType === ContentType.STRING
+      && this.currentSectionIndex != null
+      && this.currentSectionFieldIndex != null
+      && this.cursorPositionInField != null
+    ) {
 
-      const newSectionField = this.newTextField(contentInTheNewField);
+      const contentInNewField = this.currentSectionField.contentString?.slice(this.cursorPositionInField) ?? '';
+
+      const newSectionField = this.newTextField(contentInNewField);
 
       // new elem
-      this.addAtIdx(this.currentSectionPosition, this.currentSectionFieldPosition + 1, newSectionField);
+      this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex + 1, newSectionField);
 
       // delete and add again
-      const replacedSectionField = this.newTextField(this.currentSectionField.contentString?.slice(0, this.cursorPosition) ?? '');
-      this.removeAtIdx(this.currentSectionPosition, this.currentSectionFieldPosition);
-      this.addAtIdx(this.currentSectionPosition, this.currentSectionFieldPosition, replacedSectionField);
-    }
-  }
+      const replacedSectionField = this.newTextField(this.currentSectionField.contentString?.slice(0, this.cursorPositionInField) ?? '');
+      this.removeAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex);
+      this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex, replacedSectionField);
 
-  onKeyDown(event: Event, section: Section, sectionField: SectionField, sectionIndex: number, sectionFieldIndex: number): void {
-    setTimeout(() => {
-      sectionField.contentString = (event.target as any).value;
-      this.setCursorPosition(event, section, sectionField, sectionIndex, sectionFieldIndex);
-    }, 0);
-  }
-
-  setCursorPosition(event: Event, section: Section, sectionField: SectionField, sectionIndex: number, sectionFieldIndex: number) {
-    if (sectionField.contentType === ContentType.STRING) {
-      const target = event.target as HTMLInputElement;
-      this.cursorPosition = target.selectionStart as number;
-      this.currentSection = section;
-      this.currentSectionField = sectionField;
-      this.currentSectionPosition = sectionIndex;
-      this.currentSectionFieldPosition = sectionFieldIndex;
+      this.cursorPositionInField = null;
+      this.currentSectionIndex = null;
+      this.currentSectionFieldIndex = null;
+      this.currentSection = null;
+      this.currentSectionField = null;
     }
   }
 
   submit(): void {
-  }
-
-  addAtIdx(sectionIndex: number, fieldIndex: number, newElem: SectionField): void {
-    this.sections[sectionIndex].sectionFields.splice(fieldIndex, 0, newElem);
-  }
-
-  removeAtIdx(sectionIndex: number, fieldIndex: number): void {
-    this.sections[sectionIndex].sectionFields.splice(fieldIndex, 1);
   }
 
   newTextField(content: string = ''): SectionField {
@@ -160,5 +149,21 @@ export class CreateTemplateComponent implements OnInit {
     console.log(this.sections);
   }
 
-  protected readonly ContentType = ContentType;
+  addAtIdx(sectionIndex: number, fieldIndex: number, newElem: SectionField): void {
+    this.sections[sectionIndex].sectionFields.splice(fieldIndex, 0, newElem);
+  }
+
+  removeAtIdx(sectionIndex: number, fieldIndex: number): void {
+    this.sections[sectionIndex].sectionFields.splice(fieldIndex, 1);
+  }
+
+  setDataFromTextComponent(event: any) {
+    this.cursorPositionInField = event.cursorPositionInField;
+    this.currentSection = event.currentSection;
+    this.currentSectionField = event.currentSectionField;
+    this.currentSectionIndex = event.currentSectionIndex;
+    this.currentSectionFieldIndex = event.currentSectionFieldIndex;
+  }
+
+  readonly ContentType = ContentType;
 }
