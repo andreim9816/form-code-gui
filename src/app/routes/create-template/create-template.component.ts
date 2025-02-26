@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {AfterViewChecked, Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatButton, MatFabButton} from '@angular/material/button';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
@@ -9,6 +9,7 @@ import {SectionField} from '../../model/SectionField';
 import {ContentType} from '../../model/ContentType';
 import {TextComponent} from '../../shared/text/text.component';
 import {NumberComponent} from '../../shared/number/number.component';
+import {HtmlUtils} from '../../util/HtmlUtils';
 
 @Component({
   selector: 'app-create-template',
@@ -27,12 +28,11 @@ import {NumberComponent} from '../../shared/number/number.component';
   ],
   templateUrl: './create-template.component.html'
 })
-export class CreateTemplateComponent implements OnInit {
+export class CreateTemplateComponent implements OnInit, AfterViewChecked {
 
   form: FormGroup;
   sections: Section[] = [];
 
-  @Input()
   cursorPositionInField: number | null;
 
   currentSectionIndex: number | null;
@@ -42,9 +42,9 @@ export class CreateTemplateComponent implements OnInit {
   currentSectionField: SectionField | null;
 
   mockData = true;
+  viewChecked = false;
 
-  constructor(
-    private readonly fb: FormBuilder) {
+  constructor(private readonly fb: FormBuilder) {
   }
 
   ngOnInit(): void {
@@ -58,16 +58,19 @@ export class CreateTemplateComponent implements OnInit {
         {
           sectionFields: [
             {
+              id: '123',
               addedDate: new Date(),
               contentType: ContentType.STRING,
               contentString: 'abcdefghijkl'
             },
             {
+              id: '456',
               addedDate: new Date(),
               contentType: ContentType.STRING,
               contentString: 'mno'
             },
             {
+              id: '789',
               addedDate: new Date(),
               contentType: ContentType.STRING,
               contentString: 'pqrstuvwxyz'
@@ -77,16 +80,19 @@ export class CreateTemplateComponent implements OnInit {
         {
           sectionFields: [
             {
+              id: '10',
               addedDate: new Date(),
               contentType: ContentType.STRING,
               contentString: 'xyz'
             },
             {
+              id: '11',
               addedDate: new Date(),
               contentType: ContentType.STRING,
               contentString: 'tuv'
             },
             {
+              id: '12',
               addedDate: new Date(),
               contentType: ContentType.STRING,
               contentString: 'ciolacu'
@@ -94,6 +100,14 @@ export class CreateTemplateComponent implements OnInit {
           ]
         },
       ] as Section[];
+    }
+  }
+
+  ngAfterViewChecked() {
+    if (this.viewChecked && this.currentSectionField) {
+      const htmlElement = document.getElementById('' + this.currentSectionField.id) as HTMLElement;
+      htmlElement.focus();
+      this.viewChecked = false;
     }
   }
 
@@ -116,7 +130,7 @@ export class CreateTemplateComponent implements OnInit {
       const contentInFieldBefore = this.currentSectionField.contentString?.slice(0, this.cursorPositionInField) ?? '';
       const contentInFieldAfter = this.currentSectionField.contentString?.slice(this.cursorPositionInField) ?? '';
 
-      const newNumberField = this.newNumberField();
+      const newField = this.newNumberField();
       const fieldBefore = this.newTextField(contentInFieldBefore);
       const fieldAfter = this.newTextField(contentInFieldAfter);
 
@@ -125,11 +139,16 @@ export class CreateTemplateComponent implements OnInit {
       if ((fieldBefore.contentString ?? '').length > 0) {
         this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex++, fieldBefore);
       }
-      this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex++, newNumberField);
+
+      this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex++, newField);
+
       if ((fieldAfter.contentString ?? '').length > 0) {
         this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex, fieldAfter);
       }
-      this.clearPositions();
+
+      this.cursorPositionInField = 0;
+      this.currentSectionField = newField;
+      this.viewChecked = true;
     }
   }
 
@@ -162,6 +181,7 @@ export class CreateTemplateComponent implements OnInit {
 
       this.cursorPositionInField = 0;
       this.currentSectionField = newField;
+      this.viewChecked = true;
     }
   }
 
@@ -178,6 +198,7 @@ export class CreateTemplateComponent implements OnInit {
 
   newTextField(content: string = ''): SectionField {
     return {
+      id: HtmlUtils.generateUUID(),
       addedDate: new Date(),
       contentType: ContentType.STRING,
       contentString: content,
@@ -188,6 +209,7 @@ export class CreateTemplateComponent implements OnInit {
 
   newNumberField(): SectionField {
     return {
+      id: HtmlUtils.generateUUID(),
       addedDate: new Date(),
       contentType: ContentType.NUMBER,
       contentString: null,

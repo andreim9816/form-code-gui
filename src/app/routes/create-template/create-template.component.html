@@ -31,8 +31,11 @@
         <div class="row">
           <div class="col">
             <ul class="d-flex flex-column">
-              <li *ngFor="let section of sections; index as sectionIndex" class="mb-2">
-                <div class="d-flex flex-wrap">
+              <li *ngFor="let section of sections; index as sectionIndex" class="card mb-2">
+                <div class="card-header">
+                  Nume sectiune
+                </div>
+                <div class="d-flex flex-wrap card-body">
                   <div *ngFor="let sectionField of section.sectionFields; index as sectionFieldIndex"
                        class="mb-2 me-1">
                     <!--todo: depending on the text field type (can be input or simple <p> styling should be different)-->
@@ -45,6 +48,7 @@
                       (sectionData)="setDataFromTextComponent($event)"
                     ></app-text>
                     <app-number
+                      [sectionField]="sectionField"
                       *ngIf="sectionField.contentType === ContentType.NUMBER"
                     ></app-number>
                   </div>

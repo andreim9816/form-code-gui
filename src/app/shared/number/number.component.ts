@@ -1,4 +1,5 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {SectionField} from '../../model/SectionField';
 
 @Component({
   selector: 'app-number',
@@ -6,5 +7,6 @@ import {Component} from '@angular/core';
   templateUrl: './number.component.html'
 })
 export class NumberComponent {
-
+  @Input()
+  sectionField: SectionField;
 }
