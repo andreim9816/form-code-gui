@@ -11,6 +11,8 @@ import {TextComponent} from '../../shared/text/text.component';
 import {NumberComponent} from '../../shared/number/number.component';
 import {HtmlUtils} from '../../util/HtmlUtils';
 import {BreaklineComponent} from '../../shared/breakline/breakline.component';
+import {CurrentFieldType} from '../../enum/current-field-type';
+import {CdkDrag} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-create-template',
@@ -27,11 +29,13 @@ import {BreaklineComponent} from '../../shared/breakline/breakline.component';
     TextComponent,
     NumberComponent,
     BreaklineComponent,
+    CdkDrag,
   ],
   templateUrl: './create-template.component.html'
 })
 export class CreateTemplateComponent implements OnInit, AfterViewChecked {
   readonly BREAK_LINE = 'BREAKLINE';
+  currentFieldType: CurrentFieldType;
   form: FormGroup;
   sections: Section[] = [];
 
@@ -39,9 +43,6 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
 
   currentSectionIndex: number | null;
   currentSectionFieldIndex: number | null;
-
-  currentSection: Section | null;
-  currentSectionField: SectionField | null;
 
   mockData = true;
   viewChecked = false;
@@ -120,8 +121,8 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked() {
-    if (this.viewChecked && this.currentSectionField) {
-      const htmlElement = document.getElementById('' + this.currentSectionField.id) as HTMLElement;
+    if (this.viewChecked && this.getCurrentSectionField()) {
+      const htmlElement = document.getElementById('' + this.getCurrentSectionField()?.id) as HTMLElement;
       htmlElement.focus();
       this.viewChecked = false;
     }
@@ -136,16 +137,16 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
     this.sections.push(newSection);
   }
 
-
   addNumber(): void {
     if (
-      this.currentSectionField?.contentType === ContentType.STRING
+      this.getCurrentSectionField()?.contentType === ContentType.STRING
       && this.currentSectionIndex != null
       && this.currentSectionFieldIndex != null
       && this.cursorPositionInField != null
     ) {
-      const contentInFieldBefore = this.currentSectionField.contentString?.slice(0, this.cursorPositionInField) ?? '';
-      const contentInFieldAfter = this.currentSectionField.contentString?.slice(this.cursorPositionInField) ?? '';
+      this.setCurrentFieldType(CurrentFieldType.NUMBER);
+      const contentInFieldBefore = this.getCurrentSectionField()?.contentString?.slice(0, this.cursorPositionInField) ?? '';
+      const contentInFieldAfter = this.getCurrentSectionField()?.contentString?.slice(this.cursorPositionInField) ?? '';
 
       const newField = this.newNumberField();
       const fieldBefore = this.newTextField(contentInFieldBefore);
@@ -164,21 +165,21 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
       }
 
       this.cursorPositionInField = 0;
-      this.currentSectionField = newField;
       this.viewChecked = true;
     }
   }
 
   addText(): void {
     if (
-      this.currentSectionField?.contentType === ContentType.STRING
-      && this.currentSectionField.contentString !== ''
+      this.getCurrentSectionField()?.contentType === ContentType.STRING
+      && this.getCurrentSectionField()?.contentString !== ''
       && this.currentSectionIndex != null
       && this.currentSectionFieldIndex != null
       && this.cursorPositionInField != null
     ) {
-      const contentInFieldBefore = this.currentSectionField.contentString?.slice(0, this.cursorPositionInField) ?? '';
-      const contentInFieldAfter = this.currentSectionField.contentString?.slice(this.cursorPositionInField) ?? '';
+      this.setCurrentFieldType(CurrentFieldType.TEXT);
+      const contentInFieldBefore = this.getCurrentSectionField()?.contentString?.slice(0, this.cursorPositionInField) ?? '';
+      const contentInFieldAfter = this.getCurrentSectionField()?.contentString?.slice(this.cursorPositionInField) ?? '';
 
       const newField = this.newTextField();
       const fieldBefore = this.newTextField(contentInFieldBefore);
@@ -197,20 +198,20 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
       }
 
       this.cursorPositionInField = 0;
-      this.currentSectionField = newField;
       this.viewChecked = true;
     }
   }
 
   addNewBreakLine(): void {
     if (
-      this.currentSectionField && this.currentSectionField.contentString !== ''
+      this.getCurrentSectionField()?.contentString !== ''
       && this.currentSectionIndex != null
       && this.currentSectionFieldIndex != null
       && this.cursorPositionInField != null
     ) {
-      const contentInFieldBefore = this.currentSectionField.contentString?.slice(0, this.cursorPositionInField) ?? '';
-      const contentInFieldAfter = this.currentSectionField.contentString?.slice(this.cursorPositionInField) ?? '';
+      this.setCurrentFieldType(CurrentFieldType.BREAK_LINE);
+      const contentInFieldBefore = this.getCurrentSectionField()?.contentString?.slice(0, this.cursorPositionInField) ?? '';
+      const contentInFieldAfter = this.getCurrentSectionField()?.contentString?.slice(this.cursorPositionInField) ?? '';
 
       const newField = this.newTextField(this.BREAK_LINE);
       const fieldBefore = this.newTextField(contentInFieldBefore);
@@ -241,8 +242,6 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
     this.cursorPositionInField = null;
     this.currentSectionIndex = null;
     this.currentSectionFieldIndex = null;
-    this.currentSection = null;
-    this.currentSectionField = null;
   }
 
   newTextField(content: string = ''): SectionField {
@@ -281,11 +280,21 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
 
   setDataFromTextComponent(event: any) {
     this.cursorPositionInField = event.cursorPositionInField;
-    this.currentSection = event.currentSection;
-    this.currentSectionField = event.currentSectionField;
     this.currentSectionIndex = event.currentSectionIndex;
     this.currentSectionFieldIndex = event.currentSectionFieldIndex;
   }
 
+  getCurrentSectionField() {
+    if (this.currentSectionIndex == null || this.currentSectionFieldIndex == null) {
+      return undefined;
+    }
+    return this.sections[this.currentSectionIndex]?.sectionFields[this.currentSectionFieldIndex];
+  }
+
+  setCurrentFieldType(currentFieldType: CurrentFieldType) {
+    this.currentFieldType = currentFieldType;
+  }
+
   readonly ContentType = ContentType;
+  protected readonly CurrentFieldType = CurrentFieldType;
 }

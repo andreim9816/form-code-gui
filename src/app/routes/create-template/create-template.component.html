@@ -39,7 +39,7 @@
                   <span *ngFor="let sectionField of section.sectionFields; index as sectionFieldIndex"
                        class="mb-2 me-1">
                     <!--todo: depending on the text field type (can be input or simple <p> styling should be different)-->
-                    <app-text
+                    <app-text cdkDrag
                       class="d-inline-block"
                       *ngIf="sectionField.contentType === ContentType.STRING && sectionField.contentString !== BREAK_LINE"
                       [sectionFieldIndex]="sectionFieldIndex"
@@ -47,16 +47,18 @@
                       [section]="section"
                       [sectionField]="sectionField"
                       (sectionData)="setDataFromTextComponent($event)"
+                      (click)="this.setCurrentFieldType(CurrentFieldType.TEXT)"
                     ></app-text>
                     <app-breakline
-                      [sectionField]="sectionField"
                       *ngIf="sectionField.contentType === ContentType.STRING && sectionField.contentString === BREAK_LINE"
+                      [sectionField]="sectionField"
                     ></app-breakline>
                     <app-number
-                      class="d-inline-block"
-                      style="vertical-align: top;"
-                      [sectionField]="sectionField"
                       *ngIf="sectionField.contentType === ContentType.NUMBER"
+                      [sectionField]="sectionField"
+                      (click)="this.setCurrentFieldType(CurrentFieldType.NUMBER)"
+                      class="d-inline-block"
+                      style="vertical-align: top"
                     ></app-number>
                   </span>
                 </div>
@@ -72,7 +74,7 @@
         <button mat-button type="submit">Submit</button>
       </div>
       <div class="col-2">
-        <p>col 2</p>
+        <p>{{currentFieldType}}</p>
       </div>
     </div>
   </form>
