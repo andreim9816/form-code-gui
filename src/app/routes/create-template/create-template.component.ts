@@ -10,6 +10,7 @@ import {ContentType} from '../../model/ContentType';
 import {TextComponent} from '../../shared/text/text.component';
 import {NumberComponent} from '../../shared/number/number.component';
 import {HtmlUtils} from '../../util/HtmlUtils';
+import {BreaklineComponent} from '../../shared/breakline/breakline.component';
 
 @Component({
   selector: 'app-create-template',
@@ -25,11 +26,12 @@ import {HtmlUtils} from '../../util/HtmlUtils';
     NgIf,
     TextComponent,
     NumberComponent,
+    BreaklineComponent,
   ],
   templateUrl: './create-template.component.html'
 })
 export class CreateTemplateComponent implements OnInit, AfterViewChecked {
-
+  readonly BREAK_LINE = 'BREAKLINE';
   form: FormGroup;
   sections: Section[] = [];
 
@@ -70,6 +72,11 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
               contentString: 'mno'
             },
             {
+              id: '91011',
+              contentType: ContentType.STRING,
+              contentString: this.BREAK_LINE
+            },
+            {
               id: '789',
               addedDate: new Date(),
               contentType: ContentType.STRING,
@@ -99,6 +106,15 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
             }
           ]
         },
+        {
+          sectionFields: [
+            {
+              id: '9101112',
+              contentType: ContentType.STRING,
+              contentString: 'content'
+            }
+          ]
+        }
       ] as Section[];
     }
   }
@@ -119,6 +135,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
 
     this.sections.push(newSection);
   }
+
 
   addNumber(): void {
     if (
@@ -181,6 +198,38 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
 
       this.cursorPositionInField = 0;
       this.currentSectionField = newField;
+      this.viewChecked = true;
+    }
+  }
+
+  addNewBreakLine(): void {
+    if (
+      this.currentSectionField && this.currentSectionField.contentString !== ''
+      && this.currentSectionIndex != null
+      && this.currentSectionFieldIndex != null
+      && this.cursorPositionInField != null
+    ) {
+      const contentInFieldBefore = this.currentSectionField.contentString?.slice(0, this.cursorPositionInField) ?? '';
+      const contentInFieldAfter = this.currentSectionField.contentString?.slice(this.cursorPositionInField) ?? '';
+
+      const newField = this.newTextField(this.BREAK_LINE);
+      const fieldBefore = this.newTextField(contentInFieldBefore);
+      const fieldAfter = this.newTextField(contentInFieldAfter);
+
+      this.removeAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex);
+
+      if ((fieldBefore.contentString ?? '').length > 0) {
+        this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex++, fieldBefore);
+      }
+
+      this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex++, newField);
+
+      if ((fieldAfter.contentString ?? '').length > 0) {
+        this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex, fieldAfter);
+      }
+
+      this.cursorPositionInField = 0;
+      this.clearPositions();
       this.viewChecked = true;
     }
   }

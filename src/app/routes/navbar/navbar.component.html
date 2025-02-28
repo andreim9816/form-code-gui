@@ -6,9 +6,9 @@
       </a>
 
       <a *ngIf="!isLoggedIn()" mat-button routerLink="/login" routerLinkActive="active">Login</a>
-      <a mat-button routerLink="/template-stuff" routerLinkActive="active">template-stuff</a>
       <a mat-button routerLink="/template" routerLinkActive="active">template</a>
       <a mat-button routerLink="/tests" routerLinkActive="active">tests</a>
+      <a mat-button routerLink="/drag-and-drop" routerLinkActive="active">Drag and Drop</a>
       <div *ngIf="isLoggedIn()" class="d-inline">
         <a *ngIf="isCompanyManager()" mat-button>Add a new company</a>
         <a *ngIf="isCompliance()" mat-button>Add a new form</a>

@@ -3,9 +3,9 @@
     <div class="row">
       <div class="col-2">
         <button mat-button class="d-block" (click)="addText()">Simple text</button>
-        <button mat-button class="d-block" (click)="addText()">Input text</button>
-        <button mat-button class="d-block" (click)="show()">Display info</button>
+        <button mat-button class="d-block" (click)="addNewBreakLine()">Break line</button>
         <button mat-button class="d-block" (click)="addNumber()">Number</button>
+        <button mat-button class="d-block" (click)="show()">Display info</button>
         <button mat-button class="d-block">Checkbox</button>
         <button mat-button class="d-block">Rating</button>
         <button mat-button class="d-block">Date/Time</button>
@@ -30,28 +30,35 @@
         </div>
         <div class="row">
           <div class="col">
-            <ul class="d-flex flex-column">
+            <ul>
               <li *ngFor="let section of sections; index as sectionIndex" class="card mb-2">
                 <div class="card-header">
                   Nume sectiune
                 </div>
-                <div class="d-flex flex-wrap card-body">
-                  <div *ngFor="let sectionField of section.sectionFields; index as sectionFieldIndex"
+                <div class="card-body">
+                  <span *ngFor="let sectionField of section.sectionFields; index as sectionFieldIndex"
                        class="mb-2 me-1">
                     <!--todo: depending on the text field type (can be input or simple <p> styling should be different)-->
                     <app-text
-                      *ngIf="sectionField.contentType === ContentType.STRING"
+                      class="d-inline-block"
+                      *ngIf="sectionField.contentType === ContentType.STRING && sectionField.contentString !== BREAK_LINE"
                       [sectionFieldIndex]="sectionFieldIndex"
                       [sectionIndex]="sectionIndex"
                       [section]="section"
                       [sectionField]="sectionField"
                       (sectionData)="setDataFromTextComponent($event)"
                     ></app-text>
+                    <app-breakline
+                      [sectionField]="sectionField"
+                      *ngIf="sectionField.contentType === ContentType.STRING && sectionField.contentString === BREAK_LINE"
+                    ></app-breakline>
                     <app-number
+                      class="d-inline-block"
+                      style="vertical-align: top;"
                       [sectionField]="sectionField"
                       *ngIf="sectionField.contentType === ContentType.NUMBER"
                     ></app-number>
-                  </div>
+                  </span>
                 </div>
               </li>
             </ul>
