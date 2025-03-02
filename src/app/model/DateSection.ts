@@ -1,4 +1,4 @@
 export interface DateSection {
   id?: number;
-  value: Date;
+  value?: Date;
 }

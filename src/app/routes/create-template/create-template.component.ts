@@ -83,7 +83,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
               id: '123',
               addedDate: new Date(),
               contentType: ContentType.DATE,
-              contentString: {
+              contentDate: {
                 id: 9,
                 value: new Date(2025, 10, 3)
               }
@@ -239,6 +239,11 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  addDate(): void {
+    this.setCurrentFieldType(CurrentFieldType.DATE);
+    const newField = this.newDateField();
+    this.addNewFieldInCurrentSection(newField);
+  }
 
   submit(): void {
   }
@@ -272,6 +277,21 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
       contentString: undefined,
       contentDate: undefined,
       contentNumber: {
+        id: undefined,
+        value: undefined
+      },
+      contentBoolean: undefined
+    } as SectionField;
+  }
+
+  newDateField(): SectionField {
+    return {
+      id: HtmlUtils.generateUUID(),
+      addedDate: new Date(),
+      contentType: ContentType.DATE,
+      contentString: undefined,
+      contentNumber: undefined,
+      contentDate: {
         id: undefined,
         value: undefined
       },
