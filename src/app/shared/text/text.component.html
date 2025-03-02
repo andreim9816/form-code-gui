@@ -4,5 +4,5 @@
   style="height: 30px; min-width: 50px; field-sizing: content"
   (click)="setCursorPosition($event, section, sectionField, sectionIndex, sectionFieldIndex)"
   (keydown)="onKeyDown($event, section, sectionField, sectionIndex, sectionFieldIndex)"
->{{ sectionField.contentString }}</textarea>
+>{{ sectionField.contentString?.value }}</textarea>
 

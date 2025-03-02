@@ -39,9 +39,9 @@
                   <span *ngFor="let sectionField of section.sectionFields; index as sectionFieldIndex"
                        class="mb-2 me-1">
                     <!--todo: depending on the text field type (can be input or simple <p> styling should be different)-->
-                    <app-text cdkDrag
+                    <app-text
                       class="d-inline-block"
-                      *ngIf="sectionField.contentType === ContentType.STRING && sectionField.contentString !== BREAK_LINE"
+                      *ngIf="sectionField.contentType === ContentType.STRING && sectionField.contentString?.value !== BREAK_LINE"
                       [sectionFieldIndex]="sectionFieldIndex"
                       [sectionIndex]="sectionIndex"
                       [section]="section"
@@ -50,7 +50,7 @@
                       (click)="this.setCurrentFieldType(CurrentFieldType.TEXT)"
                     ></app-text>
                     <app-breakline
-                      *ngIf="sectionField.contentType === ContentType.STRING && sectionField.contentString === BREAK_LINE"
+                      *ngIf="sectionField.contentType === ContentType.STRING && sectionField.contentString?.value === BREAK_LINE"
                       [sectionField]="sectionField"
                     ></app-breakline>
                     <app-number
