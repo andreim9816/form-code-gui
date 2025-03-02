@@ -6,8 +6,8 @@
         <button mat-button class="d-block" (click)="addNewBreakLine()">Break line</button>
         <button mat-button class="d-block" (click)="addNumber()">Number</button>
         <button mat-button class="d-block" (click)="addDate()">Date</button>
+        <button mat-button class="d-block" (click)="addCheckbox()">Checkbox</button>
         <button mat-button class="d-block" (click)="show()">Display info</button>
-        <button mat-button class="d-block">Checkbox</button>
         <button mat-button class="d-block">Rating</button>
         <button mat-button class="d-block">Multiple choice</button>
       </div>
@@ -35,7 +35,7 @@
                 <div class="card-header">
                   Nume sectiune
                 </div>
-                <div class="card-body">
+                <div class="card-body" (click)="onCardBodyClick($event)">
                   <span *ngFor="let sectionField of section.sectionFields; index as sectionFieldIndex"
                         class="mb-2 me-1">
                     <!--todo: depending on the text field type (can be input or simple <p> styling should be different)-->
@@ -47,7 +47,7 @@
                       [section]="section"
                       [sectionField]="sectionField"
                       (sectionData)="setDataFromTextComponent($event)"
-                      (click)="this.setCurrentFieldType(CurrentFieldType.TEXT)"
+                      (click)="this.setCurrentFieldType(ContentType.STRING)"
                     ></app-text>
                     <app-breakline
                       *ngIf="sectionField.contentType === ContentType.STRING && sectionField.contentString?.value === BREAK_LINE"
@@ -56,17 +56,23 @@
                     <app-number
                       *ngIf="sectionField.contentType === ContentType.NUMBER"
                       [sectionField]="sectionField"
-                      (click)="this.setCurrentFieldType(CurrentFieldType.NUMBER)"
+                      (click)="this.setCurrentFieldType(ContentType.NUMBER)"
                       class="d-inline-block"
                       style="vertical-align: top"
                     ></app-number>
                     <app-date
                       *ngIf="sectionField.contentType === ContentType.DATE"
                       [sectionField]="sectionField"
-                      (click)="this.setCurrentFieldType(CurrentFieldType.DATE)"
+                      (click)="this.setCurrentFieldType(ContentType.DATE)"
                       class="d-inline-block"
                       style="vertical-align: top"
                     ></app-date>
+                    <app-checkbox
+                      *ngIf="sectionField.contentType === ContentType.CHECKBOX"
+                      [sectionField]="sectionField"
+                      (click)="this.setCurrentFieldType(ContentType.CHECKBOX)"
+                      style="vertical-align: top">
+                    </app-checkbox>
                   </span>
                 </div>
               </li>

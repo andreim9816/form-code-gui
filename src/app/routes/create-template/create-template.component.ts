@@ -11,8 +11,8 @@ import {TextComponent} from '../../shared/text/text.component';
 import {NumberComponent} from '../../shared/number/number.component';
 import {HtmlUtils} from '../../util/HtmlUtils';
 import {BreaklineComponent} from '../../shared/breakline/breakline.component';
-import {CurrentFieldType} from '../../enum/current-field-type';
 import {DateComponent} from '../../shared/date/date.component';
+import {CheckboxComponent} from '../../shared/checkbox/checkbox.component';
 
 @Component({
   selector: 'app-create-template',
@@ -30,13 +30,15 @@ import {DateComponent} from '../../shared/date/date.component';
     NumberComponent,
     BreaklineComponent,
     DateComponent,
+    CheckboxComponent,
 
   ],
   templateUrl: './create-template.component.html'
 })
 export class CreateTemplateComponent implements OnInit, AfterViewChecked {
+// TODO: nu pot adauga nimic dupa un numar / date / breakline
   readonly BREAK_LINE = 'BREAKLINE';
-  currentFieldType: CurrentFieldType;
+  currentFieldType: ContentType;
   form: FormGroup;
   sections: Section[] = [];
 
@@ -95,6 +97,16 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
               contentString: {
                 id: 7,
                 value: 'mno'
+              }
+            },
+            {
+              id: '456',
+              addedDate: new Date(),
+              contentType: ContentType.CHECKBOX,
+              contentCheckbox: {
+                id: 11,
+                value: false,
+                label: 'label'
               }
             },
             {
@@ -210,7 +222,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
     if (
       this.getCurrentSectionField()?.contentType === ContentType.STRING
     ) {
-      this.setCurrentFieldType(CurrentFieldType.NUMBER);
+      this.setCurrentFieldType(ContentType.NUMBER);
       const newField = this.newNumberField();
       this.addNewFieldInCurrentSection(newField);
     }
@@ -221,7 +233,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
       this.getCurrentSectionField()?.contentType === ContentType.STRING
       && this.getCurrentSectionField()?.contentString?.value !== ''
     ) {
-      this.setCurrentFieldType(CurrentFieldType.TEXT);
+      this.setCurrentFieldType(ContentType.STRING);
       const newField = this.newTextField();
       this.addNewFieldInCurrentSection(newField);
     }
@@ -231,24 +243,40 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
     if (
       this.getCurrentSectionField()?.contentString?.value !== ''
     ) {
-      this.setCurrentFieldType(CurrentFieldType.BREAK_LINE);
+      this.setCurrentFieldType(ContentType.BREAK_LINE);
       const newField = this.newTextField(this.BREAK_LINE);
       this.addNewFieldInCurrentSection(newField);
 
-      this.clearPositions();
+      this.clearSectionIndex();
     }
   }
 
   addDate(): void {
-    this.setCurrentFieldType(CurrentFieldType.DATE);
+    this.setCurrentFieldType(ContentType.DATE);
     const newField = this.newDateField();
+    this.addNewFieldInCurrentSection(newField);
+  }
+
+  addCheckbox(): void {
+    this.setCurrentFieldType(ContentType.CHECKBOX);
+    const newField = this.newCheckboxField();
     this.addNewFieldInCurrentSection(newField);
   }
 
   submit(): void {
   }
 
-  clearPositions(): void {
+  onCardBodyClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    const cardBody = target.closest('.card-body');
+
+    if (cardBody === target) {
+      console.log('Card body clicked, but not on a child component.');
+      this.clearSectionIndex();
+    }
+  }
+
+  clearSectionIndex(): void {
     this.cursorPositionInField = undefined;
     this.currentSectionIndex = undefined;
     this.currentSectionFieldIndex = undefined;
@@ -299,6 +327,22 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
     } as SectionField;
   }
 
+  newCheckboxField(): SectionField {
+    return {
+      id: HtmlUtils.generateUUID(),
+      addedDate: new Date(),
+      contentType: ContentType.CHECKBOX,
+      contentString: undefined,
+      contentNumber: undefined,
+      contentDate: undefined,
+      contentCheckbox: {
+        id: undefined,
+        value: false,
+        label: ''
+      }
+    } as SectionField;
+  }
+
   show(): void {
     console.log(this.sections);
   }
@@ -324,10 +368,9 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
     return this.sections[this.currentSectionIndex]?.sectionFields[this.currentSectionFieldIndex];
   }
 
-  setCurrentFieldType(currentFieldType: CurrentFieldType) {
-    this.currentFieldType = currentFieldType;
+  setCurrentFieldType(contentType: ContentType) {
+    this.currentFieldType = contentType;
   }
 
   readonly ContentType = ContentType;
-  protected readonly CurrentFieldType = CurrentFieldType;
 }

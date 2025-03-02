@@ -11,5 +11,6 @@ export interface SectionField {
   contentString?: StringSection
   contentNumber?: NumberSection;
   contentDate?: DateSection;
-  contentBoolean?: BooleanSection[];
+  contentCheckbox?: BooleanSection;
+  contentRadio?: BooleanSection[];
 }
