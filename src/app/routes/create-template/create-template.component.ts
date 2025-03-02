@@ -184,7 +184,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
       this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex++, newField);
 
       if ((fieldAfter.contentString?.value ?? '').length > 0) {
-        this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex, fieldAfter);
+        this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex--, fieldAfter);
       }
 
       this.cursorPositionInField = 0;
@@ -217,7 +217,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
       this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex++, newField);
 
       if ((fieldAfter.contentString?.value ?? '').length > 0) {
-        this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex, fieldAfter);
+        this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex--, fieldAfter);
       }
 
       this.cursorPositionInField = 0;
@@ -249,7 +249,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
       this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex++, newField);
 
       if ((fieldAfter.contentString?.value ?? '').length > 0) {
-        this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex, fieldAfter);
+        this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex--, fieldAfter);
       }
 
       this.cursorPositionInField = 0;
