@@ -12,6 +12,7 @@ import {NumberComponent} from '../../shared/number/number.component';
 import {HtmlUtils} from '../../util/HtmlUtils';
 import {BreaklineComponent} from '../../shared/breakline/breakline.component';
 import {CurrentFieldType} from '../../enum/current-field-type';
+import {DateComponent} from '../../shared/date/date.component';
 
 @Component({
   selector: 'app-create-template',
@@ -28,6 +29,7 @@ import {CurrentFieldType} from '../../enum/current-field-type';
     TextComponent,
     NumberComponent,
     BreaklineComponent,
+    DateComponent,
 
   ],
   templateUrl: './create-template.component.html'
@@ -38,10 +40,10 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
   form: FormGroup;
   sections: Section[] = [];
 
-  cursorPositionInField: number | null;
+  cursorPositionInField: number | undefined;
 
-  currentSectionIndex: number | null;
-  currentSectionFieldIndex: number | null;
+  currentSectionIndex: number | undefined;
+  currentSectionFieldIndex: number | undefined;
 
   mockData = true;
   viewChecked = false;
@@ -66,6 +68,24 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
               contentString: {
                 id: 8,
                 value: 'abcdefghijkl'
+              }
+            },
+            {
+              id: '123',
+              addedDate: new Date(),
+              contentType: ContentType.NUMBER,
+              contentNumber: {
+                id: 10,
+                value: 123
+              }
+            },
+            {
+              id: '123',
+              addedDate: new Date(),
+              contentType: ContentType.DATE,
+              contentString: {
+                id: 9,
+                value: new Date(2025, 10, 3)
               }
             },
             {
@@ -160,35 +180,39 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
     this.sections.push(newSection);
   }
 
+  addNewFieldInCurrentSection(newField: SectionField): void {
+    if (this.currentSectionIndex == undefined || this.currentSectionFieldIndex == undefined || this.cursorPositionInField == undefined) {
+      return;
+    }
+    const contentInFieldBefore = this.getCurrentSectionField()?.contentString?.value.slice(0, this.cursorPositionInField) ?? '';
+    const contentInFieldAfter = this.getCurrentSectionField()?.contentString?.value.slice(this.cursorPositionInField) ?? '';
+
+    const fieldBefore = this.newTextField(contentInFieldBefore);
+    const fieldAfter = this.newTextField(contentInFieldAfter);
+
+    this.removeAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex);
+
+    if ((fieldBefore.contentString?.value ?? '').length > 0) {
+      this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex++, fieldBefore);
+    }
+
+    this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex++, newField);
+
+    if ((fieldAfter.contentString?.value ?? '').length > 0) {
+      this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex--, fieldAfter);
+    }
+
+    this.cursorPositionInField = 0;
+    this.viewChecked = true;
+  }
+
   addNumber(): void {
     if (
       this.getCurrentSectionField()?.contentType === ContentType.STRING
-      && this.currentSectionIndex != null
-      && this.currentSectionFieldIndex != null
-      && this.cursorPositionInField != null
     ) {
       this.setCurrentFieldType(CurrentFieldType.NUMBER);
-      const contentInFieldBefore = this.getCurrentSectionField()?.contentString?.value.slice(0, this.cursorPositionInField) ?? '';
-      const contentInFieldAfter = this.getCurrentSectionField()?.contentString?.value.slice(this.cursorPositionInField) ?? '';
-
       const newField = this.newNumberField();
-      const fieldBefore = this.newTextField(contentInFieldBefore);
-      const fieldAfter = this.newTextField(contentInFieldAfter);
-
-      this.removeAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex);
-
-      if ((fieldBefore.contentString?.value ?? '').length > 0) {
-        this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex++, fieldBefore);
-      }
-
-      this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex++, newField);
-
-      if ((fieldAfter.contentString?.value ?? '').length > 0) {
-        this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex--, fieldAfter);
-      }
-
-      this.cursorPositionInField = 0;
-      this.viewChecked = true;
+      this.addNewFieldInCurrentSection(newField);
     }
   }
 
@@ -196,75 +220,33 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
     if (
       this.getCurrentSectionField()?.contentType === ContentType.STRING
       && this.getCurrentSectionField()?.contentString?.value !== ''
-      && this.currentSectionIndex != null
-      && this.currentSectionFieldIndex != null
-      && this.cursorPositionInField != null
     ) {
       this.setCurrentFieldType(CurrentFieldType.TEXT);
-      const contentInFieldBefore = this.getCurrentSectionField()?.contentString?.value.slice(0, this.cursorPositionInField) ?? '';
-      const contentInFieldAfter = this.getCurrentSectionField()?.contentString?.value.slice(this.cursorPositionInField) ?? '';
-
       const newField = this.newTextField();
-      const fieldBefore = this.newTextField(contentInFieldBefore);
-      const fieldAfter = this.newTextField(contentInFieldAfter);
-
-      this.removeAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex);
-
-      if ((fieldBefore.contentString?.value ?? '').length > 0) {
-        this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex++, fieldBefore);
-      }
-
-      this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex++, newField);
-
-      if ((fieldAfter.contentString?.value ?? '').length > 0) {
-        this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex--, fieldAfter);
-      }
-
-      this.cursorPositionInField = 0;
-      this.viewChecked = true;
+      this.addNewFieldInCurrentSection(newField);
     }
   }
 
   addNewBreakLine(): void {
     if (
       this.getCurrentSectionField()?.contentString?.value !== ''
-      && this.currentSectionIndex != null
-      && this.currentSectionFieldIndex != null
-      && this.cursorPositionInField != null
     ) {
       this.setCurrentFieldType(CurrentFieldType.BREAK_LINE);
-      const contentInFieldBefore = this.getCurrentSectionField()?.contentString?.value.slice(0, this.cursorPositionInField) ?? '';
-      const contentInFieldAfter = this.getCurrentSectionField()?.contentString?.value.slice(this.cursorPositionInField) ?? '';
-
       const newField = this.newTextField(this.BREAK_LINE);
-      const fieldBefore = this.newTextField(contentInFieldBefore);
-      const fieldAfter = this.newTextField(contentInFieldAfter);
+      this.addNewFieldInCurrentSection(newField);
 
-      this.removeAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex);
-
-      if ((fieldBefore.contentString?.value ?? '').length > 0) {
-        this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex++, fieldBefore);
-      }
-
-      this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex++, newField);
-
-      if ((fieldAfter.contentString?.value ?? '').length > 0) {
-        this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex--, fieldAfter);
-      }
-
-      this.cursorPositionInField = 0;
       this.clearPositions();
-      this.viewChecked = true;
     }
   }
+
 
   submit(): void {
   }
 
   clearPositions(): void {
-    this.cursorPositionInField = null;
-    this.currentSectionIndex = null;
-    this.currentSectionFieldIndex = null;
+    this.cursorPositionInField = undefined;
+    this.currentSectionIndex = undefined;
+    this.currentSectionFieldIndex = undefined;
   }
 
   newTextField(content: string = ''): SectionField {

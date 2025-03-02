@@ -3,13 +3,13 @@ import {SectionField} from '../../model/SectionField';
 import {FormsModule} from '@angular/forms';
 
 @Component({
-  selector: 'app-number',
+  selector: 'app-date',
   imports: [
     FormsModule
   ],
-  templateUrl: './number.component.html'
+  templateUrl: './date.component.html'
 })
-export class NumberComponent {
+export class DateComponent {
   @Input()
   sectionField: SectionField;
 }

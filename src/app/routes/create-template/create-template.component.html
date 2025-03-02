@@ -37,7 +37,7 @@
                 </div>
                 <div class="card-body">
                   <span *ngFor="let sectionField of section.sectionFields; index as sectionFieldIndex"
-                       class="mb-2 me-1">
+                        class="mb-2 me-1">
                     <!--todo: depending on the text field type (can be input or simple <p> styling should be different)-->
                     <app-text
                       class="d-inline-block"
@@ -60,6 +60,13 @@
                       class="d-inline-block"
                       style="vertical-align: top"
                     ></app-number>
+                    <app-date
+                      *ngIf="sectionField.contentType === ContentType.DATE"
+                      [sectionField]="sectionField"
+                      (click)="this.setCurrentFieldType(CurrentFieldType.DATE)"
+                      class="d-inline-block"
+                      style="vertical-align: top"
+                    ></app-date>
                   </span>
                 </div>
               </li>
@@ -74,7 +81,7 @@
         <button mat-button type="submit">Submit</button>
       </div>
       <div class="col-2">
-        <p>{{currentFieldType}}</p>
+        <p>{{ currentFieldType }}</p>
       </div>
     </div>
   </form>

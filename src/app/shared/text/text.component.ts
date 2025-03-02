@@ -3,11 +3,13 @@ import {ContentType} from "../../model/ContentType";
 import {CommonModule} from "@angular/common";
 import {SectionField} from '../../model/SectionField';
 import {Section} from '../../model/Section';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-text',
   imports: [
     CommonModule,
+    FormsModule,
   ],
   templateUrl: './text.component.html'
 })
@@ -28,8 +30,10 @@ export class TextComponent {
 
   onKeyDown(event: Event, section: Section, sectionField: SectionField, sectionIndex: number, sectionFieldIndex: number): void {
     setTimeout(() => {
-      sectionField.contentString = (event.target as any).value;
+      if (sectionField.contentString) {
+      sectionField.contentString.value = (event.target as any).value;
       this.setCursorPosition(event, section, sectionField, sectionIndex, sectionFieldIndex);
+      }
     }, 0);
   }
 
