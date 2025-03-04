@@ -193,28 +193,47 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
   }
 
   addNewFieldInCurrentSection(newField: SectionField): void {
-    if (this.currentSectionIndex == undefined || this.currentSectionFieldIndex == undefined || this.cursorPositionInField == undefined) {
+    if (this.currentSectionIndex == undefined || this.currentSectionFieldIndex == undefined) {
       return;
     }
+
+    if (this.sections[this.currentSectionIndex].sectionFields[this.currentSectionFieldIndex].contentType === ContentType.STRING) {
+      if (this.cursorPositionInField === undefined) {
+        return;
+      }
+      this.addNewFieldInsideString(newField);
+    } else {
+      this.addNewFieldNotInsideString(newField);
+    }
+  }
+
+  addNewFieldInsideString(newField: SectionField): void {
     const contentInFieldBefore = this.getCurrentSectionField()?.contentString?.value.slice(0, this.cursorPositionInField) ?? '';
     const contentInFieldAfter = this.getCurrentSectionField()?.contentString?.value.slice(this.cursorPositionInField) ?? '';
 
     const fieldBefore = this.newTextField(contentInFieldBefore);
     const fieldAfter = this.newTextField(contentInFieldAfter);
 
-    this.removeAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex);
+    this.removeAtIdx(this.currentSectionIndex!, this.currentSectionFieldIndex!);
 
     if ((fieldBefore.contentString?.value ?? '').length > 0) {
-      this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex++, fieldBefore);
+      this.addAtIdx(this.currentSectionIndex!, this.currentSectionFieldIndex!++, fieldBefore);
     }
 
-    this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex++, newField);
+    this.addAtIdx(this.currentSectionIndex!, this.currentSectionFieldIndex!++, newField);
 
     if ((fieldAfter.contentString?.value ?? '').length > 0) {
-      this.addAtIdx(this.currentSectionIndex, this.currentSectionFieldIndex--, fieldAfter);
+      this.addAtIdx(this.currentSectionIndex!, this.currentSectionFieldIndex!--, fieldAfter);
     }
 
     this.cursorPositionInField = 0;
+    this.viewChecked = true;
+  }
+
+  addNewFieldNotInsideString(newField: SectionField): void {
+    this.addAtIdx(this.currentSectionIndex!, ++this.currentSectionFieldIndex!, newField);
+
+    this.cursorPositionInField = undefined;
     this.viewChecked = true;
   }
 
@@ -229,14 +248,9 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
   }
 
   addText(): void {
-    if (
-      this.getCurrentSectionField()?.contentType === ContentType.STRING
-      && this.getCurrentSectionField()?.contentString?.value !== ''
-    ) {
-      this.setCurrentFieldType(ContentType.STRING);
-      const newField = this.newTextField();
-      this.addNewFieldInCurrentSection(newField);
-    }
+    this.setCurrentFieldType(ContentType.STRING);
+    const newField = this.newTextField();
+    this.addNewFieldInCurrentSection(newField);
   }
 
   addNewBreakLine(): void {
@@ -351,8 +365,14 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
     this.sections[sectionIndex].sectionFields.splice(fieldIndex, 0, newElem);
   }
 
+
   removeAtIdx(sectionIndex: number, fieldIndex: number): void {
     this.sections[sectionIndex].sectionFields.splice(fieldIndex, 1);
+  }
+
+  handleOnClick(sectionIndex: number, sectionFieldIndex: number) {
+    this.currentSectionIndex = sectionIndex
+    this.currentSectionFieldIndex = sectionFieldIndex
   }
 
   setDataFromTextComponent(event: any) {

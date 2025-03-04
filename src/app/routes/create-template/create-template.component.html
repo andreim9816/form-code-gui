@@ -47,7 +47,7 @@
                       [section]="section"
                       [sectionField]="sectionField"
                       (sectionData)="setDataFromTextComponent($event)"
-                      (click)="this.setCurrentFieldType(ContentType.STRING)"
+                      (click)="handleOnClick(sectionIndex, sectionFieldIndex);this.setCurrentFieldType(ContentType.STRING)"
                     ></app-text>
                     <app-breakline
                       *ngIf="sectionField.contentType === ContentType.STRING && sectionField.contentString?.value === BREAK_LINE"
@@ -56,21 +56,21 @@
                     <app-number
                       *ngIf="sectionField.contentType === ContentType.NUMBER"
                       [sectionField]="sectionField"
-                      (click)="this.setCurrentFieldType(ContentType.NUMBER)"
+                      (click)="handleOnClick(sectionIndex, sectionFieldIndex);this.setCurrentFieldType(ContentType.NUMBER)"
                       class="d-inline-block"
                       style="vertical-align: top"
                     ></app-number>
                     <app-date
                       *ngIf="sectionField.contentType === ContentType.DATE"
                       [sectionField]="sectionField"
-                      (click)="this.setCurrentFieldType(ContentType.DATE)"
+                      (click)="handleOnClick(sectionIndex, sectionFieldIndex);this.setCurrentFieldType(ContentType.DATE)"
                       class="d-inline-block"
                       style="vertical-align: top"
                     ></app-date>
                     <app-checkbox
                       *ngIf="sectionField.contentType === ContentType.CHECKBOX"
                       [sectionField]="sectionField"
-                      (click)="this.setCurrentFieldType(ContentType.CHECKBOX)"
+                      (click)="handleOnClick(sectionIndex, sectionFieldIndex);this.setCurrentFieldType(ContentType.CHECKBOX)"
                       style="vertical-align: top">
                     </app-checkbox>
                   </span>
