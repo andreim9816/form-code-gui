@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>Delete field</h2>
+<mat-dialog-content>
+  <p>Please confirm you are about to delete the following content:
+    <b>
+      {{ getContent() }}
+    </b>
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button class="btn btn-primary me-2" (click)="closeDialog(false)">No Thanks</button>
+  <button class="btn btn-primary" (click)="closeDialog(true)">Ok</button>
+</mat-dialog-actions>

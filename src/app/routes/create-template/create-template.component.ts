@@ -13,6 +13,10 @@ import {HtmlUtils} from '../../util/HtmlUtils';
 import {BreaklineComponent} from '../../shared/breakline/breakline.component';
 import {DateComponent} from '../../shared/date/date.component';
 import {CheckboxComponent} from '../../shared/checkbox/checkbox.component';
+import {HttpService} from '../../service/HttpService';
+import {MatDialog} from '@angular/material/dialog';
+import {DialogConfirmDeleteComponent} from '../dialog-confirm-delete/dialog-confirm-delete.component';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-create-template',
@@ -31,7 +35,6 @@ import {CheckboxComponent} from '../../shared/checkbox/checkbox.component';
     BreaklineComponent,
     DateComponent,
     CheckboxComponent,
-
   ],
   templateUrl: './create-template.component.html'
 })
@@ -50,7 +53,9 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
   mockData = true;
   viewChecked = false;
 
-  constructor(private readonly fb: FormBuilder) {
+  constructor(private readonly fb: FormBuilder,
+              private readonly dialog: MatDialog,
+              private readonly httpService: HttpService) {
   }
 
   ngOnInit(): void {
@@ -64,7 +69,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
         {
           sectionFields: [
             {
-              id: '123',
+              id: HtmlUtils.generateUUID(),
               addedDate: new Date(),
               contentType: ContentType.STRING,
               contentString: {
@@ -73,7 +78,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
               }
             },
             {
-              id: '123',
+              id: HtmlUtils.generateUUID(),
               addedDate: new Date(),
               contentType: ContentType.NUMBER,
               contentNumber: {
@@ -82,7 +87,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
               }
             },
             {
-              id: '123',
+              id: HtmlUtils.generateUUID(),
               addedDate: new Date(),
               contentType: ContentType.DATE,
               contentDate: {
@@ -91,7 +96,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
               }
             },
             {
-              id: '456',
+              id: HtmlUtils.generateUUID(),
               addedDate: new Date(),
               contentType: ContentType.STRING,
               contentString: {
@@ -100,7 +105,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
               }
             },
             {
-              id: '456',
+              id: HtmlUtils.generateUUID(),
               addedDate: new Date(),
               contentType: ContentType.CHECKBOX,
               contentCheckbox: {
@@ -110,7 +115,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
               }
             },
             {
-              id: '91011',
+              id: HtmlUtils.generateUUID(),
               contentType: ContentType.STRING,
               contentString: {
                 id: 6,
@@ -118,7 +123,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
               }
             },
             {
-              id: '789',
+              id: HtmlUtils.generateUUID(),
               addedDate: new Date(),
               contentType: ContentType.STRING,
               contentString: {
@@ -131,7 +136,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
         {
           sectionFields: [
             {
-              id: '10',
+              id: HtmlUtils.generateUUID(),
               addedDate: new Date(),
               contentType: ContentType.STRING,
               contentString: {
@@ -140,7 +145,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
               }
             },
             {
-              id: '11',
+              id: HtmlUtils.generateUUID(),
               addedDate: new Date(),
               contentType: ContentType.STRING,
               contentString: {
@@ -149,7 +154,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
               }
             },
             {
-              id: '12',
+              id: HtmlUtils.generateUUID(),
               addedDate: new Date(),
               contentType: ContentType.STRING,
               contentString: {
@@ -159,18 +164,6 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
             }
           ]
         },
-        {
-          sectionFields: [
-            {
-              id: '9101112',
-              contentType: ContentType.STRING,
-              contentString: {
-                id: 1,
-                value: 'content'
-              }
-            }
-          ]
-        }
       ] as Section[];
     }
   }
@@ -277,7 +270,28 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
     this.addNewFieldInCurrentSection(newField);
   }
 
+  removeElement(): void {
+    //todo delete breakline by deleting twice the first character from the next field
+    //todo maybe on right click i should get a list and delete it that way
+    const currentElement = this.getCurrentSectionField();
+    if (currentElement) {
+      // open dialog
+      const dialogRef = this.dialog.open(DialogConfirmDeleteComponent, {
+        data: currentElement,
+        width: '350px',
+        height: '350px'
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.removeAtIdx(this.currentSectionIndex!, this.currentSectionFieldIndex!);
+        }
+      });
+    }
+  }
+
   submit(): void {
+    this.displayInfo();
   }
 
   onCardBodyClick(event: MouseEvent): void {
@@ -357,7 +371,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
     } as SectionField;
   }
 
-  show(): void {
+  displayInfo(): void {
     console.log(this.sections);
   }
 
@@ -365,9 +379,12 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
     this.sections[sectionIndex].sectionFields.splice(fieldIndex, 0, newElem);
   }
 
-
   removeAtIdx(sectionIndex: number, fieldIndex: number): void {
     this.sections[sectionIndex].sectionFields.splice(fieldIndex, 1);
+  }
+
+  drop(event: CdkDragDrop<SectionField[]>) {
+    moveItemInArray(this.sections[this.currentSectionIndex!]!.sectionFields, event.previousIndex, event.currentIndex);
   }
 
   handleOnClick(sectionIndex: number, sectionFieldIndex: number) {
@@ -391,6 +408,14 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
   setCurrentFieldType(contentType: ContentType) {
     this.currentFieldType = contentType;
   }
+
+  // createTemplate(): Observable<> {
+  //   const templateName = this.form.controls['templateNameCtrl'].value;
+  //   return this.httpService.saveTemplate({
+  //     templateName,
+  //     sections: this.sections
+  //   });
+  // }
 
   readonly ContentType = ContentType;
 }

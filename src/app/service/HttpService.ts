@@ -1,13 +1,17 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {UserDto} from '../dto/UserDto';
 import {URL} from '../util/URL';
+import {Section} from '../model/Section';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
   constructor(private http: HttpClient) {
+  }
+
+  saveTemplate(body: any) {
+    return this.http.post<Section[]>(`${URL.TEMPLATE_URL}`, body);
   }
 
   // getTemplate(id: number) {

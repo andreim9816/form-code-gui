@@ -7,7 +7,8 @@
         <button mat-button class="d-block" (click)="addNumber()">Number</button>
         <button mat-button class="d-block" (click)="addDate()">Date</button>
         <button mat-button class="d-block" (click)="addCheckbox()">Checkbox</button>
-        <button mat-button class="d-block" (click)="show()">Display info</button>
+        <button mat-button class="d-block" (click)="removeElement()">Remove element</button>
+        <button mat-button class="d-block" (click)="displayInfo()">Display info</button>
         <button mat-button class="d-block">Rating</button>
         <button mat-button class="d-block">Multiple choice</button>
       </div>
@@ -37,10 +38,11 @@
                 </div>
                 <div class="card-body" (click)="onCardBodyClick($event)">
                   <span *ngFor="let sectionField of section.sectionFields; index as sectionFieldIndex"
-                        class="mb-2 me-1">
+                        class="my-2 mt-2 me-1">
                     <!--todo: depending on the text field type (can be input or simple <p> styling should be different)-->
                     <app-text
                       class="d-inline-block"
+                      style="vertical-align: top"
                       *ngIf="sectionField.contentType === ContentType.STRING && sectionField.contentString?.value !== BREAK_LINE"
                       [sectionFieldIndex]="sectionFieldIndex"
                       [sectionIndex]="sectionIndex"
