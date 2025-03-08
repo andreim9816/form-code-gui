@@ -1,7 +1,7 @@
 export enum ContentType {
-  NUMBER,
-  BREAK_LINE,
   STRING,
+  NUMBER,
   DATE,
-  CHECKBOX
+  BOOLEAN,
+  BREAK_LINE
 }

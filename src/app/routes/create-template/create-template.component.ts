@@ -70,46 +70,36 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
           sectionFields: [
             {
               id: HtmlUtils.generateUUID(),
-              addedDate: new Date(),
               contentType: ContentType.STRING,
               contentString: {
-                id: 8,
                 value: 'abcdefghijkl'
               }
             },
             {
               id: HtmlUtils.generateUUID(),
-              addedDate: new Date(),
               contentType: ContentType.NUMBER,
               contentNumber: {
-                id: 10,
                 value: 123
               }
             },
             {
               id: HtmlUtils.generateUUID(),
-              addedDate: new Date(),
               contentType: ContentType.DATE,
               contentDate: {
-                id: 9,
                 value: new Date(2025, 10, 3)
               }
             },
             {
               id: HtmlUtils.generateUUID(),
-              addedDate: new Date(),
               contentType: ContentType.STRING,
               contentString: {
-                id: 7,
                 value: 'mno'
               }
             },
             {
               id: HtmlUtils.generateUUID(),
-              addedDate: new Date(),
-              contentType: ContentType.CHECKBOX,
-              contentCheckbox: {
-                id: 11,
+              contentType: ContentType.BOOLEAN,
+              contentBoolean: {
                 value: false,
                 label: 'label'
               }
@@ -118,16 +108,13 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
               id: HtmlUtils.generateUUID(),
               contentType: ContentType.STRING,
               contentString: {
-                id: 6,
                 value: this.BREAK_LINE
               }
             },
             {
               id: HtmlUtils.generateUUID(),
-              addedDate: new Date(),
               contentType: ContentType.STRING,
               contentString: {
-                id: 5,
                 value: 'pqrstuvwxyz'
               }
             }
@@ -137,28 +124,22 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
           sectionFields: [
             {
               id: HtmlUtils.generateUUID(),
-              addedDate: new Date(),
               contentType: ContentType.STRING,
               contentString: {
-                id: 2,
                 value: 'xyz'
               }
             },
             {
               id: HtmlUtils.generateUUID(),
-              addedDate: new Date(),
               contentType: ContentType.STRING,
               contentString: {
-                id: 3,
                 value: 'tuv'
               }
             },
             {
               id: HtmlUtils.generateUUID(),
-              addedDate: new Date(),
               contentType: ContentType.STRING,
               contentString: {
-                id: 4,
                 value: 'ciolacu'
               }
             }
@@ -265,7 +246,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
   }
 
   addCheckbox(): void {
-    this.setCurrentFieldType(ContentType.CHECKBOX);
+    this.setCurrentFieldType(ContentType.BOOLEAN);
     const newField = this.newCheckboxField();
     this.addNewFieldInCurrentSection(newField);
   }
@@ -292,6 +273,21 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
 
   submit(): void {
     this.displayInfo();
+    const body = {
+      companyId: 1,
+      title: 'Title',
+      description: 'Description',
+      sections: this.sections
+    }
+    this.httpService.saveTemplate(body)
+      .subscribe({
+        next: result => {
+          console.log(result);
+        },
+        error: err => {
+          console.error(err);
+        }
+      })
   }
 
   onCardBodyClick(event: MouseEvent): void {
@@ -359,11 +355,11 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
     return {
       id: HtmlUtils.generateUUID(),
       addedDate: new Date(),
-      contentType: ContentType.CHECKBOX,
+      contentType: ContentType.BOOLEAN,
       contentString: undefined,
       contentNumber: undefined,
       contentDate: undefined,
-      contentCheckbox: {
+      contentBoolean: {
         id: undefined,
         value: false,
         label: ''

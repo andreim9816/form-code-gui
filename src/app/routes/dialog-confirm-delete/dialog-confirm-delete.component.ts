@@ -44,8 +44,8 @@ export class DialogConfirmDeleteComponent implements OnInit {
         return this.data.contentDate!.value;
       case ContentType.NUMBER:
         return this.data.contentNumber!.value;
-      case ContentType.CHECKBOX:
-        return this.data.contentCheckbox!.label
+      case ContentType.BOOLEAN:
+        return this.data.contentBoolean!.label
       default:
         return '';
     }

@@ -2,15 +2,15 @@
   <form form [formGroup]="form" (ngSubmit)="submit()">
     <div class="row">
       <div class="col-2">
-        <button mat-button class="d-block" (click)="addText()">Simple text</button>
-        <button mat-button class="d-block" (click)="addNewBreakLine()">Break line</button>
-        <button mat-button class="d-block" (click)="addNumber()">Number</button>
-        <button mat-button class="d-block" (click)="addDate()">Date</button>
-        <button mat-button class="d-block" (click)="addCheckbox()">Checkbox</button>
-        <button mat-button class="d-block" (click)="removeElement()">Remove element</button>
-        <button mat-button class="d-block" (click)="displayInfo()">Display info</button>
-        <button mat-button class="d-block">Rating</button>
-        <button mat-button class="d-block">Multiple choice</button>
+        <button type="button" mat-button class="d-block" (click)="addText()">Simple text</button>
+        <button type="button" mat-button class="d-block" (click)="addNewBreakLine()">Break line</button>
+        <button type="button" mat-button class="d-block" (click)="addNumber()">Number</button>
+        <button type="button" mat-button class="d-block" (click)="addDate()">Date</button>
+        <button type="button" mat-button class="d-block" (click)="addCheckbox()">Checkbox</button>
+        <button type="button" mat-button class="d-block" (click)="removeElement()">Remove element</button>
+        <button type="button" mat-button class="d-block" (click)="displayInfo()">Display info</button>
+        <button disabled type="button" mat-button class="d-block">Rating</button>
+        <button disabled type="button" mat-button class="d-block">Multiple choice</button>
       </div>
       <div class="col-8 border-start border-end">
         <div class="row">
@@ -70,9 +70,9 @@
                       style="vertical-align: top"
                     ></app-date>
                     <app-checkbox
-                      *ngIf="sectionField.contentType === ContentType.CHECKBOX"
+                      *ngIf="sectionField.contentType === ContentType.BOOLEAN"
                       [sectionField]="sectionField"
-                      (click)="handleOnClick(sectionIndex, sectionFieldIndex);this.setCurrentFieldType(ContentType.CHECKBOX)"
+                      (click)="handleOnClick(sectionIndex, sectionFieldIndex);this.setCurrentFieldType(ContentType.BOOLEAN)"
                       style="vertical-align: top">
                     </app-checkbox>
                   </span>
@@ -83,7 +83,7 @@
         </div>
         <div class="row">
           <div class="col">
-            <button mat-fab class="w-100" (click)="addNewSection()">+ Add a new section</button>
+            <button type="button" mat-fab class="w-100" (click)="addNewSection()">+ Add a new section</button>
           </div>
         </div>
         <button mat-button type="submit">Submit</button>
