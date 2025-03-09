@@ -3,6 +3,7 @@ import {StringSection} from './StringSection';
 import {BooleanSection} from './BooleanSection';
 import {NumberSection} from './NumberSection';
 import {DateSection} from './DateSection';
+import {TextValidator} from './TextValidator';
 
 export interface SectionField {
   id: string;
@@ -13,4 +14,5 @@ export interface SectionField {
   contentDate?: DateSection;
   contentBoolean?: BooleanSection;
   contentRadio?: BooleanSection[];
+  textValidator: TextValidator;
 }

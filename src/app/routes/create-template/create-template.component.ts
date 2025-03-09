@@ -17,6 +17,8 @@ import {HttpService} from '../../service/HttpService';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogConfirmDeleteComponent} from '../dialog-confirm-delete/dialog-confirm-delete.component';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import {TextValidatorComponent} from '../validations/text-validator/text-validator.component';
+import {TextCustomValidator} from '../../enum/TextCustomValidator';
 
 @Component({
   selector: 'app-create-template',
@@ -35,6 +37,7 @@ import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
     BreaklineComponent,
     DateComponent,
     CheckboxComponent,
+    TextValidatorComponent,
   ],
   templateUrl: './create-template.component.html'
 })
@@ -73,7 +76,8 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
               contentType: ContentType.STRING,
               contentString: {
                 value: 'abcdefghijkl'
-              }
+              },
+              textValidator: {}
             },
             {
               id: HtmlUtils.generateUUID(),
@@ -94,7 +98,8 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
               contentType: ContentType.STRING,
               contentString: {
                 value: 'mno'
-              }
+              },
+              textValidator: {}
             },
             {
               id: HtmlUtils.generateUUID(),
@@ -109,14 +114,16 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
               contentType: ContentType.STRING,
               contentString: {
                 value: this.BREAK_LINE
-              }
+              },
+              textValidator: {}
             },
             {
               id: HtmlUtils.generateUUID(),
               contentType: ContentType.STRING,
               contentString: {
                 value: 'pqrstuvwxyz'
-              }
+              },
+              textValidator: {}
             }
           ]
         },
@@ -127,21 +134,24 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
               contentType: ContentType.STRING,
               contentString: {
                 value: 'xyz'
-              }
+              },
+              textValidator: {}
             },
             {
               id: HtmlUtils.generateUUID(),
               contentType: ContentType.STRING,
               contentString: {
                 value: 'tuv'
-              }
+              },
+              textValidator: {}
             },
             {
               id: HtmlUtils.generateUUID(),
               contentType: ContentType.STRING,
               contentString: {
                 value: 'ciolacu'
-              }
+              },
+              textValidator: {}
             }
           ]
         },
@@ -403,6 +413,25 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
 
   setCurrentFieldType(contentType: ContentType) {
     this.currentFieldType = contentType;
+  }
+
+
+  /////////////////// output events //////////////////////
+  setValidatorValues(event: any, contentType: ContentType): void {
+    console.log(event);
+    if (contentType === ContentType.STRING) {
+      const currentSectionField = this.getCurrentSectionField()!;
+      currentSectionField.textValidator = {
+        id: currentSectionField.textValidator.id,
+        isRequired: event.isRequiredCtrl,
+        minSize: event.minSizeCtrl,
+        maxSize: event.maxSizeCtrl,
+        isEmail: event.customValidatorsCtrl.includes(TextCustomValidator.IsEmail),
+        isNoSpace: event.customValidatorsCtrl.includes(TextCustomValidator.IsNoSpaces),
+        isNoNumber: event.customValidatorsCtrl.includes(TextCustomValidator.IsNoNumbers),
+        regex: event.regexCtrl
+      };
+    }
   }
 
   // createTemplate(): Observable<> {

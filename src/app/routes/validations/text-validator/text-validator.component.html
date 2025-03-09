@@ -1,0 +1,61 @@
+<form [formGroup]="formGroup" class="needs-validation" novalidate>
+  <div class="input-group mb-3">
+    <input type="checkbox"
+           class="form-check-input me-1"
+           formControlName="isRequiredCtrl">
+    <label>Is required</label>
+  </div>
+
+  <!--<div class="input-group mb-3">-->
+  <!--  <div class="input-group-text">-->
+  <!--    <input class="form-check-input mt-0" type="checkbox" [value]="true">-->
+  <!--  </div>-->
+  <!--  <input type="number" class="form-control" placeholder="Enter minimum size">-->
+  <!--</div>-->
+
+  <div class="mb-3">
+    <label>Minimum size</label>
+    <input type="number" min="0" class="form-control" placeholder="Enter minimum size"
+           formControlName="minSizeCtrl">
+    <div *ngIf="formGroup.controls['minSizeCtrl'].invalid && formGroup.controls['minSizeCtrl'].touched">
+      <span
+        class="invalid-feedback d-block"
+        *ngIf="formGroup.controls['minSizeCtrl'].errors?.['min']"
+      >Number cannot be less than 0
+      </span>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label>Maximum size</label>
+    <input type="number" min="1" class="form-control" placeholder="Enter maximum size"
+           formControlName="maxSizeCtrl">
+    <div *ngIf="formGroup.controls['maxSizeCtrl'].invalid && formGroup.controls['maxSizeCtrl'].touched">
+      <span
+        class="invalid-feedback d-block"
+        *ngIf="formGroup.controls['maxSizeCtrl'].errors?.['min']"
+      >Number cannot be less than 1
+      </span>
+      <span
+        class="invalid-feedback d-block"
+        *ngIf="formGroup.controls['maxSizeCtrl'].errors?.['lessThanFirst']"
+      >Minimum size is bigger than maximum size
+      </span>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label>Custom validators</label>
+    <mat-select formControlName="customValidatorsCtrl" multiple placeholder="Add custom validators"
+                class="form-control">
+      <mat-option [value]="TextCustomValidator.IsEmail">Is email</mat-option>
+      <mat-option [value]="TextCustomValidator.IsNoSpaces">No spaces</mat-option>
+      <mat-option [value]="TextCustomValidator.IsNoNumbers">No numbers</mat-option>
+    </mat-select>
+  </div>
+
+  <div class="mb-3">
+    <label>Regex validator</label>
+    <input type="text" placeholder="Enter regex" class="form-control" formControlName="regexCtrl">
+  </div>
+</form>

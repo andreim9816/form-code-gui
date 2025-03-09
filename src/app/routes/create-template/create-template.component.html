@@ -1,5 +1,5 @@
-<div class="container">
-  <form form [formGroup]="form" (ngSubmit)="submit()">
+<div class="container mx-1">
+  <form [formGroup]="form" (ngSubmit)="submit()">
     <div class="row">
       <div class="col-2">
         <button type="button" mat-button class="d-block" (click)="addText()">Simple text</button>
@@ -9,6 +9,7 @@
         <button type="button" mat-button class="d-block" (click)="addCheckbox()">Checkbox</button>
         <button type="button" mat-button class="d-block" (click)="removeElement()">Remove element</button>
         <button type="button" mat-button class="d-block" (click)="displayInfo()">Display info</button>
+        <button disabled type="button" mat-button class="d-block">Dropdown select</button>
         <button disabled type="button" mat-button class="d-block">Rating</button>
         <button disabled type="button" mat-button class="d-block">Multiple choice</button>
       </div>
@@ -89,7 +90,11 @@
         <button mat-button type="submit">Submit</button>
       </div>
       <div class="col-2">
-        <p>{{ currentFieldType }}</p>
+        <p *ngIf="currentFieldType !== undefined">Customize</p>
+        <app-text-validator
+          *ngIf="currentFieldType === ContentType.STRING"
+          (validatorValues)="setValidatorValues($event, ContentType.STRING)"
+        ></app-text-validator>
       </div>
     </div>
   </form>
