@@ -1,7 +1,7 @@
-<div class="container mx-1">
+<div class="container-fluid">
   <form [formGroup]="form" (ngSubmit)="submit()">
     <div class="row">
-      <div class="col-2">
+      <div class="col-1 mx-0 px-0">
         <button type="button" mat-button class="d-block" (click)="addText()">Simple text</button>
         <button type="button" mat-button class="d-block" (click)="addNewBreakLine()">Break line</button>
         <button type="button" mat-button class="d-block" (click)="addNumber()">Number</button>
@@ -89,12 +89,15 @@
         </div>
         <button mat-button type="submit">Submit</button>
       </div>
-      <div class="col-2">
-        <p *ngIf="currentFieldType !== undefined">Customize</p>
+      <div class="col-3">
         <app-text-validator
           *ngIf="currentFieldType === ContentType.STRING"
           [sectionField]="getCurrentSectionField()!"
         ></app-text-validator>
+        <app-number-validator
+          *ngIf="currentFieldType === ContentType.NUMBER"
+          [sectionField]="getCurrentSectionField()!">
+        </app-number-validator>
       </div>
     </div>
   </form>

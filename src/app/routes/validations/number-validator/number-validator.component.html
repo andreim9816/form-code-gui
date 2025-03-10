@@ -1,0 +1,37 @@
+<h4 class="mb-4">Customize number field</h4>
+<form [formGroup]="formGroup" class="needs-validation" novalidate>
+  <div class="input-group mb-3">
+    <input type="checkbox"
+           class="form-check-input me-1"
+           formControlName="isRequiredCtrl">
+    <label>Is required</label>
+  </div>
+
+  <div class="mb-3">
+    <label>Minimum value</label>
+    <input type="number" class="form-control" placeholder="Enter minimum value"
+           formControlName="minValueCtrl">
+  </div>
+
+  <div class="mb-3">
+    <label>Maximum value</label>
+    <input type="number" class="form-control" placeholder="Enter maximum value"
+           formControlName="maxValueCtrl">
+    <div *ngIf="formGroup.controls['maxValueCtrl'].invalid && formGroup.controls['maxValueCtrl'].touched">
+      <span
+        class="invalid-feedback d-block"
+        *ngIf="formGroup.controls['maxValueCtrl'].errors?.['lessThanFirst']"
+      >Minimum value is bigger than maximum value
+      </span>
+    </div>
+  </div>
+
+<!--  <div class="mb-3">-->
+<!--    <label>Custom validators</label>-->
+<!--    <mat-select formControlName="customValidatorsCtrl" placeholder="Add custom validators"-->
+<!--                class="form-control">-->
+<!--      <mat-option [value]="true">Positive</mat-option>-->
+<!--      <mat-option [value]="false">Negative</mat-option>-->
+<!--    </mat-select>-->
+<!--  </div>-->
+</form>

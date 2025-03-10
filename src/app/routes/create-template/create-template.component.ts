@@ -19,6 +19,7 @@ import {DialogConfirmDeleteComponent} from '../dialog-confirm-delete/dialog-conf
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {TextValidatorComponent} from '../validations/text-validator/text-validator.component';
 import {TextCustomValidator} from '../../enum/TextCustomValidator';
+import {NumberValidatorComponent} from '../validations/number-validator/number-validator.component';
 
 @Component({
   selector: 'app-create-template',
@@ -38,6 +39,7 @@ import {TextCustomValidator} from '../../enum/TextCustomValidator';
     DateComponent,
     CheckboxComponent,
     TextValidatorComponent,
+    NumberValidatorComponent,
   ],
   templateUrl: './create-template.component.html'
 })
@@ -84,7 +86,8 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
               contentType: ContentType.NUMBER,
               contentNumber: {
                 value: 123
-              }
+              },
+              numberValidator: {}
             },
             {
               id: HtmlUtils.generateUUID(),
@@ -327,7 +330,8 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
       },
       contentDate: undefined,
       contentNumber: undefined,
-      contentBoolean: undefined
+      contentBoolean: undefined,
+      textValidator: {}
     } as SectionField;
   }
 
@@ -342,7 +346,8 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
         id: undefined,
         value: undefined
       },
-      contentBoolean: undefined
+      contentBoolean: undefined,
+      numberValidator: {}
     } as SectionField;
   }
 
