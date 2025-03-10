@@ -415,25 +415,6 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
     this.currentFieldType = contentType;
   }
 
-
-  /////////////////// output events //////////////////////
-  setValidatorValues(event: any, contentType: ContentType): void {
-    console.log(event);
-    if (contentType === ContentType.STRING) {
-      const currentSectionField = this.getCurrentSectionField()!;
-      currentSectionField.textValidator = {
-        id: currentSectionField.textValidator.id,
-        isRequired: event.isRequiredCtrl,
-        minSize: event.minSizeCtrl,
-        maxSize: event.maxSizeCtrl,
-        isEmail: event.customValidatorsCtrl.includes(TextCustomValidator.IsEmail),
-        isNoSpace: event.customValidatorsCtrl.includes(TextCustomValidator.IsNoSpaces),
-        isNoNumber: event.customValidatorsCtrl.includes(TextCustomValidator.IsNoNumbers),
-        regex: event.regexCtrl
-      };
-    }
-  }
-
   // createTemplate(): Observable<> {
   //   const templateName = this.form.controls['templateNameCtrl'].value;
   //   return this.httpService.saveTemplate({

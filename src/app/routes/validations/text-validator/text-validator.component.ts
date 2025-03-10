@@ -1,11 +1,13 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatOption, MatSelect} from '@angular/material/select';
 import {CommonModule} from '@angular/common';
 import {TextCustomValidator} from '../../../enum/TextCustomValidator';
+import {SectionField} from '../../../model/SectionField';
 
 @Component({
   selector: 'app-text-validator',
+  standalone: true,
   imports: [
     CommonModule,
     FormsModule,
@@ -15,27 +17,47 @@ import {TextCustomValidator} from '../../../enum/TextCustomValidator';
   ],
   templateUrl: './text-validator.component.html'
 })
-export class TextValidatorComponent implements OnInit {
+export class TextValidatorComponent implements OnInit, OnChanges {
+  @Input()
+  sectionField: SectionField;
   formGroup: FormGroup;
-
-  @Output()
-  validatorValues = new EventEmitter<any>();
 
   constructor(private fb: FormBuilder) {
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.sectionField) {
+      this.createFormAndListenToChanges();
+    }
+  }
+
   ngOnInit(): void {
+    this.createFormAndListenToChanges();
+  }
+
+  createFormAndListenToChanges(): void {
     this.createFormGroup();
     this.onFormChanges();
   }
 
   createFormGroup() {
+    const customValidators = [];
+    if (this.sectionField.textValidator.isEmail) {
+      customValidators.push(TextCustomValidator.IsEmail);
+    }
+    if (this.sectionField.textValidator.isNoNumber) {
+      customValidators.push(TextCustomValidator.IsNoNumbers);
+    }
+    if (this.sectionField.textValidator.isNoSpace) {
+      customValidators.push(TextCustomValidator.IsNoSpaces);
+    }
+
     this.formGroup = this.fb.group({
-      isRequiredCtrl: true,
-      minSizeCtrl: [1, Validators.min(0)],
-      maxSizeCtrl: [undefined, Validators.min(1)],
-      customValidatorsCtrl: [[]],
-      regexCtrl: []
+      isRequiredCtrl: this.sectionField.textValidator.isRequired ?? true,
+      minSizeCtrl: [this.sectionField.textValidator.minSize ?? 1, Validators.min(0)],
+      maxSizeCtrl: [this.sectionField.textValidator.maxSize, Validators.min(1)],
+      customValidatorsCtrl: [customValidators],
+      regexCtrl: [this.sectionField.textValidator.regex]
     }, {
       validators: this.maxSizeValueGoeThanMinSize
     });
@@ -44,7 +66,16 @@ export class TextValidatorComponent implements OnInit {
   onFormChanges(): void {
     this.formGroup.valueChanges.subscribe(formValues => {
       if (this.formGroup.valid) {
-        this.validatorValues.emit(formValues);
+        this.sectionField.textValidator.isRequired = formValues.isRequiredCtrl;
+        this.sectionField.textValidator.minSize = formValues.minSizeCtrl;
+        this.sectionField.textValidator.maxSize = formValues.maxSizeCtrl;
+        this.sectionField.textValidator.regex = formValues.regexCtrl;
+
+        this.sectionField.textValidator.isNoSpace = formValues.customValidatorsCtrl.includes(TextCustomValidator.IsNoSpaces)
+        this.sectionField.textValidator.isEmail = formValues.customValidatorsCtrl.includes(TextCustomValidator.IsEmail)
+        this.sectionField.textValidator.isNoNumber = formValues.customValidatorsCtrl.includes(TextCustomValidator.IsNoNumbers)
+
+        console.log(this.sectionField);
       }
     })
   }

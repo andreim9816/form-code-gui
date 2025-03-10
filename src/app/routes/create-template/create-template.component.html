@@ -93,7 +93,7 @@
         <p *ngIf="currentFieldType !== undefined">Customize</p>
         <app-text-validator
           *ngIf="currentFieldType === ContentType.STRING"
-          (validatorValues)="setValidatorValues($event, ContentType.STRING)"
+          [sectionField]="getCurrentSectionField()!"
         ></app-text-validator>
       </div>
     </div>
