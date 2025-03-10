@@ -1,4 +1,4 @@
-import {AfterViewChecked, Component, OnInit} from '@angular/core';
+import {AfterViewChecked, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatButton, MatFabButton} from '@angular/material/button';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
@@ -16,7 +16,6 @@ import {CheckboxComponent} from '../../shared/checkbox/checkbox.component';
 import {HttpService} from '../../service/HttpService';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogConfirmDeleteComponent} from '../dialog-confirm-delete/dialog-confirm-delete.component';
-import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {TextValidatorComponent} from '../validations/text-validator/text-validator.component';
 import {NumberValidatorComponent} from '../validations/number-validator/number-validator.component';
 import {DateValidatorComponent} from '../validations/date-validator/date-validator.component';
@@ -45,6 +44,9 @@ import {DateValidatorComponent} from '../validations/date-validator/date-validat
   templateUrl: './create-template.component.html'
 })
 export class CreateTemplateComponent implements OnInit, AfterViewChecked {
+  @ViewChild('contextMenu') contextMenu!: ElementRef;
+  contextMenuStyles = {display: 'none', top: '0px', left: '0px'};
+
 // TODO: nu pot adauga nimic dupa un numar / date / breakline
   readonly BREAK_LINE = 'BREAKLINE';
   currentFieldType: ContentType;
@@ -65,6 +67,8 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit(): void {
+    document.addEventListener('click', (event) => this.onClickOutside(event));
+
     this.form = this.fb.group({
       companyCtrl: ['ANAF', Validators.required],
       formNameCtrl: ['', Validators.required]
@@ -397,10 +401,6 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
     this.sections[sectionIndex].sectionFields.splice(fieldIndex, 1);
   }
 
-  drop(event: CdkDragDrop<SectionField[]>) {
-    moveItemInArray(this.sections[this.currentSectionIndex!]!.sectionFields, event.previousIndex, event.currentIndex);
-  }
-
   handleOnClick(sectionIndex: number, sectionFieldIndex: number) {
     this.currentSectionIndex = sectionIndex
     this.currentSectionFieldIndex = sectionFieldIndex
@@ -430,6 +430,42 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
   //     sections: this.sections
   //   });
   // }
+
+  ////////////////////////////////////////// contextual menu //////////////////////////////////////////
+
+  openContextMenu(event: MouseEvent) {
+    event.preventDefault(); // Prevent the default right-click menu
+
+    // Position the menu at the mouse cursor
+    this.contextMenuStyles = {
+      display: 'block',
+      top: `${event.clientY}px`,
+      left: `${event.clientX}px`,
+    };
+  }
+
+  setCurrentIndexesAndOpenContextMenu(sectionIndex: number, sectionFieldIndex: number, event: MouseEvent) {
+    this.handleOnClick(sectionIndex, sectionFieldIndex);
+    this.openContextMenu(event);
+  }
+
+  closeContextMenu() {
+    this.contextMenuStyles = {display: 'none', top: '0px', left: '0px'};
+  }
+
+  // Close menu when clicking outside
+  onClickOutside(event: Event) {
+    if (!this.contextMenu.nativeElement.contains(event.target)) {
+      this.closeContextMenu();
+    }
+  }
+
+  onDelete() {
+    this.removeElement();
+    this.closeContextMenu();
+  }
+
+  ////////////////////////////////////////// contextual menu //////////////////////////////////////////
 
   readonly ContentType = ContentType;
 }

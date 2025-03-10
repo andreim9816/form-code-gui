@@ -1,0 +1,5 @@
+.dropdown-menu {
+  position: fixed !important; /* Ensure menu stays in place */
+  display: none; /* Hidden by default */
+  z-index: 1050; /* Ensure it's above other elements */
+}

@@ -51,10 +51,12 @@
                       [sectionField]="sectionField"
                       (sectionData)="setDataFromTextComponent($event)"
                       (click)="handleOnClick(sectionIndex, sectionFieldIndex);this.setCurrentFieldType(ContentType.STRING)"
+                      (contextmenu)="setCurrentIndexesAndOpenContextMenu(sectionIndex, sectionFieldIndex, $event)"
                     ></app-text>
                     <app-breakline
                       *ngIf="sectionField.contentType === ContentType.STRING && sectionField.contentString?.value === BREAK_LINE"
                       [sectionField]="sectionField"
+                      (contextmenu)="setCurrentIndexesAndOpenContextMenu(sectionIndex, sectionFieldIndex, $event)"
                     ></app-breakline>
                     <app-number
                       *ngIf="sectionField.contentType === ContentType.NUMBER"
@@ -62,6 +64,7 @@
                       (click)="handleOnClick(sectionIndex, sectionFieldIndex);this.setCurrentFieldType(ContentType.NUMBER)"
                       class="d-inline-block"
                       style="vertical-align: top"
+                      (contextmenu)="setCurrentIndexesAndOpenContextMenu(sectionIndex, sectionFieldIndex, $event)"
                     ></app-number>
                     <app-date
                       *ngIf="sectionField.contentType === ContentType.DATE"
@@ -69,12 +72,14 @@
                       (click)="handleOnClick(sectionIndex, sectionFieldIndex);this.setCurrentFieldType(ContentType.DATE)"
                       class="d-inline-block"
                       style="vertical-align: top"
+                      (contextmenu)="setCurrentIndexesAndOpenContextMenu(sectionIndex, sectionFieldIndex, $event)"
                     ></app-date>
                     <app-checkbox
                       *ngIf="sectionField.contentType === ContentType.BOOLEAN"
                       [sectionField]="sectionField"
                       (click)="handleOnClick(sectionIndex, sectionFieldIndex);this.setCurrentFieldType(ContentType.BOOLEAN)"
                       style="vertical-align: top">
+                      (contextmenu)="setCurrentIndexesAndOpenContextMenu(sectionIndex, sectionFieldIndex, $event)"
                     </app-checkbox>
                   </span>
                 </div>
@@ -104,5 +109,9 @@
         </app-date-validator>
       </div>
     </div>
+
+    <ul #contextMenu class="dropdown-menu show position-absolute" [ngStyle]="contextMenuStyles">
+      <li><a class="dropdown-item" (click)="onDelete()">Delete</a></li>
+    </ul>
   </form>
 </div>
