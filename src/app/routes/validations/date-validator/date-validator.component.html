@@ -1,0 +1,38 @@
+<h4 class="mb-4">Customize text field</h4>
+<form [formGroup]="formGroup" class="needs-validation" novalidate>
+  <div class="input-group mb-3">
+    <input type="checkbox"
+           class="form-check-input me-1"
+           formControlName="isRequiredCtrl">
+    <label>Is required</label>
+  </div>
+
+  <div class="mb-3">
+    <label>Start date</label>
+    <input type="date" class="form-control" placeholder="Enter start date"
+           formControlName="startDateCtrl">
+  </div>
+
+  <div class="mb-3">
+    <label>End date</label>
+    <input type="date" class="form-control" placeholder="Enter end date"
+           formControlName="endDateCtrl">
+    <div *ngIf="formGroup.controls['endDateCtrl'].invalid && formGroup.controls['endDateCtrl'].touched">
+      <span
+        class="invalid-feedback d-block"
+        *ngIf="formGroup.controls['endDateCtrl'].errors?.['lessThanFirst']"
+      >Start date is bigger than end date
+      </span>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label>Custom validators</label>
+    <mat-select formControlName="timeDateCtrl" placeholder="Add custom validators"
+                class="form-control">
+      <mat-option [value]="null">None</mat-option>
+      <mat-option [value]="DateCustomValidator.FUTURE_DATE">Is future date</mat-option>
+      <mat-option [value]="DateCustomValidator.PAST_DATE">Is past date</mat-option>
+    </mat-select>
+  </div>
+</form>

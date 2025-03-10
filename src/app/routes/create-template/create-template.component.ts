@@ -18,8 +18,8 @@ import {MatDialog} from '@angular/material/dialog';
 import {DialogConfirmDeleteComponent} from '../dialog-confirm-delete/dialog-confirm-delete.component';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {TextValidatorComponent} from '../validations/text-validator/text-validator.component';
-import {TextCustomValidator} from '../../enum/TextCustomValidator';
 import {NumberValidatorComponent} from '../validations/number-validator/number-validator.component';
+import {DateValidatorComponent} from '../validations/date-validator/date-validator.component';
 
 @Component({
   selector: 'app-create-template',
@@ -40,6 +40,7 @@ import {NumberValidatorComponent} from '../validations/number-validator/number-v
     CheckboxComponent,
     TextValidatorComponent,
     NumberValidatorComponent,
+    DateValidatorComponent,
   ],
   templateUrl: './create-template.component.html'
 })
@@ -94,7 +95,8 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
               contentType: ContentType.DATE,
               contentDate: {
                 value: new Date(2025, 10, 3)
-              }
+              },
+              dateValidator: {}
             },
             {
               id: HtmlUtils.generateUUID(),
@@ -362,7 +364,8 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
         id: undefined,
         value: undefined
       },
-      contentBoolean: undefined
+      contentBoolean: undefined,
+      dateValidator: {}
     } as SectionField;
   }
 

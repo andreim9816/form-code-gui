@@ -43,13 +43,13 @@ export class TextValidatorComponent implements OnInit, OnChanges {
   createFormGroup() {
     const customValidators = [];
     if (this.sectionField.textValidator!.isEmail) {
-      customValidators.push(TextCustomValidator.IsEmail);
+      customValidators.push(TextCustomValidator.IS_EMAIL);
     }
     if (this.sectionField.textValidator!.isNoNumber) {
-      customValidators.push(TextCustomValidator.IsNoNumbers);
+      customValidators.push(TextCustomValidator.IS_NO_NUMBERS);
     }
     if (this.sectionField.textValidator!.isNoSpace) {
-      customValidators.push(TextCustomValidator.IsNoSpaces);
+      customValidators.push(TextCustomValidator.IS_NO_SPACES);
     }
 
     this.formGroup = this.fb.group({
@@ -71,11 +71,9 @@ export class TextValidatorComponent implements OnInit, OnChanges {
         this.sectionField.textValidator!.maxSize = formValues.maxSizeCtrl;
         this.sectionField.textValidator!.regex = formValues.regexCtrl;
 
-        this.sectionField.textValidator!.isNoSpace = formValues.customValidatorsCtrl.includes(TextCustomValidator.IsNoSpaces)
-        this.sectionField.textValidator!.isEmail = formValues.customValidatorsCtrl.includes(TextCustomValidator.IsEmail)
-        this.sectionField.textValidator!.isNoNumber = formValues.customValidatorsCtrl.includes(TextCustomValidator.IsNoNumbers)
-
-        console.log(this.sectionField);
+        this.sectionField.textValidator!.isNoSpace = formValues.customValidatorsCtrl.includes(TextCustomValidator.IS_NO_SPACES)
+        this.sectionField.textValidator!.isEmail = formValues.customValidatorsCtrl.includes(TextCustomValidator.IS_EMAIL)
+        this.sectionField.textValidator!.isNoNumber = formValues.customValidatorsCtrl.includes(TextCustomValidator.IS_NO_NUMBERS)
       }
     })
   }

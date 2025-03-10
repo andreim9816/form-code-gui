@@ -5,6 +5,7 @@ import {NumberSection} from './NumberSection';
 import {DateSection} from './DateSection';
 import {TextValidator} from './TextValidator';
 import {NumberValidator} from './NumberValidator';
+import {DateValidator} from './DateValidator';
 
 export interface SectionField {
   id: string;
@@ -17,4 +18,5 @@ export interface SectionField {
   contentRadio?: BooleanSection[];
   textValidator?: TextValidator;
   numberValidator?: NumberValidator;
+  dateValidator?: DateValidator;
 }

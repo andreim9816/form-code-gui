@@ -1,5 +1,5 @@
 export enum TextCustomValidator {
-  IsEmail,
-  IsNoSpaces,
-  IsNoNumbers
+  IS_EMAIL,
+  IS_NO_SPACES,
+  IS_NO_NUMBERS
 }

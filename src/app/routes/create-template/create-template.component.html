@@ -98,6 +98,10 @@
           *ngIf="currentFieldType === ContentType.NUMBER"
           [sectionField]="getCurrentSectionField()!">
         </app-number-validator>
+        <app-date-validator
+          *ngIf="currentFieldType === ContentType.DATE"
+          [sectionField]="getCurrentSectionField()!">>
+        </app-date-validator>
       </div>
     </div>
   </form>
