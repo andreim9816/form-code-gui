@@ -54,7 +54,7 @@
                       (contextmenu)="setCurrentIndexesAndOpenContextMenu(sectionIndex, sectionFieldIndex, $event)"
                     ></app-text>
                     <app-breakline
-                      *ngIf="sectionField.contentType === ContentType.STRING && sectionField.contentString?.value === BREAK_LINE"
+                      *ngIf="sectionField.contentType === ContentType.STRING && sectionField.contentString?.value === 'BREAK_LINE'"
                       [sectionField]="sectionField"
                       (contextmenu)="setCurrentIndexesAndOpenContextMenu(sectionIndex, sectionFieldIndex, $event)"
                     ></app-breakline>

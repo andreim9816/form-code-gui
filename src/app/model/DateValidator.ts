@@ -3,5 +3,5 @@ export interface DateValidator {
   isRequired: boolean;
   startDate: Date;
   endDate: Date;
-  timeDate: Date;
+  dateTime: Date;
 }

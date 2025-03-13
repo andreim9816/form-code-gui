@@ -48,7 +48,7 @@ export class NumberValidatorComponent implements OnInit, OnChanges {
     this.formGroup.valueChanges.subscribe(formValues => {
       if (this.formGroup.valid) {
         this.sectionField.numberValidator!.isRequired = formValues.isRequiredCtrl;
-        this.sectionField.numberValidator!.maxValue = formValues.minValueCtrl;
+        this.sectionField.numberValidator!.minValue = formValues.minValueCtrl;
         this.sectionField.numberValidator!.maxValue = formValues.maxValueCtrl;
         console.log(this.sectionField);
       }

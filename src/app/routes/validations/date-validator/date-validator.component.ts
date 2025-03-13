@@ -45,7 +45,7 @@ export class DateValidatorComponent implements OnInit, OnChanges {
       isRequiredCtrl: this.sectionField.dateValidator!.isRequired ?? true,
       startDateCtrl: this.sectionField.dateValidator!.startDate,
       endDateCtrl: this.sectionField.dateValidator!.endDate,
-      timeDateCtrl: this.sectionField.dateValidator!.timeDate
+      dateTimeCtrl: this.sectionField.dateValidator!.dateTime
     }, {
       validators: this.maxSizeValueGoeThanMinSize
     });
@@ -57,7 +57,7 @@ export class DateValidatorComponent implements OnInit, OnChanges {
         this.sectionField.dateValidator!.isRequired = formValues.isRequiredCtrl;
         this.sectionField.dateValidator!.startDate = formValues.startDateCtrl;
         this.sectionField.dateValidator!.endDate = formValues.endDateCtrl;
-        this.sectionField.dateValidator!.timeDate = formValues.timeDateCtrl;
+        this.sectionField.dateValidator!.dateTime = formValues.dateTimeCtrl;
       }
     })
   }

@@ -10,12 +10,14 @@ import {DateValidator} from './DateValidator';
 export interface SectionField {
   id: string;
   addedDate: Date;
+
   contentType: ContentType;
   contentString?: StringSection
   contentNumber?: NumberSection;
   contentDate?: DateSection;
   contentBoolean?: BooleanSection;
   contentRadio?: BooleanSection[];
+
   textValidator?: TextValidator;
   numberValidator?: NumberValidator;
   dateValidator?: DateValidator;

@@ -48,7 +48,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
   contextMenuStyles = {display: 'none', top: '0px', left: '0px'};
 
 // TODO: nu pot adauga nimic dupa un numar / date / breakline
-  readonly BREAK_LINE = 'BREAKLINE';
+  public readonly BREAK_LINE = 'BREAKLINE';
   currentFieldType: ContentType;
   form: FormGroup;
   sections: Section[] = [];

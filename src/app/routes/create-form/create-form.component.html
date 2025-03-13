@@ -1,0 +1,56 @@
+<div class="container-fluid">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="col-8 border-start border-end">
+      <div class="row">
+        <div class="col">
+          <ng-container *ngIf="this.template">
+            <ul>
+              <li *ngFor="let section of template.sections; index as sectionIndex" class="card mb-2">
+                <div class="card-header">
+                  Nume sectiune
+                </div>
+                <div class="card-body">
+                  <span *ngFor="let sectionField of section.sectionFields; index as sectionFieldIndex"
+                        class="my-2 mt-2 me-1">
+                    <!--todo: depending on the text field type (can be input or simple <p> styling should be different)-->
+                    <app-text
+                      class="d-inline-block"
+                      style="vertical-align: top"
+                      *ngIf="sectionField.contentType === ContentType.STRING && sectionField.contentString?.value !== 'BREAK_LINE'"
+                      [sectionFieldIndex]="sectionFieldIndex"
+                      [sectionIndex]="sectionIndex"
+                      [section]="section"
+                      [sectionField]="sectionField"
+                    ></app-text>
+                    <app-breakline
+                      *ngIf="sectionField.contentType === ContentType.STRING && sectionField.contentString?.value === 'BREAK_LINE'"
+                      [sectionField]="sectionField"
+                    ></app-breakline>
+                    <app-number
+                      *ngIf="sectionField.contentType === ContentType.NUMBER"
+                      [sectionField]="sectionField"
+                      class="d-inline-block"
+                      style="vertical-align: top"
+                    ></app-number>
+                    <app-date
+                      *ngIf="sectionField.contentType === ContentType.DATE"
+                      [sectionField]="sectionField"
+                      class="d-inline-block"
+                      style="vertical-align: top"
+                    ></app-date>
+                    <app-checkbox
+                      *ngIf="sectionField.contentType === ContentType.BOOLEAN"
+                      [sectionField]="sectionField"
+                      style="vertical-align: top">
+                    </app-checkbox>
+                  </span>
+                </div>
+              </li>
+            </ul>
+          </ng-container>
+        </div>
+      </div>
+      <button mat-button type="submit">Submit</button>
+    </div>
+  </form>
+</div>
