@@ -30,8 +30,8 @@ export class TextComponent {
 
   onKeyDown(event: Event, section: Section, sectionField: SectionField, sectionIndex: number, sectionFieldIndex: number): void {
     setTimeout(() => {
-      if (sectionField.contentString) {
-      sectionField.contentString.value = (event.target as any).value;
+      if (sectionField.defaultValue) {
+      sectionField.defaultValue = (event.target as any).value;
       this.setCursorPosition(event, section, sectionField, sectionIndex, sectionFieldIndex);
       }
     }, 0);

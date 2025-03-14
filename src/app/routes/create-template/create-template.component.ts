@@ -80,90 +80,41 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
           sectionFields: [
             {
               id: HtmlUtils.generateUUID(),
+              defaultValue: 'abcdefghijkl',
               contentType: ContentType.STRING,
-              contentString: {
-                value: 'abcdefghijkl'
-              },
               textValidator: {}
             },
             {
               id: HtmlUtils.generateUUID(),
               contentType: ContentType.NUMBER,
-              contentNumber: {
-                value: 123
-              },
+              defaultValue: 123,
               numberValidator: {}
             },
             {
               id: HtmlUtils.generateUUID(),
               contentType: ContentType.DATE,
-              contentDate: {
-                value: new Date(2025, 10, 3)
-              },
+              defaultValue: new Date(2025, 10, 3),
               dateValidator: {}
             },
             {
               id: HtmlUtils.generateUUID(),
               contentType: ContentType.STRING,
-              contentString: {
-                value: 'mno'
-              },
+              defaultValue: 'mno',
               textValidator: {}
             },
             {
               id: HtmlUtils.generateUUID(),
-              contentType: ContentType.BOOLEAN,
-              contentBoolean: {
-                value: false,
-                label: 'label'
-              }
+              contentType: ContentType.BREAK_LINE,
+              defaultValue: null
             },
             {
               id: HtmlUtils.generateUUID(),
               contentType: ContentType.STRING,
-              contentString: {
-                value: this.BREAK_LINE
-              },
-              textValidator: {}
-            },
-            {
-              id: HtmlUtils.generateUUID(),
-              contentType: ContentType.STRING,
-              contentString: {
-                value: 'pqrstuvwxyz'
-              },
+              defaultValue: 'pqrstuvwxyz',
               textValidator: {}
             }
           ]
-        },
-        {
-          sectionFields: [
-            {
-              id: HtmlUtils.generateUUID(),
-              contentType: ContentType.STRING,
-              contentString: {
-                value: 'xyz'
-              },
-              textValidator: {}
-            },
-            {
-              id: HtmlUtils.generateUUID(),
-              contentType: ContentType.STRING,
-              contentString: {
-                value: 'tuv'
-              },
-              textValidator: {}
-            },
-            {
-              id: HtmlUtils.generateUUID(),
-              contentType: ContentType.STRING,
-              contentString: {
-                value: 'ciolacu'
-              },
-              textValidator: {}
-            }
-          ]
-        },
+        }
       ] as Section[];
     }
   }
@@ -178,7 +129,8 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
 
   addNewSection(): void {
     const newSection = {
-      content: '',
+      title: '',
+      isValidation: false,
       sectionFields: [this.newTextField()]
     } as Section;
 
@@ -201,21 +153,21 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
   }
 
   addNewFieldInsideString(newField: SectionField): void {
-    const contentInFieldBefore = this.getCurrentSectionField()?.contentString?.value.slice(0, this.cursorPositionInField) ?? '';
-    const contentInFieldAfter = this.getCurrentSectionField()?.contentString?.value.slice(this.cursorPositionInField) ?? '';
+    const contentInFieldBefore = this.getCurrentSectionField()?.defaultValue?.slice(0, this.cursorPositionInField) ?? '';
+    const contentInFieldAfter = this.getCurrentSectionField()?.defaultValue?.slice(this.cursorPositionInField) ?? '';
 
     const fieldBefore = this.newTextField(contentInFieldBefore);
     const fieldAfter = this.newTextField(contentInFieldAfter);
 
     this.removeAtIdx(this.currentSectionIndex!, this.currentSectionFieldIndex!);
 
-    if ((fieldBefore.contentString?.value ?? '').length > 0) {
+    if ((fieldBefore.defaultValue ?? '').length > 0) {
       this.addAtIdx(this.currentSectionIndex!, this.currentSectionFieldIndex!++, fieldBefore);
     }
 
     this.addAtIdx(this.currentSectionIndex!, this.currentSectionFieldIndex!++, newField);
 
-    if ((fieldAfter.contentString?.value ?? '').length > 0) {
+    if ((fieldAfter.defaultValue ?? '').length > 0) {
       this.addAtIdx(this.currentSectionIndex!, this.currentSectionFieldIndex!--, fieldAfter);
     }
 
@@ -248,10 +200,10 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
 
   addNewBreakLine(): void {
     if (
-      this.getCurrentSectionField()?.contentString?.value !== ''
+      this.getCurrentSectionField()?.defaultValue !== ''
     ) {
       this.setCurrentFieldType(ContentType.BREAK_LINE);
-      const newField = this.newTextField(this.BREAK_LINE);
+      const newField = this.newBreakLineField();
       this.addNewFieldInCurrentSection(newField);
 
       this.clearSectionIndex();
@@ -264,11 +216,11 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
     this.addNewFieldInCurrentSection(newField);
   }
 
-  addCheckbox(): void {
-    this.setCurrentFieldType(ContentType.BOOLEAN);
-    const newField = this.newCheckboxField();
-    this.addNewFieldInCurrentSection(newField);
-  }
+  // addCheckbox(): void {
+  //   this.setCurrentFieldType(ContentType.BOOLEAN);
+  //   const newField = this.newCheckboxField();
+  //   this.addNewFieldInCurrentSection(newField);
+  // }
 
   removeElement(): void {
     //todo delete breakline by deleting twice the first character from the next field
@@ -329,15 +281,27 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
     return {
       id: HtmlUtils.generateUUID(),
       addedDate: new Date(),
+      defaultValue: content,
       contentType: ContentType.STRING,
-      contentString: {
+      textValidator: {
         id: undefined,
-        value: content
-      },
-      contentDate: undefined,
-      contentNumber: undefined,
-      contentBoolean: undefined,
-      textValidator: {}
+        isRequired: true,
+        minSize: undefined,
+        maxSize: undefined,
+        isEmail: undefined,
+        isNoSpace: undefined,
+        isNoNumber: undefined,
+        regex: undefined
+      }
+    } as SectionField;
+  }
+
+  newBreakLineField(): SectionField {
+    return {
+      id: HtmlUtils.generateUUID(),
+      addedDate: new Date(),
+      defaultValue: null,
+      contentType: ContentType.BREAK_LINE,
     } as SectionField;
   }
 
@@ -345,15 +309,14 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
     return {
       id: HtmlUtils.generateUUID(),
       addedDate: new Date(),
+      defaultValue: null,
       contentType: ContentType.NUMBER,
-      contentString: undefined,
-      contentDate: undefined,
-      contentNumber: {
+      numberValidator: {
         id: undefined,
-        value: undefined
-      },
-      contentBoolean: undefined,
-      numberValidator: {}
+        isRequired: true,
+        minValue: undefined,
+        maxValue: undefined,
+      } as any
     } as SectionField;
   }
 
@@ -362,32 +325,25 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
       id: HtmlUtils.generateUUID(),
       addedDate: new Date(),
       contentType: ContentType.DATE,
-      contentString: undefined,
-      contentNumber: undefined,
-      contentDate: {
-        id: undefined,
-        value: undefined
-      },
-      contentBoolean: undefined,
       dateValidator: {}
     } as SectionField;
   }
 
-  newCheckboxField(): SectionField {
-    return {
-      id: HtmlUtils.generateUUID(),
-      addedDate: new Date(),
-      contentType: ContentType.BOOLEAN,
-      contentString: undefined,
-      contentNumber: undefined,
-      contentDate: undefined,
-      contentBoolean: {
-        id: undefined,
-        value: false,
-        label: ''
-      }
-    } as SectionField;
-  }
+  // newCheckboxField(): SectionField {
+  //   return {
+  //     id: HtmlUtils.generateUUID(),
+  //     addedDate: new Date(),
+  //     contentType: ContentType.BOOLEAN,
+  //     contentString: undefined,
+  //     contentNumber: undefined,
+  //     contentDate: undefined,
+  //     contentBoolean: {
+  //       id: undefined,
+  //       value: false,
+  //       label: ''
+  //     }
+  //   } as SectionField;
+  // }
 
   displayInfo(): void {
     console.log(this.sections);

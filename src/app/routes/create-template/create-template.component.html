@@ -6,7 +6,7 @@
         <button type="button" mat-button class="d-block" (click)="addNewBreakLine()">Break line</button>
         <button type="button" mat-button class="d-block" (click)="addNumber()">Number</button>
         <button type="button" mat-button class="d-block" (click)="addDate()">Date</button>
-        <button type="button" mat-button class="d-block" (click)="addCheckbox()">Checkbox</button>
+        <!--        <button type="button" mat-button class="d-block" (click)="addCheckbox()">Checkbox</button>-->
         <button type="button" mat-button class="d-block" (click)="removeElement()">Remove element</button>
         <button type="button" mat-button class="d-block" (click)="displayInfo()">Display info</button>
         <button disabled type="button" mat-button class="d-block">Dropdown select</button>
@@ -44,7 +44,7 @@
                     <app-text
                       class="d-inline-block"
                       style="vertical-align: top"
-                      *ngIf="sectionField.contentType === ContentType.STRING && sectionField.contentString?.value !== BREAK_LINE"
+                      *ngIf="sectionField.contentType === ContentType.STRING"
                       [sectionFieldIndex]="sectionFieldIndex"
                       [sectionIndex]="sectionIndex"
                       [section]="section"
@@ -54,7 +54,7 @@
                       (contextmenu)="setCurrentIndexesAndOpenContextMenu(sectionIndex, sectionFieldIndex, $event)"
                     ></app-text>
                     <app-breakline
-                      *ngIf="sectionField.contentType === ContentType.STRING && sectionField.contentString?.value === 'BREAK_LINE'"
+                      *ngIf="sectionField.contentType === ContentType.BREAK_LINE"
                       [sectionField]="sectionField"
                       (contextmenu)="setCurrentIndexesAndOpenContextMenu(sectionIndex, sectionFieldIndex, $event)"
                     ></app-breakline>

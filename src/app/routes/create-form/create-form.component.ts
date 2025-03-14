@@ -12,6 +12,7 @@ import {NumberComponent} from '../../shared/number/number.component';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {TextComponent} from '../../shared/text/text.component';
 import {ContentType} from '../../model/ContentType';
+import {CreateStep} from '../../enum/CreateStep';
 
 @Component({
   selector: 'app-create-form',
@@ -71,4 +72,6 @@ export class CreateFormComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
+
+  protected readonly CreateFormStep = CreateStep;
 }

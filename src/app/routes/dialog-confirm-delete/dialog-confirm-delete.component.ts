@@ -37,18 +37,7 @@ export class DialogConfirmDeleteComponent implements OnInit {
   }
 
   getContent() {
-    switch (this.data.contentType) {
-      case ContentType.STRING:
-        return this.data.contentString!.value;
-      case ContentType.DATE:
-        return this.data.contentDate!.value;
-      case ContentType.NUMBER:
-        return this.data.contentNumber!.value;
-      case ContentType.BOOLEAN:
-        return this.data.contentBoolean!.label
-      default:
-        return '';
-    }
+    return this.data.defaultValue;
   }
 
   readonly ContentType = ContentType;
