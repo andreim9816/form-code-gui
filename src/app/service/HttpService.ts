@@ -4,6 +4,7 @@ import {URL} from '../util/URL';
 import {Section} from '../model/Section';
 import {Template} from '../model/Template';
 import {Observable} from 'rxjs';
+import {Form} from '../model/Form';
 
 @Injectable({
   providedIn: 'root'
@@ -18,5 +19,9 @@ export class HttpService {
 
   getTemplate(id: number): Observable<Template> {
     return this.http.get<Template>(`${URL.TEMPLATE_URL}/${id}`);
+  }
+
+  getFormById(id: number): Observable<Form> {
+    return this.http.get<Form>(`${URL.FORM_URL}/${id}`);
   }
 }

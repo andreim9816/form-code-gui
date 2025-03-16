@@ -26,8 +26,6 @@ export class TextComponent {
   @Output()
   sectionData = new EventEmitter<any>();
 
-  readonly ContentType = ContentType;
-
   onKeyDown(event: Event, section: Section, sectionField: SectionField, sectionIndex: number, sectionFieldIndex: number): void {
     setTimeout(() => {
       if (sectionField.defaultValue) {

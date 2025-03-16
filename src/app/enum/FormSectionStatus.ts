@@ -1,0 +1,5 @@
+export enum FormSectionStatus {
+  IS_VALIDATION_SECTION,
+  PENDING_VALIDATION,
+  VALIDATED
+}

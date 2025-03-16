@@ -3,15 +3,15 @@
     <div class="col-8 border-start border-end">
       <div class="row">
         <div class="col">
-          <ng-container *ngIf="this.template">
+          <ng-container *ngIf="this.form">
             <ul>
-              <li *ngFor="let section of template.sections; index as sectionIndex" class="card mb-2">
+              <li *ngFor="let formSection of form.formSections; index as sectionIndex" class="card mb-2">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                  {{ section.title }}
-                  <input *ngIf="!section.isValidation" type="checkbox">
+                  {{ formSection.section.title }}
+                  <input *ngIf="!formSection.section.isValidation" type="checkbox">
                 </div>
                 <div class="card-body">
-                  <span *ngFor="let sectionField of section.sectionFields; index as sectionFieldIndex"
+                  <span *ngFor="let formSectionField of formSection.formSectionFields; index as sectionFieldIndex"
                         class="my-2 mt-2 me-1">
                     <!--todo: depending on the text field type (can be input or simple <p> styling should be different)-->
                     <app-text
@@ -20,7 +20,7 @@
                       *ngIf="sectionField.contentType === ContentType.STRING"
                       [sectionFieldIndex]="sectionFieldIndex"
                       [sectionIndex]="sectionIndex"
-                      [section]="section"
+                      [section]="formSection"
                       [sectionField]="sectionField"
                     ></app-text>
                     <app-breakline
