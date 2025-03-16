@@ -1,1 +1,9 @@
-<p>edit-form-date works!</p>
+<p *ngIf="formSectionField.sectionField.defaultValue !== null">{{ formSectionField.contentDate.value }}</p>
+
+<input
+  *ngIf="formSectionField.sectionField.defaultValue === null"
+  [(ngModel)]="formSectionField.contentDate.value"
+  type="date"
+  class="form-control"
+  style="height: 38px; min-width: 60px; field-sizing: content"
+>

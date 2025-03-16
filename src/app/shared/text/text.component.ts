@@ -46,4 +46,9 @@ export class TextComponent {
       currentSectionFieldIndex: sectionFieldIndex
     })
   }
+
+  onInputChange(event: any) {
+    let value = event.target.value;
+    this.sectionField.defaultValue = value.trim() === '' ? null : value;
+  }
 }

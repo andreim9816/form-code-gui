@@ -4,29 +4,26 @@ import {Subject, takeUntil} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BreaklineComponent} from '../../shared/breakline/breakline.component';
-import {CheckboxComponent} from '../../shared/checkbox/checkbox.component';
-import {DateComponent} from '../../shared/date/date.component';
 import {MatButton} from '@angular/material/button';
 import {NgForOf, NgIf} from '@angular/common';
-import {NumberComponent} from '../../shared/number/number.component';
-import {TextComponent} from '../../shared/text/text.component';
-import {CreateStep} from '../../enum/CreateStep';
 import {ContentType} from '../../model/ContentType';
 import {Form} from '../../model/Form';
+import {EditFormTextComponent} from '../edit-form-content/edit-form-text/edit-form-text.component';
+import {EditFormNumberComponent} from '../edit-form-content/edit-form-number/edit-form-number.component';
+import {EditFormDateComponent} from '../edit-form-content/edit-form-date/edit-form-date.component';
 
 @Component({
   selector: 'app-edit-form',
   imports: [
     BreaklineComponent,
-    CheckboxComponent,
-    DateComponent,
     FormsModule,
     MatButton,
     NgForOf,
     NgIf,
-    NumberComponent,
-    TextComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    EditFormTextComponent,
+    EditFormNumberComponent,
+    EditFormDateComponent
   ],
   templateUrl: './edit-form.component.html'
 })
@@ -44,6 +41,7 @@ export class EditFormComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.formId = Number(this.route.snapshot.paramMap.get('id')!);
     this.getFormById(this.formId);
+    this.createFormGroup();
   }
 
   createFormGroup() {
@@ -67,6 +65,5 @@ export class EditFormComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  readonly CreateFormStep = CreateStep;
   readonly ContentType = ContentType;
 }

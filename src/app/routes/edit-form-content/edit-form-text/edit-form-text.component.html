@@ -1,1 +1,10 @@
-<p>edit-form-text works!</p>
+<p *ngIf="formSectionField.sectionField.defaultValue !== null">{{ formSectionField.contentString.value }}</p>
+
+<textarea
+  *ngIf="formSectionField.sectionField.defaultValue === null"
+  [(ngModel)]="formSectionField.contentString.value"
+  class="form-control"
+  style="height: 30px; min-width: 50px; field-sizing: content"
+></textarea>
+
+

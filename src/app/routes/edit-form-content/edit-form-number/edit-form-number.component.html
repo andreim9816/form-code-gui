@@ -1,1 +1,9 @@
-<p>edit-form-number works!</p>
+<p *ngIf="formSectionField.sectionField.defaultValue !== null">{{ formSectionField.contentNumber.value }}</p>
+
+<input
+  *ngIf="formSectionField.sectionField.defaultValue === null"
+  [(ngModel)]="formSectionField.contentNumber.value"
+  type="number"
+  class="form-control"
+  style="height: 38px; min-width: 60px; field-sizing: content"
+>

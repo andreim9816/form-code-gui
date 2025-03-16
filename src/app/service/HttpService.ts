@@ -13,8 +13,8 @@ export class HttpService {
   constructor(private http: HttpClient) {
   }
 
-  saveTemplate(body: any) {
-    return this.http.post<Section[]>(`${URL.TEMPLATE_URL}`, body);
+  saveTemplate(companyId: number, body: any) {
+    return this.http.post<Section[]>(`${URL.COMPANIES_URL}/${companyId}/templates`, body);
   }
 
   getTemplate(id: number): Observable<Template> {

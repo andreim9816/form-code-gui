@@ -1,5 +1,5 @@
 <div class="container-fluid">
-  <form [formGroup]="form" (ngSubmit)="submit()">
+  <form [formGroup]="formGroup" (ngSubmit)="submit()">
     <div class="col-8 border-start border-end">
       <div class="row">
         <div class="col">
@@ -14,37 +14,25 @@
                   <span *ngFor="let formSectionField of formSection.formSectionFields; index as sectionFieldIndex"
                         class="my-2 mt-2 me-1">
                     <!--todo: depending on the text field type (can be input or simple <p> styling should be different)-->
-                    <app-text
+                    <app-edit-form-text
+                      [formSectionField]="formSectionField"
                       class="d-inline-block"
                       style="vertical-align: top"
-                      *ngIf="sectionField.contentType === ContentType.STRING"
-                      [sectionFieldIndex]="sectionFieldIndex"
-                      [sectionIndex]="sectionIndex"
-                      [section]="formSection"
-                      [sectionField]="sectionField"
-                    ></app-text>
-                    <app-breakline
-                      *ngIf="sectionField.contentType === ContentType.BREAK_LINE"
-                      [sectionField]="sectionField"
-                    ></app-breakline>
-                    <app-number
-                      *ngIf="sectionField.contentType === ContentType.NUMBER"
-                      [sectionField]="sectionField"
-                      [step]="CreateFormStep.CREATE_FORM"
+                      *ngIf="formSectionField.sectionField.contentType === ContentType.STRING"
+                    ></app-edit-form-text>
+                    <br *ngIf="formSectionField.sectionField.contentType === ContentType.BREAK_LINE">
+                    <app-edit-form-number
+                      *ngIf="formSectionField.sectionField.contentType === ContentType.NUMBER"
+                      [formSectionField]="formSectionField"
                       class="d-inline-block"
                       style="vertical-align: top"
-                    ></app-number>
-                    <app-date
-                      *ngIf="sectionField.contentType === ContentType.DATE"
-                      [sectionField]="sectionField"
+                    ></app-edit-form-number>
+                    <app-edit-form-date
+                      *ngIf="formSectionField.sectionField.contentType === ContentType.DATE"
+                      [formSectionField]="formSectionField"
                       class="d-inline-block"
                       style="vertical-align: top"
-                    ></app-date>
-                    <app-checkbox
-                      *ngIf="sectionField.contentType === ContentType.BOOLEAN"
-                      [sectionField]="sectionField"
-                      style="vertical-align: top">
-                    </app-checkbox>
+                    ></app-edit-form-date>
                   </span>
                 </div>
               </li>

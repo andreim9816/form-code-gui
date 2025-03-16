@@ -94,7 +94,7 @@
         </div>
         <button mat-button type="submit">Submit</button>
       </div>
-      <div class="col-3">
+      <div class="col-3" *ngIf="getCurrentSectionField()?.defaultValue === null">
         <app-text-validator
           *ngIf="currentFieldType === ContentType.STRING"
           [sectionField]="getCurrentSectionField()!"

@@ -93,7 +93,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
             {
               id: HtmlUtils.generateUUID(),
               contentType: ContentType.DATE,
-              defaultValue: new Date(2025, 10, 3),
+              defaultValue: null,
               dateValidator: {}
             },
             {
@@ -244,13 +244,13 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
 
   submit(): void {
     this.displayInfo();
+    const companyId = 1;
     const body = {
-      companyId: 1,
       title: 'Title',
       description: 'Description',
       sections: this.sections
     }
-    this.httpService.saveTemplate(body)
+    this.httpService.saveTemplate(companyId, body)
       .subscribe({
         next: result => {
           console.log(result);
@@ -277,7 +277,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
     this.currentSectionFieldIndex = undefined;
   }
 
-  newTextField(content: string = ''): SectionField {
+  newTextField(content: any = null): SectionField {
     return {
       id: HtmlUtils.generateUUID(),
       addedDate: new Date(),
@@ -324,6 +324,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
     return {
       id: HtmlUtils.generateUUID(),
       addedDate: new Date(),
+      defaultValue: null,
       contentType: ContentType.DATE,
       dateValidator: {}
     } as SectionField;

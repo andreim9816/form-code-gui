@@ -3,6 +3,7 @@
   [ngModel]="sectionField.defaultValue"
   (click)="setCursorPosition($event, section, sectionField, sectionIndex, sectionFieldIndex)"
   (keydown)="onKeyDown($event, section, sectionField, sectionIndex, sectionFieldIndex)"
+  (input)="onInputChange($event)"
   class="form-control"
   style="height: 30px; min-width: 50px; field-sizing: content"
 >{{ sectionField.defaultValue }}</textarea>
