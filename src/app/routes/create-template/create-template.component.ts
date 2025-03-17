@@ -77,6 +77,8 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
     if (this.mockData) {
       this.sections = [
         {
+          title: 'Sectiunea 1',
+          isValidation: false,
           sectionFields: [
             {
               id: HtmlUtils.generateUUID(),
@@ -127,13 +129,16 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  addNewSection(): void {
-    const newSection = {
-      title: '',
-      isValidation: false,
+  createNewSection(title: string | undefined, isValidation: boolean) {
+    return {
+      title: title,
+      isValidation: isValidation,
       sectionFields: [this.newTextField()]
     } as Section;
+  }
 
+  addNewSectionAtTheEnd(title: string | undefined, isValidation: boolean): void {
+    const newSection = this.createNewSection(title, isValidation);
     this.sections.push(newSection);
   }
 
@@ -159,7 +164,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
     const fieldBefore = this.newTextField(contentInFieldBefore);
     const fieldAfter = this.newTextField(contentInFieldAfter);
 
-    this.removeAtIdx(this.currentSectionIndex!, this.currentSectionFieldIndex!);
+    this.removeSectionFieldAtIdx(this.currentSectionIndex!, this.currentSectionFieldIndex!);
 
     if ((fieldBefore.defaultValue ?? '').length > 0) {
       this.addAtIdx(this.currentSectionIndex!, this.currentSectionFieldIndex!++, fieldBefore);
@@ -223,8 +228,6 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
   // }
 
   removeElement(): void {
-    //todo delete breakline by deleting twice the first character from the next field
-    //todo maybe on right click i should get a list and delete it that way
     const currentElement = this.getCurrentSectionField();
     if (currentElement) {
       // open dialog
@@ -236,7 +239,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
 
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
-          this.removeAtIdx(this.currentSectionIndex!, this.currentSectionFieldIndex!);
+          this.removeSectionFieldAtIdx(this.currentSectionIndex!, this.currentSectionFieldIndex!);
         }
       });
     }
@@ -261,7 +264,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
       })
   }
 
-  onCardBodyClick(event: MouseEvent): void {
+  onCardBodyClick(event: MouseEvent, sectionIndex: number): void {
     const target = event.target as HTMLElement;
     const cardBody = target.closest('.card-body');
 
@@ -269,11 +272,11 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
       console.log('Card body clicked, but not on a child component.');
       this.clearSectionIndex();
     }
+    this.currentSectionIndex = sectionIndex;
   }
 
   clearSectionIndex(): void {
     this.cursorPositionInField = undefined;
-    this.currentSectionIndex = undefined;
     this.currentSectionFieldIndex = undefined;
   }
 
@@ -354,8 +357,20 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
     this.sections[sectionIndex].sectionFields.splice(fieldIndex, 0, newElem);
   }
 
-  removeAtIdx(sectionIndex: number, fieldIndex: number): void {
+  removeSectionFieldAtIdx(sectionIndex: number, fieldIndex: number): void {
     this.sections[sectionIndex].sectionFields.splice(fieldIndex, 1);
+  }
+
+  addNewSectionAfterCurrentSection(title: string | undefined, isValidation: boolean): void {
+    if (this.currentSectionIndex !== undefined) {
+      const newSection = this.createNewSection(title, isValidation);
+      this.sections.splice(this.currentSectionIndex + 1, 0, newSection);
+      this.closeContextMenu();
+    }
+  }
+
+  removeSectionAtIdx(sectionIndex: number): void {
+    this.sections.splice(sectionIndex, 1);
   }
 
   handleOnClick(sectionIndex: number, sectionFieldIndex: number) {
@@ -376,8 +391,44 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
     return this.sections[this.currentSectionIndex]?.sectionFields[this.currentSectionFieldIndex];
   }
 
+  getCurrentSection(): Section | undefined {
+    if (this.currentSectionIndex == null) {
+      return undefined;
+    }
+    return this.sections[this.currentSectionIndex];
+  }
+
   setCurrentFieldType(contentType: ContentType) {
     this.currentFieldType = contentType;
+  }
+
+  displayValidatorColumn(): boolean {
+    const currentSectionField = this.getCurrentSectionField();
+    if (currentSectionField === undefined) {
+      return false;
+    }
+    const currentSection = this.getCurrentSection();
+    if (currentSection === undefined) {
+      return false;
+    }
+    if (currentSection.isValidation === true) {
+      return false;
+    }
+    if (this.getCurrentSectionField()?.contentType === ContentType.BREAK_LINE) {
+      return false;
+    }
+    if (currentSectionField.defaultValue === null) {
+      return true;
+    }
+    return false;
+  }
+
+  displayDeleteSectionField(): boolean {
+    const currentSectionField = this.getCurrentSectionField();
+    if (!currentSectionField) {
+      return false;
+    }
+    return true;
   }
 
   // createTemplate(): Observable<> {
@@ -390,20 +441,21 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
 
   ////////////////////////////////////////// contextual menu //////////////////////////////////////////
 
-  openContextMenu(event: MouseEvent) {
+  openContextMenu(event: MouseEvent, sectionIndex: number) {
     event.preventDefault(); // Prevent the default right-click menu
+    this.currentSectionIndex = sectionIndex;
 
     // Position the menu at the mouse cursor
     this.contextMenuStyles = {
       display: 'block',
-      top: `${event.clientY}px`,
-      left: `${event.clientX}px`,
+      top: `${event.pageY}px`,
+      left: `${event.pageX}px`,
     };
   }
 
   setCurrentIndexesAndOpenContextMenu(sectionIndex: number, sectionFieldIndex: number, event: MouseEvent) {
     this.handleOnClick(sectionIndex, sectionFieldIndex);
-    this.openContextMenu(event);
+    this.openContextMenu(event, sectionIndex);
   }
 
   closeContextMenu() {
@@ -417,9 +469,22 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  onDelete() {
+  onDeleteCurrentField() {
     this.removeElement();
     this.closeContextMenu();
+  }
+
+  deleteCurrentSection(): void {
+    if (this.currentSectionIndex !== undefined) {
+      this.removeSectionAtIdx(this.currentSectionIndex);
+      const nextSection = this.sections[this.currentSectionIndex];
+      if (nextSection !== undefined
+        && nextSection.isValidation === true
+        && (this.currentSectionIndex == 0 || this.sections[this.currentSectionIndex - 1].isValidation === true)) {
+        this.removeSectionAtIdx(this.currentSectionIndex);
+      }
+      this.closeContextMenu();
+    }
   }
 
   ////////////////////////////////////////// contextual menu //////////////////////////////////////////

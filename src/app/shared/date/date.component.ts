@@ -12,4 +12,9 @@ import {FormsModule} from '@angular/forms';
 export class DateComponent {
   @Input()
   sectionField: SectionField;
+
+  onInputChange(event: any) {
+    let value = event.target.value;
+    this.sectionField.defaultValue = value.trim() === '' ? null : value;
+  }
 }

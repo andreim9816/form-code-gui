@@ -33,11 +33,11 @@
         <div class="row">
           <div class="col">
             <ul>
-              <li *ngFor="let section of sections; index as sectionIndex" class="card mb-2">
+              <li *ngFor="let section of sections; index as sectionIndex" class="card mb-2" (contextmenu)="openContextMenu($event, sectionIndex)">
                 <div class="card-header">
-                  Nume sectiune
+                  {{ section.title }}
                 </div>
-                <div class="card-body" (click)="onCardBodyClick($event)">
+                <div class="card-body" (click)="onCardBodyClick($event, sectionIndex)">
                   <span *ngFor="let sectionField of section.sectionFields; index as sectionFieldIndex"
                         class="my-2 mt-2 me-1">
                     <!--todo: depending on the text field type (can be input or simple <p> styling should be different)-->
@@ -89,12 +89,13 @@
         </div>
         <div class="row">
           <div class="col">
-            <button type="button" mat-fab class="w-100" (click)="addNewSection()">+ Add a new section</button>
+            <button type="button" mat-fab class="w-100" (click)="addNewSectionAtTheEnd(undefined,false)">+ Add a new section
+            </button>
           </div>
         </div>
         <button mat-button type="submit">Submit</button>
       </div>
-      <div class="col-3" *ngIf="getCurrentSectionField()?.defaultValue === null">
+      <div class="col-3" *ngIf="displayValidatorColumn()">
         <app-text-validator
           *ngIf="currentFieldType === ContentType.STRING"
           [sectionField]="getCurrentSectionField()!"
@@ -111,7 +112,14 @@
     </div>
 
     <ul #contextMenu class="dropdown-menu show position-absolute" [ngStyle]="contextMenuStyles">
-      <li><a class="dropdown-item" (click)="onDelete()">Delete</a></li>
+      <li><a class="dropdown-item" (click)="addNewSectionAfterCurrentSection(undefined, false)">Add section</a></li>
+      <li *ngIf="getCurrentSection()?.isValidation === false">
+        <a class="dropdown-item"
+           (click)="addNewSectionAfterCurrentSection('Validation section', true)">Add validation section
+        </a>
+      </li>
+      <li *ngIf="displayDeleteSectionField()"><a class="dropdown-item" (click)="onDeleteCurrentField()">Delete field</a></li>
+      <li><a class="dropdown-item" (click)="deleteCurrentSection()">Delete section</a></li>
     </ul>
   </form>
 </div>

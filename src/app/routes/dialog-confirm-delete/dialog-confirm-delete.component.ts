@@ -25,7 +25,7 @@ import {ContentType} from '../../model/ContentType';
 export class DialogConfirmDeleteComponent implements OnInit {
   constructor(
     private readonly dialogRef: MatDialogRef<DialogConfirmDeleteComponent>,
-    @Inject(MAT_DIALOG_DATA) private readonly data: SectionField) {
+    @Inject(MAT_DIALOG_DATA) readonly data: SectionField) {
   }
 
   ngOnInit() {
@@ -37,7 +37,23 @@ export class DialogConfirmDeleteComponent implements OnInit {
   }
 
   getContent() {
-    return this.data.defaultValue;
+    if (this.data.contentType === ContentType.BREAK_LINE) {
+      return 'the break line?';
+    } else if (this.data.defaultValue === null) {
+      let message = 'the ';
+      if (this.data.contentType === ContentType.DATE) {
+        message = message + 'date';
+      } else if (this.data.contentType === ContentType.NUMBER) {
+        message = message + 'number';
+      } else if (this.data.contentType === ContentType.STRING) {
+        message = message + 'text';
+      } else if (this.data.contentType === ContentType.BOOLEAN) {
+        message = message + 'checkbox';
+      }
+      return message + ' field?';
+    } else {
+      return 'the following content ' + this.data.defaultValue + '?';
+    }
   }
 
   readonly ContentType = ContentType;
