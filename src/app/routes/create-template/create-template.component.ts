@@ -19,6 +19,8 @@ import {DialogConfirmDeleteComponent} from '../dialog-confirm-delete/dialog-conf
 import {TextValidatorComponent} from '../validations/text-validator/text-validator.component';
 import {NumberValidatorComponent} from '../validations/number-validator/number-validator.component';
 import {DateValidatorComponent} from '../validations/date-validator/date-validator.component';
+import {DateValidator} from '../../model/DateValidator';
+import {DateCustomValidator} from '../../enum/DateCustomValidator';
 
 @Component({
   selector: 'app-create-template',
@@ -82,38 +84,92 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
           sectionFields: [
             {
               id: HtmlUtils.generateUUID(),
-              defaultValue: 'abcdefghijkl',
+              defaultValue: 'Subsemnatul',
               contentType: ContentType.STRING,
               textValidator: {}
             },
             {
               id: HtmlUtils.generateUUID(),
-              contentType: ContentType.NUMBER,
-              defaultValue: 123,
-              numberValidator: {}
-            },
-            {
-              id: HtmlUtils.generateUUID(),
-              contentType: ContentType.DATE,
               defaultValue: null,
-              dateValidator: {}
-            },
-            {
-              id: HtmlUtils.generateUUID(),
               contentType: ContentType.STRING,
-              defaultValue: 'mno',
               textValidator: {}
             },
             {
               id: HtmlUtils.generateUUID(),
+              defaultValue: 'domiciliat in',
+              contentType: ContentType.STRING,
+              textValidator: {}
+            },
+            {
+              id: HtmlUtils.generateUUID(),
+              defaultValue: null,
+              contentType: ContentType.STRING,
+              textValidator: {}
+            },
+            {
+              id: HtmlUtils.generateUUID(),
+              defaultValue: 'nascut in data de',
+              contentType: ContentType.STRING,
+              textValidator: {}
+            },
+            {
+              id: HtmlUtils.generateUUID(),
+              defaultValue: null,
+              contentType: ContentType.DATE,
+              dateValidator: {
+                id: undefined as any,
+                startDate: undefined as any,
+                endDate: undefined as any,
+                isRequired: true,
+                dateTime: DateCustomValidator.PAST_DATE
+              } as DateValidator
+            },
+            {
+              id: HtmlUtils.generateUUID(),
+              defaultValue: 'si avand CNP',
+              contentType: ContentType.STRING,
+              textValidator: {}
+            },
+            {
+              id: HtmlUtils.generateUUID(),
+              defaultValue: null,
+              contentType: ContentType.STRING,
+              textValidator: {}
+            },
+            {
+              id: HtmlUtils.generateUUID(),
+              defaultValue: 'declar urmatoarele:',
+              contentType: ContentType.STRING,
+              textValidator: {}
+            },
+            {
+              id: HtmlUtils.generateUUID(),
+              defaultValue: null,
               contentType: ContentType.BREAK_LINE,
-              defaultValue: null
+              textValidator: {}
+            },
+            {
+              id: HtmlUtils.generateUUID(),
+              defaultValue: null,
+              contentType: ContentType.STRING,
+              textValidator: {}
+            },
+            {
+              id: HtmlUtils.generateUUID(),
+              defaultValue: null,
+              contentType: ContentType.BREAK_LINE,
+              textValidator: {}
             },
             {
               id: HtmlUtils.generateUUID(),
               contentType: ContentType.STRING,
-              defaultValue: 'pqrstuvwxyz',
+              defaultValue: 'In momentul de fata am urmatoarele coduri fiscale:',
               textValidator: {}
+            },
+            {
+              id: HtmlUtils.generateUUID(),
+              defaultValue: null,
+              contentType: ContentType.NUMBER
             }
           ]
         }
@@ -166,9 +222,9 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
 
     this.removeSectionFieldAtIdx(this.currentSectionIndex!, this.currentSectionFieldIndex!);
 
-    if ((fieldBefore.defaultValue ?? '').length > 0) {
-      this.addAtIdx(this.currentSectionIndex!, this.currentSectionFieldIndex!++, fieldBefore);
-    }
+    // if ((fieldBefore.defaultValue ?? '').length > 0) {
+    this.addAtIdx(this.currentSectionIndex!, this.currentSectionFieldIndex!++, fieldBefore);
+    // }
 
     this.addAtIdx(this.currentSectionIndex!, this.currentSectionFieldIndex!++, newField);
 
@@ -188,13 +244,13 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
   }
 
   addNumber(): void {
-    if (
-      this.getCurrentSectionField()?.contentType === ContentType.STRING
-    ) {
+    // if (
+    //   this.getCurrentSectionField()?.contentType === ContentType.STRING
+    // ) {
       this.setCurrentFieldType(ContentType.NUMBER);
       const newField = this.newNumberField();
       this.addNewFieldInCurrentSection(newField);
-    }
+    // }
   }
 
   addText(): void {
