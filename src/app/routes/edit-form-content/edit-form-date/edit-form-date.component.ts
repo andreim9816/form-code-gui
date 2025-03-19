@@ -14,4 +14,6 @@ import {FormsModule} from '@angular/forms';
 export class EditFormDateComponent {
   @Input()
   formSectionField: FormSectionField;
+  @Input()
+  isDisabled: boolean;
 }

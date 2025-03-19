@@ -92,7 +92,11 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
               id: HtmlUtils.generateUUID(),
               defaultValue: null,
               contentType: ContentType.STRING,
-              textValidator: {}
+              textValidator: {
+                isRequired: true,
+                isNoNumber: true,
+                minLength: 1,
+              }
             },
             {
               id: HtmlUtils.generateUUID(),
@@ -169,7 +173,8 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
             {
               id: HtmlUtils.generateUUID(),
               defaultValue: null,
-              contentType: ContentType.NUMBER
+              contentType: ContentType.NUMBER,
+              numberValidator: {}
             }
           ]
         }

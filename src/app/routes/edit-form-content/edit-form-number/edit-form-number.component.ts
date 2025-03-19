@@ -14,4 +14,6 @@ import {FormSectionField} from '../../../model/FormSectionField';
 export class EditFormNumberComponent {
   @Input()
   formSectionField: FormSectionField;
+  @Input()
+  isDisabled: boolean;
 }

@@ -3,6 +3,8 @@
 <input
   *ngIf="formSectionField.sectionField.defaultValue === null"
   [(ngModel)]="formSectionField.contentDate.value"
+  [readonly]="isDisabled"
+  [disabled]="isDisabled"
   type="date"
   class="form-control"
   style="height: 38px; min-width: 60px; field-sizing: content"

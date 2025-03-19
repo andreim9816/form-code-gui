@@ -1,17 +1,29 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormSectionField} from '../../../model/FormSectionField';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-edit-form-text',
   imports: [
     FormsModule,
-    NgIf
+    NgIf,
+    ReactiveFormsModule
   ],
   templateUrl: './edit-form-text.component.html'
 })
-export class EditFormTextComponent {
+export class EditFormTextComponent implements OnInit {
   @Input()
   formSectionField: FormSectionField;
+  @Input()
+  fieldControl!: any;
+  @Input()
+  isDisabled: boolean;
+
+  ngOnInit() {
+    console.log(this.fieldControl);
+    this.fieldControl.valueChanges.subscribe((control: any) => {
+      console.log(control);
+    })
+  }
 }
