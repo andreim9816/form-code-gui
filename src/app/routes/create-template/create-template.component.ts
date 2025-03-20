@@ -94,8 +94,12 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
               contentType: ContentType.STRING,
               textValidator: {
                 isRequired: true,
+                minSize: 5,
+                maxSize: 50,
+                isEmail: false,
+                isNoSpace: false,
                 isNoNumber: true,
-                minLength: 1,
+                regex: null
               }
             },
             {
@@ -108,7 +112,15 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
               id: HtmlUtils.generateUUID(),
               defaultValue: null,
               contentType: ContentType.STRING,
-              textValidator: {}
+              textValidator: {
+                isRequired: true,
+                minSize: 5,
+                maxSize: 100,
+                isEmail: false,
+                isNoSpace: false,
+                isNoNumber: false,
+                regex: null
+              }
             },
             {
               id: HtmlUtils.generateUUID(),
@@ -121,10 +133,9 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
               defaultValue: null,
               contentType: ContentType.DATE,
               dateValidator: {
-                id: undefined as any,
-                startDate: undefined as any,
-                endDate: undefined as any,
                 isRequired: true,
+                startDate: new Date(1900, 0, 1),
+                endDate: new Date(2000, 0, 1),
                 dateTime: DateCustomValidator.PAST_DATE
               } as DateValidator
             },
@@ -138,13 +149,29 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
               id: HtmlUtils.generateUUID(),
               defaultValue: null,
               contentType: ContentType.STRING,
-              textValidator: {}
+              textValidator: {
+                isRequired: true,
+                minSize: 13,
+                maxSize: 13,
+                isEmail: false,
+                isNoSpace: true,
+                isNoNumber: false,
+                regex: '[1-8]\\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\\d|3[01])\\d{6}'
+              }
             },
             {
               id: HtmlUtils.generateUUID(),
               defaultValue: 'declar urmatoarele:',
               contentType: ContentType.STRING,
-              textValidator: {}
+              textValidator: {
+                isRequired: true,
+                minSize: 1,
+                maxSize: 300,
+                isEmail: false,
+                isNoSpace: false,
+                isNoNumber: false,
+                regex: null
+              }
             },
             {
               id: HtmlUtils.generateUUID(),
@@ -174,8 +201,23 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
               id: HtmlUtils.generateUUID(),
               defaultValue: null,
               contentType: ContentType.NUMBER,
-              numberValidator: {}
+              numberValidator: {
+                isRequired: true,
+                minSize: 1,
+                maxValue: 10
+              }
             }
+          ]
+        },
+        {
+          title: 'Validation section',
+          isValidation: true,
+          sectionFields: [
+            {
+              id: HtmlUtils.generateUUID(),
+              defaultValue: null,
+              contentType: ContentType.STRING
+            },
           ]
         }
       ] as Section[];
@@ -252,9 +294,9 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
     // if (
     //   this.getCurrentSectionField()?.contentType === ContentType.STRING
     // ) {
-      this.setCurrentFieldType(ContentType.NUMBER);
-      const newField = this.newNumberField();
-      this.addNewFieldInCurrentSection(newField);
+    this.setCurrentFieldType(ContentType.NUMBER);
+    const newField = this.newNumberField();
+    this.addNewFieldInCurrentSection(newField);
     // }
   }
 

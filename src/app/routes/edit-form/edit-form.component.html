@@ -7,8 +7,8 @@
             <ul>
               <li *ngFor="let sectionControl of sectionControls().controls; index as sectionIndex" class="card mb-2">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                  {{ getCurrentSection(sectionIndex).title }}
-                  <input *ngIf="!getCurrentSection(sectionIndex).isValidation" type="checkbox">
+                  {{ getSection(sectionIndex).title }}
+                  <input *ngIf="!getSection(sectionIndex).isValidation" type="checkbox">
                 </div>
                 <div class="card-body">
                   <span
@@ -16,29 +16,32 @@
                     class="my-2 mt-2 me-1">
                     <!--todo: depending on the text field type (can be input or simple <p> styling should be different)-->
                     <app-edit-form-text
-                      [formSectionField]="this.form.formSections[sectionIndex].formSectionFields[sectionFieldIndex]"
-                      [isDisabled]="isDisabledField(this.form.formSections[sectionIndex])"
+                      *ngIf="getFormSectionField(sectionIndex, sectionFieldIndex).sectionField.contentType === ContentType.STRING"
+                      [formSectionField]="getFormSectionField(sectionIndex,sectionFieldIndex)"
+                      [isDisabled]="isDisabledField(getFormSection(sectionIndex))"
                       [fieldControl]="fieldControl"
                       class="d-inline-block"
                       style="vertical-align: top"
-                      *ngIf="this.form.formSections[sectionIndex].formSectionFields[sectionFieldIndex].sectionField.contentType === ContentType.STRING"
                     ></app-edit-form-text>
-<!--                                        <br-->
-<!--                                          *ngIf="formSectionField.sectionField.contentType === ContentType.BREAK_LINE">-->
-<!--                                        <app-edit-form-number-->
-<!--                                          *ngIf="formSectionField.sectionField.contentType === ContentType.NUMBER"-->
-<!--                                          [formSectionField]="formSectionField"-->
-<!--                                          [isDisabled]="isDisabledField(formSection)"-->
-<!--                                          class="d-inline-block"-->
-<!--                                          style="vertical-align: top"-->
-<!--                                        ></app-edit-form-number>-->
-<!--                                        <app-edit-form-date-->
-<!--                                          *ngIf="formSectionField.sectionField.contentType === ContentType.DATE"-->
-<!--                                          [formSectionField]="formSectionField"-->
-<!--                                          [isDisabled]="isDisabledField(formSection)"-->
-<!--                                          class="d-inline-block"-->
-<!--                                          style="vertical-align: top"-->
-<!--                                        ></app-edit-form-date>-->
+                    <br
+                      *ngIf="getFormSectionField(sectionIndex, sectionFieldIndex).sectionField.contentType === ContentType.BREAK_LINE"
+                    >
+                    <app-edit-form-number
+                      *ngIf="getFormSectionField(sectionIndex, sectionFieldIndex).sectionField.contentType === ContentType.NUMBER"
+                      [formSectionField]="getFormSectionField(sectionIndex,sectionFieldIndex)"
+                      [isDisabled]="isDisabledField(getFormSection(sectionIndex))"
+                      [fieldControl]="fieldControl"
+                      class="d-inline-block"
+                      style="vertical-align: top"
+                    ></app-edit-form-number>
+                    <app-edit-form-date
+                      *ngIf="getFormSectionField(sectionIndex, sectionFieldIndex).sectionField.contentType === ContentType.DATE"
+                      [formSectionField]="getFormSectionField(sectionIndex,sectionFieldIndex)"
+                      [isDisabled]="isDisabledField(getFormSection(sectionIndex))"
+                      [fieldControl]="fieldControl"
+                      class="d-inline-block"
+                      style="vertical-align: top"
+                    ></app-edit-form-date>
                   </span>
                 </div>
               </li>

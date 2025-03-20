@@ -21,9 +21,11 @@ export class EditFormTextComponent implements OnInit {
   isDisabled: boolean;
 
   ngOnInit() {
-    console.log(this.fieldControl);
-    this.fieldControl.valueChanges.subscribe((control: any) => {
-      console.log(control);
-    })
+    // console.log(this.fieldControl);
+    //
+    // this.fieldControl.valueChanges.subscribe((value: any) => {
+    //   console.log(value);
+    //   console.log(this.fieldControl.errors);
+    // });
   }
 }

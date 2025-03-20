@@ -1,11 +1,32 @@
 <p *ngIf="formSectionField.sectionField.defaultValue !== null">{{ formSectionField.contentDate.value }}</p>
 
-<input
-  *ngIf="formSectionField.sectionField.defaultValue === null"
-  [(ngModel)]="formSectionField.contentDate.value"
-  [readonly]="isDisabled"
-  [disabled]="isDisabled"
-  type="date"
-  class="form-control"
-  style="height: 38px; min-width: 60px; field-sizing: content"
->
+<ng-container *ngIf="formSectionField.sectionField.defaultValue === null">
+  <input
+    [formControl]="fieldControl"
+    [readonly]="isDisabled"
+    [disabled]="isDisabled"
+    [value]="fieldControl.value"
+    (input)="onDateInput($event)"
+    type="date"
+    class="form-control"
+    style="height: 38px; min-width: 60px; field-sizing: content"
+  >
+
+  <div *ngIf="fieldControl.invalid && fieldControl.touched" class="text-danger d-flex flex-column">
+    <span *ngIf="fieldControl.errors?.['isRequired']">This field is required.</span>
+
+    <span *ngIf="fieldControl.errors?.['startDate']">
+    The date should be after {{ fieldControl.errors?.['startDate'].requiredValue | date:'yyyy-MM-dd' }}
+    </span>
+
+    <span *ngIf="fieldControl.errors?.['endDate']">
+    The date should be before {{ fieldControl.errors?.['endDate'].requiredValue | date:'yyyy-MM-dd' }}
+    </span>
+
+    <span *ngIf="fieldControl.errors?.['dateTime']">
+    The date should be a {{ formSectionField.sectionField.dateValidator?.dateTime === DateCustomValidator.FUTURE_DATE ? 'future' : 'past' }}
+      date
+    </span>
+  </div>
+</ng-container>
+

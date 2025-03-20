@@ -1,11 +1,21 @@
 <p *ngIf="formSectionField.sectionField.defaultValue !== null">{{ formSectionField.contentNumber.value }}</p>
 
-<input
-  *ngIf="formSectionField.sectionField.defaultValue === null"
-  [(ngModel)]="formSectionField.contentNumber.value"
-  [readonly]="isDisabled"
-  [disabled]="isDisabled"
-  type="number"
-  class="form-control"
-  style="height: 38px; min-width: 60px; field-sizing: content"
->
+<ng-container *ngIf="formSectionField.sectionField.defaultValue === null">
+  <input
+    [formControl]="fieldControl"
+    [readonly]="isDisabled"
+    [disabled]="isDisabled"
+    type="number"
+    class="form-control"
+    style="height: 38px; min-width: 60px; field-sizing: content"
+  >
+
+  <div *ngIf="fieldControl.invalid && fieldControl.touched" class="text-danger d-flex flex-column">
+    <span *ngIf="fieldControl.errors?.['isRequired']">This field is required.</span>
+    <span
+      *ngIf="fieldControl.errors?.['minValue']">Minimum length required: {{ fieldControl.errors?.['minValue'].requiredLength }}</span>
+    <span
+      *ngIf="fieldControl.errors?.['maxValue']">Maximum length allowed: {{ fieldControl.errors?.['maxValue'].requiredLength }}</span>
+  </div>
+</ng-container>
+
