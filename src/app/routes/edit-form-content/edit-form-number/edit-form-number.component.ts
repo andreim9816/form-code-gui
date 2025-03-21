@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgIf} from '@angular/common';
 import {FormSectionField} from '../../../model/FormSectionField';
@@ -12,22 +12,11 @@ import {FormSectionField} from '../../../model/FormSectionField';
   ],
   templateUrl: './edit-form-number.component.html'
 })
-export class EditFormNumberComponent implements OnInit {
+export class EditFormNumberComponent {
   @Input()
   formSectionField: FormSectionField;
   @Input()
   fieldControl!: any;
   @Input()
-  isDisabled: boolean;
-  @Input()
   submitted = false;
-
-  ngOnInit() {
-    console.log(this.fieldControl);
-
-    this.fieldControl.valueChanges.subscribe((value: any) => {
-      console.log(value);
-      console.log(this.fieldControl.errors);
-    });
-  }
 }

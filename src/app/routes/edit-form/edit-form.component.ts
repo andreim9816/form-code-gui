@@ -93,14 +93,14 @@ export class EditFormComponent implements OnInit, OnDestroy {
 
     this.form.formSections.forEach((section, sectionIndex) => {
       const sectionGroup = this.fb.group({
-        formSectionFields: this.fb.array([]), // Explicit FormArray
+        formSectionFields: this.fb.array([])
       });
       const formSectionFieldsArray = sectionGroup.get('formSectionFields') as FormArray;
 
       section.formSectionFields.forEach((field, fieldIndex) => {
         const fieldControl = new FormControl(
-          null,
-          this.getValidators(field.sectionField) // Apply validation
+          {value: null, disabled: this.isDisabledField(section)},
+          this.getValidators(field.sectionField)
         );
 
         formSectionFieldsArray.push(fieldControl);
@@ -215,12 +215,12 @@ export class EditFormComponent implements OnInit, OnDestroy {
     return sectionControl.get('formSectionFields') as FormArray;
   }
 
-  getSection(sectionIndex: number): SectionLiteDto {
-    return this.form.formSections[sectionIndex].section;
-  }
-
   getFormSection(sectionIndex: number): FormSection {
     return this.form.formSections[sectionIndex];
+  }
+
+  getSection(sectionIndex: number): SectionLiteDto {
+    return this.getFormSection(sectionIndex).section;
   }
 
   getFormSectionField(sectionIndex: number, sectionFieldIndex: number) {
