@@ -17,7 +17,7 @@
                     <!--todo: depending on the text field type (can be input or simple <p> styling should be different)-->
                     <app-edit-form-text
                       *ngIf="getFormSectionField(sectionIndex, sectionFieldIndex).sectionField.contentType === ContentType.STRING"
-                      [formSectionField]="getFormSectionField(sectionIndex,sectionFieldIndex)"
+                      [formSectionField]="getFormSectionField(sectionIndex, sectionFieldIndex)"
                       [fieldControl]="fieldControl"
                       [submitted]="submitted"
                       class="d-inline-block"

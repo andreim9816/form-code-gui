@@ -1,4 +1,4 @@
-<p *ngIf="formSectionField.sectionField.defaultValue !== null">{{ formSectionField.contentNumber.value }}</p>
+<p *ngIf="formSectionField.sectionField.defaultValue !== null">{{ formSectionField.sectionField.defaultValue }}</p>
 
 <ng-container *ngIf="formSectionField.sectionField.defaultValue === null">
   <input
@@ -11,9 +11,9 @@
   <div *ngIf="fieldControl.invalid" class="text-danger d-flex flex-column">
     <span *ngIf="submitted && fieldControl.errors?.['required']">This field is required.</span>
     <span
-      *ngIf="(submitted || fieldControl.dirty) && fieldControl.errors?.['minValue']">Minimum length required: {{ fieldControl.errors?.['minValue'].requiredLength }}</span>
+      *ngIf="(submitted || fieldControl.dirty) && fieldControl.errors?.['min']">Minimum allowed value: {{ fieldControl.errors?.['min'].min }}</span>
     <span
-      *ngIf="(submitted || fieldControl.dirty) && fieldControl.errors?.['maxValue']">Maximum length allowed: {{ fieldControl.errors?.['maxValue'].requiredLength }}</span>
+      *ngIf="(submitted || fieldControl.dirty) && fieldControl.errors?.['max']">Maximum allowed value: {{ fieldControl.errors?.['max'].max }}</span>
   </div>
 </ng-container>
 

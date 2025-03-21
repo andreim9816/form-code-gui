@@ -24,6 +24,8 @@ import {SectionLiteDto} from '../../model/SectionLiteDto';
 import {EditFormNumberComponent} from '../edit-form-content/edit-form-number/edit-form-number.component';
 import {EditFormDateComponent} from '../edit-form-content/edit-form-date/edit-form-date.component';
 import {DateCustomValidator} from '../../enum/DateCustomValidator';
+import {FormSectionStatus} from '../../enum/FormSectionStatus';
+import {FormSectionUpdate} from '../../dto/request/FormSectionUpdate';
 
 @Component({
   selector: 'app-edit-form',
@@ -72,15 +74,53 @@ export class EditFormComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
-    // send only the validated data
-    // make sure the data the user entered is validated by the custom validators
+    this.displayAllControlError();
+    this.submitted = true;
+    // if (this.formGroup.invalid) {
+    //   return;
+    // }
+
+    this.updateFormSectionFieldsWithFormControlValues();
+
     const currentFormSections = this.form.formSections
       .filter(formSection => !this.isDisabledField(formSection));
-    this.submitted = true;
-    if (this.formGroup.invalid) {
-      return;
-    }
-    console.log(currentFormSections);
+
+    const body = {formSections: currentFormSections} as FormSectionUpdate;
+    console.log(body);
+
+    this.httpService.updateForm(body)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (result) => {
+          console.log(result);
+        },
+        error: (err) => {
+          console.error(err);
+        }
+      })
+  }
+
+  updateFormSectionFieldsWithFormControlValues() {
+    this.sectionControls().controls.forEach((formSection, formSectionIdx) => {
+      const formSectionFields = this.sectionFieldsControls(formSection);// formSection.get('formSectionFields') as FormArray;
+      formSectionFields.controls.forEach((fieldControl, fieldIndex) => {
+        const formSectionField = this.form.formSections[formSectionIdx].formSectionFields[fieldIndex];
+
+        //update only the fields that need to be completed by the user
+        if (formSectionField.sectionField.defaultValue === null) {
+          if (formSectionField.sectionField.contentType === ContentType.STRING) {
+            formSectionField.contentString.value = fieldControl.value;
+          } else if (formSectionField.sectionField.contentType === ContentType.NUMBER) {
+            formSectionField.contentNumber.value = fieldControl.value;
+          } else if (formSectionField.sectionField.contentType === ContentType.DATE) {
+            formSectionField.contentDate.value = new Date(fieldControl.value);
+          }
+        }
+
+        console.log(`Errors for Section ${formSectionIdx}, Field ${fieldIndex}:`, fieldControl.errors);
+        console.log(`Values for Section ${formSectionIdx}, Field ${fieldIndex}:`, fieldControl.value);
+      });
+    });
   }
 
   initializeForm() {
@@ -100,7 +140,7 @@ export class EditFormComponent implements OnInit, OnDestroy {
       section.formSectionFields.forEach((field, fieldIndex) => {
         const fieldControl = new FormControl(
           {value: null, disabled: this.isDisabledField(section)},
-          this.getValidators(field.sectionField)
+          this.getValidators(section, field.sectionField)
         );
 
         formSectionFieldsArray.push(fieldControl);
@@ -111,9 +151,22 @@ export class EditFormComponent implements OnInit, OnDestroy {
     console.log(this.formGroup);
   }
 
-  getValidators(field: SectionField) {
+  displayAllControlError(): void {
+    this.sectionControls().controls.forEach((formSection, formSectionIdx) => {
+      const formSectionFields = formSection.get('formSectionFields') as FormArray;
+
+      formSectionFields.controls.forEach((fieldControl, fieldIndex) => {
+        console.log(`Errors for Section ${formSectionIdx}, Field ${fieldIndex}:`, fieldControl.errors);
+        console.log(`Values for Section ${formSectionIdx}, Field ${fieldIndex}:`, fieldControl.value);
+      });
+    });
+  }
+
+  getValidators(section: FormSection, field: SectionField) {
     const validators: ValidatorFn[] = [];
-    if (!field || field.defaultValue !== null) {
+    if (!field
+      || field.defaultValue !== null
+      || section.status === FormSectionStatus.IS_VALIDATION_SECTION) {
       return validators;
     }
 
