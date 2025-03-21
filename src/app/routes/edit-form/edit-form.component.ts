@@ -44,6 +44,7 @@ export class EditFormComponent implements OnInit, OnDestroy {
   formGroup: FormGroup;
   form: Form;
   formId: number;
+  submitted = false;
 
   constructor(private readonly route: ActivatedRoute,
               private readonly fb: FormBuilder,
@@ -73,7 +74,12 @@ export class EditFormComponent implements OnInit, OnDestroy {
   submit(): void {
     // send only the validated data
     // make sure the data the user entered is validated by the custom validators
-    const currentFormSections = this.form.formSections.filter(formSection => !this.isDisabledField(formSection));
+    const currentFormSections = this.form.formSections
+      .filter(formSection => !this.isDisabledField(formSection));
+    this.submitted = true;
+    if (this.formGroup.invalid) {
+      return;
+    }
     console.log(currentFormSections);
   }
 
@@ -93,7 +99,7 @@ export class EditFormComponent implements OnInit, OnDestroy {
 
       section.formSectionFields.forEach((field, fieldIndex) => {
         const fieldControl = new FormControl(
-          undefined,
+          null,
           this.getValidators(field.sectionField) // Apply validation
         );
 

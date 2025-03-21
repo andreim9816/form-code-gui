@@ -12,18 +12,18 @@
     style="height: 38px; min-width: 60px; field-sizing: content"
   >
 
-  <div *ngIf="fieldControl.invalid && fieldControl.touched" class="text-danger d-flex flex-column">
-    <span *ngIf="fieldControl.errors?.['isRequired']">This field is required.</span>
+  <div *ngIf="fieldControl.invalid" class="text-danger d-flex flex-column">
+    <span *ngIf="submitted && fieldControl.errors?.['required']">This field is required.</span>
 
-    <span *ngIf="fieldControl.errors?.['startDate']">
+    <span *ngIf="(submitted || fieldControl.dirty) && fieldControl.errors?.['startDate']">
     The date should be after {{ fieldControl.errors?.['startDate'].requiredValue | date:'yyyy-MM-dd' }}
     </span>
 
-    <span *ngIf="fieldControl.errors?.['endDate']">
+    <span *ngIf="(submitted || fieldControl.dirty) && fieldControl.errors?.['endDate']">
     The date should be before {{ fieldControl.errors?.['endDate'].requiredValue | date:'yyyy-MM-dd' }}
     </span>
 
-    <span *ngIf="fieldControl.errors?.['dateTime']">
+    <span *ngIf="(submitted || fieldControl.dirty) &&  fieldControl.errors?.['dateTime']">
     The date should be a {{ formSectionField.sectionField.dateValidator?.dateTime === DateCustomValidator.FUTURE_DATE ? 'future' : 'past' }}
       date
     </span>

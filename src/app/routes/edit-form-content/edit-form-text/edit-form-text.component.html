@@ -9,12 +9,12 @@
   style="height: 30px; min-width: 50px; field-sizing: content"
 ></textarea>
 
-  <div *ngIf="fieldControl.invalid && fieldControl.touched" class="text-danger d-flex flex-column">
-    <span *ngIf="fieldControl.errors?.['isRequired']">This field is required.</span>
+  <div *ngIf="fieldControl.invalid" class="text-danger d-flex flex-column">
+    <span *ngIf="submitted && fieldControl.errors?.['required']">This field is required.</span>
     <span
-      *ngIf="fieldControl.errors?.['minlength']">Minimum length required: {{ fieldControl.errors?.['minlength'].requiredLength }}</span>
+      *ngIf="(submitted || fieldControl.dirty) && fieldControl.errors?.['minlength']">Minimum length required: {{ fieldControl.errors?.['minlength'].requiredLength }}</span>
     <span
-      *ngIf="fieldControl.errors?.['maxlength']">Maximum length allowed: {{ fieldControl.errors?.['maxlength'].requiredLength }}</span>
+      *ngIf="(submitted || fieldControl.dirty) && fieldControl.errors?.['maxlength']">Maximum length allowed: {{ fieldControl.errors?.['maxlength'].requiredLength }}</span>
     <span *ngIf="fieldControl.errors?.['email']">Invalid email format.</span>
     <span *ngIf="fieldControl.errors?.['pattern']">Invalid format.</span>
   </div>

@@ -21,6 +21,8 @@ export class EditFormDateComponent implements OnInit {
   fieldControl!: any;
   @Input()
   isDisabled: boolean;
+  @Input()
+  submitted = false;
 
   ngOnInit() {
     console.log(this.fieldControl);

@@ -10,12 +10,12 @@
     style="height: 38px; min-width: 60px; field-sizing: content"
   >
 
-  <div *ngIf="fieldControl.invalid && fieldControl.touched" class="text-danger d-flex flex-column">
-    <span *ngIf="fieldControl.errors?.['isRequired']">This field is required.</span>
+  <div *ngIf="fieldControl.invalid" class="text-danger d-flex flex-column">
+    <span *ngIf="submitted && fieldControl.errors?.['required']">This field is required.</span>
     <span
-      *ngIf="fieldControl.errors?.['minValue']">Minimum length required: {{ fieldControl.errors?.['minValue'].requiredLength }}</span>
+      *ngIf="(submitted || fieldControl.dirty) && fieldControl.errors?.['minValue']">Minimum length required: {{ fieldControl.errors?.['minValue'].requiredLength }}</span>
     <span
-      *ngIf="fieldControl.errors?.['maxValue']">Maximum length allowed: {{ fieldControl.errors?.['maxValue'].requiredLength }}</span>
+      *ngIf="(submitted || fieldControl.dirty) && fieldControl.errors?.['maxValue']">Maximum length allowed: {{ fieldControl.errors?.['maxValue'].requiredLength }}</span>
   </div>
 </ng-container>
 
