@@ -1,4 +1,6 @@
 <div class="container-fluid" *ngIf="this.form">
+  <p>{{ form.template.title }}</p>
+  <p>{{ form.template.description }}</p>
   <form [formGroup]="formGroup" (ngSubmit)="submit()">
     <div class="col-8 border-start border-end">
       <div class="row">
@@ -48,11 +50,13 @@
           </ng-container>
         </div>
       </div>
-      <button mat-button type="button"
-              *ngIf="this.storageService.getUser()?.id !== this.form.creatorUserId"
-              (click)="rejectForm()">Reject
-      </button>
-      <button mat-button type="submit">Submit</button>
+      <ng-container *ngIf="this.form.finishedDate === null">
+        <button mat-button type="button"
+                *ngIf="this.storageService.getUser()?.id !== this.form.creatorUserId"
+                (click)="rejectForm()">Reject
+        </button>
+        <button mat-button type="submit">Submit</button>
+      </ng-container>
     </div>
   </form>
 </div>

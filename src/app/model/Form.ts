@@ -1,4 +1,5 @@
 import {FormSection} from './FormSection';
+import {Template} from './Template';
 
 export interface Form {
   id: number;
@@ -11,5 +12,6 @@ export interface Form {
   currentUserId: number;
   creatorUserId: number;
 
+  template: Template;
   formSections: FormSection[];
 }
