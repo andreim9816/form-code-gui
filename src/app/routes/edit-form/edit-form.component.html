@@ -48,6 +48,10 @@
           </ng-container>
         </div>
       </div>
+      <button mat-button type="button"
+              *ngIf="this.storageService.getUser()?.id !== this.form.creatorUserId"
+              (click)="rejectForm()">Reject
+      </button>
       <button mat-button type="submit">Submit</button>
     </div>
   </form>

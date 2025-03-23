@@ -39,18 +39,17 @@ export class LoginComponent implements OnInit {
 
   createForm(): void {
     this.loginForm = this.fb.group({
-      username: [null, Validators.required],
-      password: [null, Validators.required]
+      usernameCtrl: [null, Validators.required],
+      passwordCtrl: [null, Validators.required]
     });
   }
 
   onSubmit(): void {
     if (this.loginForm.valid) {
       const body = {
-        username: 'user2',
-        password: 'password2'
+        username: this.loginForm.controls['usernameCtrl'].value,
+        password: this.loginForm.controls['passwordCtrl'].value,
       };
-
       this.authService.loginUser(body).subscribe({
           next: (userDto: UserDto) => {
             this.storageService.saveUser(userDto);

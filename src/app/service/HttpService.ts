@@ -33,6 +33,10 @@ export class HttpService {
     return this.http.patch<Form>(`${URL.FORM_SECTIONS_URL}`, body);
   }
 
+  rejectForm(body: FormSectionUpdate) :Observable<any> {
+    return this.http.patch<Form>(`${URL.FORM_SECTIONS_URL}/reject`, body);
+  }
+
   ///////////////////// Company Role /////////////////////
   getCompanyRoleByCompanyId(companyId: number): Observable<CompanyRole[]> {
     return this.http.get<CompanyRole[]>(`${URL.COMPANIES_URL}/${companyId}/roles`);

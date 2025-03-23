@@ -27,6 +27,7 @@ import {DateCustomValidator} from '../../enum/DateCustomValidator';
 import {FormSectionStatus} from '../../enum/FormSectionStatus';
 import {FormSectionUpdate} from '../../dto/request/FormSectionUpdate';
 import {FormSectionField} from '../../model/FormSectionField';
+import {StorageService} from '../../service/StorageService';
 
 @Component({
   selector: 'app-edit-form',
@@ -51,7 +52,8 @@ export class EditFormComponent implements OnInit, OnDestroy {
 
   constructor(private readonly route: ActivatedRoute,
               private readonly fb: FormBuilder,
-              private readonly httpService: HttpService) {
+              private readonly httpService: HttpService,
+              readonly storageService: StorageService) {
   }
 
   ngOnInit() {
@@ -68,21 +70,26 @@ export class EditFormComponent implements OnInit, OnDestroy {
   }
 
   isDisabledField(formSection: FormSection): boolean {
+    if (this.form.currentUserId !== this.storageService.getUser().id) {
+      return true;
+    }
+    // if it's my turn, then display the formSection if it's between currentSectionId and currentValidationSectionId
     if (this.form.currentSectionId === this.form.currentValidationSectionId) {
       return formSection.id !== this.form.currentSectionId;
+    } else {
+      return !(this.form.currentSectionId <= formSection.id && formSection.id < this.form.currentValidationSectionId);
     }
-    return formSection.id < this.form.currentSectionId || formSection.id >= this.form.currentValidationSectionId;
   }
 
   submit(): void {
     this.displayAllControlError();
+    this.removeRequiredValidatorToEnabledControls();
     this.submitted = true;
 
     if (this.formGroup.invalid) {
       return;
     }
-
-    this.updateFormSectionFieldsWithFormControlValues();
+    this.updateFormSectionFieldsWithFormControlValues(); // used for sending data to backend
 
     const currentFormSections = this.form.formSections
       .filter(formSection => !this.isDisabledField(formSection));
@@ -100,6 +107,60 @@ export class EditFormComponent implements OnInit, OnDestroy {
           console.error(err);
         }
       })
+  }
+
+  rejectForm(): void {
+    this.addRequiredValidatorToEnabledControls();
+    this.displayAllControlError();
+    this.submitted = true;
+
+    if (!this.formGroup.valid) {
+      console.log('invalid formGroup');
+      return;
+    }
+    this.updateFormSectionFieldsWithFormControlValues(); // used for sending data to backend
+
+    const currentFormSections = this.form.formSections
+      .filter(formSection => !this.isDisabledField(formSection));
+
+    const body = {formSections: currentFormSections} as FormSectionUpdate;
+    console.log(body);
+
+    this.httpService.rejectForm(body)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (result) => {
+        },
+        error: (err) => {
+        }
+      })
+  }
+
+  addRequiredValidatorToEnabledControls(): void {
+    this.sectionControls().controls.forEach((formSection) => {
+      const formSectionFields = formSection.get('formSectionFields') as FormArray;
+
+      formSectionFields.controls.forEach((fieldControl) => {
+        if (!fieldControl.disabled) {
+          console.log(fieldControl)
+          fieldControl.setValidators(Validators.required);
+          fieldControl.updateValueAndValidity()
+        }
+      });
+    });
+  }
+
+  removeRequiredValidatorToEnabledControls(): void {
+    this.sectionControls().controls.forEach((formSection, formSectionIdx) => {
+      const formSectionFields = formSection.get('formSectionFields') as FormArray;
+
+      formSectionFields.controls.forEach((fieldControl, fieldIndex) => {
+        if (!fieldControl.disabled) {
+          fieldControl.setValidators(null);
+          fieldControl.updateValueAndValidity()
+        }
+      });
+    });
   }
 
   updateFormSectionFieldsWithFormControlValues() {
@@ -133,7 +194,7 @@ export class EditFormComponent implements OnInit, OnDestroy {
     });
     const formSectionsArray = this.formGroup.get('formSections') as FormArray;
 
-    this.form.formSections.forEach((section, sectionIndex) => {
+    this.form.formSections.forEach((section) => {
       const sectionGroup = this.fb.group({
         formSectionFields: this.fb.array([])
       });

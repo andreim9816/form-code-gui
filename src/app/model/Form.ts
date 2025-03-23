@@ -8,5 +8,8 @@ export interface Form {
   currentValidationSectionId: number;
   currentSectionId: number;
 
+  currentUserId: number;
+  creatorUserId: number;
+
   formSections: FormSection[];
 }
