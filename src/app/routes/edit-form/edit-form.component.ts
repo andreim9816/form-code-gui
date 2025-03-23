@@ -26,6 +26,7 @@ import {EditFormDateComponent} from '../edit-form-content/edit-form-date/edit-fo
 import {DateCustomValidator} from '../../enum/DateCustomValidator';
 import {FormSectionStatus} from '../../enum/FormSectionStatus';
 import {FormSectionUpdate} from '../../dto/request/FormSectionUpdate';
+import {FormSectionField} from '../../model/FormSectionField';
 
 @Component({
   selector: 'app-edit-form',
@@ -138,9 +139,9 @@ export class EditFormComponent implements OnInit, OnDestroy {
       });
       const formSectionFieldsArray = sectionGroup.get('formSectionFields') as FormArray;
 
-      section.formSectionFields.forEach((field, fieldIndex) => {
+      section.formSectionFields.forEach((field) => {
         const fieldControl = new FormControl(
-          {value: null, disabled: this.isDisabledField(section)},
+          {value: this.getValueForControl(field), disabled: this.isDisabledField(section)},
           this.getValidators(section, field.sectionField)
         );
 
@@ -161,6 +162,22 @@ export class EditFormComponent implements OnInit, OnDestroy {
         console.log(`Values for Section ${formSectionIdx}, Field ${fieldIndex}:`, fieldControl.value);
       });
     });
+  }
+
+  getValueForControl(field: FormSectionField) {
+    if (field.sectionField.defaultValue !== null) {
+      return field.sectionField.defaultValue;
+    }
+    if (field.sectionField.contentType === ContentType.STRING) {
+      return field.contentString.value;
+    }
+    if (field.sectionField.contentType === ContentType.NUMBER) {
+      return field.contentNumber.value;
+    }
+    if (field.sectionField.contentType === ContentType.DATE) {
+      return field.contentDate.value;
+    }
+    return null;
   }
 
   getValidators(section: FormSection, field: SectionField) {

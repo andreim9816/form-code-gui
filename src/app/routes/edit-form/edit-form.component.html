@@ -8,7 +8,6 @@
               <li *ngFor="let sectionControl of sectionControls().controls; index as sectionIndex" class="card mb-2">
                 <div class="card-header d-flex justify-content-between align-items-center">
                   {{ getSection(sectionIndex).title }}
-                  <input *ngIf="!getSection(sectionIndex).isValidation" type="checkbox">
                 </div>
                 <div class="card-body">
                   <span
