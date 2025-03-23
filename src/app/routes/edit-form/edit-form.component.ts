@@ -76,9 +76,10 @@ export class EditFormComponent implements OnInit, OnDestroy {
   submit(): void {
     this.displayAllControlError();
     this.submitted = true;
-    // if (this.formGroup.invalid) {
-    //   return;
-    // }
+
+    if (this.formGroup.invalid) {
+      return;
+    }
 
     this.updateFormSectionFieldsWithFormControlValues();
 

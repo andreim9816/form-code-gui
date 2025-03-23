@@ -1,10 +1,10 @@
-import {AfterViewChecked, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatButton, MatFabButton} from '@angular/material/button';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 import {Section} from '../../model/Section';
-import {CommonModule, NgForOf, NgIf} from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {SectionField} from '../../model/SectionField';
 import {ContentType} from '../../model/ContentType';
 import {TextComponent} from '../../shared/text/text.component';
@@ -21,6 +21,10 @@ import {NumberValidatorComponent} from '../validations/number-validator/number-v
 import {DateValidatorComponent} from '../validations/date-validator/date-validator.component';
 import {DateValidator} from '../../model/DateValidator';
 import {DateCustomValidator} from '../../enum/DateCustomValidator';
+import {MatOption} from '@angular/material/core';
+import {MatSelect} from '@angular/material/select';
+import {CompanyRole} from '../../model/CompanyRole';
+import {Subject, takeUntil} from 'rxjs';
 
 @Component({
   selector: 'app-create-template',
@@ -32,8 +36,6 @@ import {DateCustomValidator} from '../../enum/DateCustomValidator';
     MatFormField,
     MatInput,
     MatFabButton,
-    NgForOf,
-    NgIf,
     TextComponent,
     NumberComponent,
     BreaklineComponent,
@@ -42,10 +44,13 @@ import {DateCustomValidator} from '../../enum/DateCustomValidator';
     TextValidatorComponent,
     NumberValidatorComponent,
     DateValidatorComponent,
+    MatOption,
+    MatSelect,
+    FormsModule,
   ],
   templateUrl: './create-template.component.html'
 })
-export class CreateTemplateComponent implements OnInit, AfterViewChecked {
+export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDestroy {
   @ViewChild('contextMenu') contextMenu!: ElementRef;
   contextMenuStyles = {display: 'none', top: '0px', left: '0px'};
 
@@ -54,6 +59,8 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
   currentFieldType: ContentType;
   form: FormGroup;
   sections: Section[] = [];
+  company = {id: 1, name: 'ANAF'};
+  companyRoles: CompanyRole[];
 
   cursorPositionInField: number | undefined;
 
@@ -62,6 +69,8 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
 
   mockData = true;
   viewChecked = false;
+
+  destroy$ = new Subject<void>();
 
   constructor(private readonly fb: FormBuilder,
               private readonly dialog: MatDialog,
@@ -72,15 +81,23 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
     document.addEventListener('click', (event) => this.onClickOutside(event));
 
     this.form = this.fb.group({
-      companyCtrl: ['ANAF', Validators.required],
-      formNameCtrl: ['', Validators.required]
+      companyIdCtrl: [1, Validators.required],
+      templateNameCtrl: [undefined, Validators.required],
+      templateDescriptionCtrl: [undefined, Validators.required]
     });
+
+    this.httpService.getCompanyRoleByCompanyId(this.company.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(companyRoles => {
+        this.companyRoles = companyRoles;
+      })
 
     if (this.mockData) {
       this.sections = [
         {
           title: 'Sectiunea 1',
           isValidation: false,
+          companyRoles: [] as CompanyRole[],
           sectionFields: [
             {
               id: HtmlUtils.generateUUID(),
@@ -212,6 +229,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
         {
           title: 'Validation section',
           isValidation: true,
+          companyRoles: [] as CompanyRole[],
           sectionFields: [
             {
               id: HtmlUtils.generateUUID(),
@@ -350,10 +368,17 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
 
   submit(): void {
     this.displayInfo();
-    const companyId = 1;
+
+    this.form.controls['templateNameCtrl'].setValue('Template name');
+    this.form.controls['templateDescriptionCtrl'].setValue('Template description');
+
+    if (this.form.invalid) {
+      return;
+    }
+    const companyId = this.form.controls['companyIdCtrl'].value;
     const body = {
-      title: 'Title',
-      description: 'Description',
+      title: this.form.controls['templateNameCtrl'].value,
+      description: this.form.controls['templateDescriptionCtrl'].value,
       sections: this.sections
     }
     this.httpService.saveTemplate(companyId, body)
@@ -591,6 +616,12 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked {
   }
 
   ////////////////////////////////////////// contextual menu //////////////////////////////////////////
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
 
   readonly ContentType = ContentType;
 }
