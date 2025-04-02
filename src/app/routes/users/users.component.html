@@ -1,0 +1,16 @@
+<mat-form-field>
+  <mat-select [formControl]="companiesCtrl" multiple>
+    @for (company of companies$ | async; track company) {
+      <mat-option [value]="company.id">{{ company.name }}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
+
+<ag-grid-angular
+  class="ag-theme-alpine table table-striped table-bordered w-100"
+  style="height: 800px"
+  [rowData]="this.users$ | async"
+  [columnDefs]="colDefs"
+  [autoSizeStrategy]="{type: 'fitGridWidth'}"
+>
+</ag-grid-angular>

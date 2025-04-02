@@ -47,14 +47,6 @@ export class NavbarComponent {
     return this.storageService.getUser().userType === UserType.ADMIN;
   }
 
-  isCompliance(): boolean {
-    return this.storageService.getUser().userType === UserType.COMPLIANCE;
-  }
-
-  isCompanyManager(): boolean {
-    return this.storageService.getUser().userType === UserType.COMPANY_MANAGER;
-  }
-
   isUser(): boolean {
     return this.storageService.getUser().userType === UserType.USER;
   }

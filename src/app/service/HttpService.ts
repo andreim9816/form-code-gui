@@ -7,12 +7,20 @@ import {Observable} from 'rxjs';
 import {Form} from '../model/Form';
 import {FormSectionUpdate} from '../dto/request/FormSectionUpdate';
 import {CompanyRole} from '../model/CompanyRole';
+import {User} from '../model/User';
+import {Company} from '../model/Company';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
   constructor(private http: HttpClient) {
+  }
+
+  ///////////////////// Company /////////////////////
+
+  getCompanies(): Observable<Company[]> {
+    return this.http.get<Company[]>(`${URL.COMPANIES_URL}`);
   }
 
   ///////////////////// Template /////////////////////
@@ -33,12 +41,17 @@ export class HttpService {
     return this.http.patch<Form>(`${URL.FORM_SECTIONS_URL}`, body);
   }
 
-  rejectForm(body: FormSectionUpdate) :Observable<any> {
+  rejectForm(body: FormSectionUpdate): Observable<any> {
     return this.http.patch<Form>(`${URL.FORM_SECTIONS_URL}/reject`, body);
   }
 
   ///////////////////// Company Role /////////////////////
   getCompanyRoleByCompanyId(companyId: number): Observable<CompanyRole[]> {
     return this.http.get<CompanyRole[]>(`${URL.COMPANIES_URL}/${companyId}/roles`);
+  }
+
+  ///////////////////// Users /////////////////////
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(`${URL.USER_URL}`);
   }
 }

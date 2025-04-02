@@ -1,0 +1,9 @@
+<em *ngIf="companies.length === 0">No roles assigned</em>
+<ul class="m-0 p-0">
+  <li *ngFor="let company of companies" class="d-block">
+    <strong>{{ company.name }}:</strong>
+    <ul class="d-inline list-unstyled">
+      <li *ngFor="let role of company.roles" class="d-inline ms-2 badge bg-primary">{{ role.name }}</li>
+    </ul>
+  </li>
+</ul>

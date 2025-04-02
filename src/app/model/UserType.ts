@@ -1,6 +1,4 @@
 export enum UserType {
   ADMIN = 'ADMIN',
-  COMPANY_MANAGER = 'COMPANY_MANAGER',
-  COMPLIANCE = "COMPLIANCE",
   USER = 'USER',
 }
