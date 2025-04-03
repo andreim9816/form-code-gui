@@ -1,0 +1,16 @@
+<div class="container">
+  <h3>Assigned forms</h3>
+  <ag-grid-angular
+    class="ag-theme-alpine table table-striped table-bordered w-100"
+    style="height: 700px"
+    [rowData]="forms"
+    [columnDefs]="colDefs"
+    [autoSizeStrategy]="{type: 'fitGridWidth'}"
+
+    [pagination]="true"
+    [paginationPageSize]="paginationPageSize"
+    [paginationPageSizeSelector]="paginationPageSizeSelector"
+
+  >
+  </ag-grid-angular>
+</div>

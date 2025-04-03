@@ -71,7 +71,7 @@ export class EditFormComponent implements OnInit, OnDestroy {
 
   isDisabledField(formSection: FormSection): boolean {
     const currentUserFromToken = this.storageService.getUser().id;
-    if (this.form.currentUserId !== currentUserFromToken) {
+    if (this.form.currentUser.id !== currentUserFromToken) {
       return true;
     }
     // if it's my turn, then display the formSection if it's between currentSectionId and currentValidationSectionId

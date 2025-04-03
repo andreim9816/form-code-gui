@@ -52,7 +52,7 @@
       </div>
       <ng-container *ngIf="this.form.finishedDate === null">
         <button mat-button type="button"
-                *ngIf="this.storageService.getUser()?.id !== this.form.creatorUserId"
+                *ngIf="this.storageService.getUser()?.id !== this.form.creatorUser.id"
                 (click)="rejectForm()">Reject
         </button>
         <button mat-button type="submit">Submit</button>

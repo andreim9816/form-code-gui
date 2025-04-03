@@ -1,17 +1,10 @@
-import {Injectable} from '@angular/core';
-import {HTTP_INTERCEPTORS, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {HttpInterceptorFn} from '@angular/common/http';
 
-@Injectable()
-export class HttpRequestInterceptor implements HttpInterceptor {
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    req = req.clone({
-      withCredentials: true,
-    });
-    return next.handle(req);
-  }
-}
+export const httpRequestInterceptor: HttpInterceptorFn = (req, next) => {
+  const modifiedReq = req.clone({
+    withCredentials: true, // Ensures cookies are sent with requests
+  });
 
-export const httpInterceptorProviders = [
-  {provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true},
-];
+  console.log('Intercepted Request:', modifiedReq);
+  return next(modifiedReq);
+};

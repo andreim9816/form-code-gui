@@ -8,7 +8,7 @@ import {User} from '../../model/User';
 import {Observable, Subject} from 'rxjs';
 import {AsyncPipe} from '@angular/common';
 import {UserActionsComponent} from '../ag-grid/user-actions/user-actions.component';
-import {MatFormField, MatLabel} from '@angular/material/form-field';
+import {MatFormField} from '@angular/material/form-field';
 import {MatOption, MatSelect} from '@angular/material/select';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {Company} from '../../model/Company';
@@ -16,7 +16,7 @@ import {Company} from '../../model/Company';
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [AgGridAngular, AsyncPipe, MatFormField, MatLabel, MatSelect, ReactiveFormsModule, MatOption],
+  imports: [AgGridAngular, AsyncPipe, MatFormField, MatSelect, ReactiveFormsModule, MatOption],
   templateUrl: './users.component.html'
 })
 export class UsersComponent implements OnInit, OnDestroy {

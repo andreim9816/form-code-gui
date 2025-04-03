@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {URL} from '../util/URL';
 import {Section} from '../model/Section';
 import {Template} from '../model/Template';
@@ -33,6 +33,13 @@ export class HttpService {
   }
 
   ///////////////////// Form /////////////////////
+  getForms(createdByMe: boolean, assignedToMe: boolean): Observable<Form[]> {
+    const params = new HttpParams()
+      .set('assignedToMe', assignedToMe)
+      .set('createdByMe', createdByMe);
+    return this.http.get<Form[]>(`${URL.FORM_URL}`, {params});
+  }
+
   getFormById(id: number): Observable<Form> {
     return this.http.get<Form>(`${URL.FORM_URL}/${id}`);
   }

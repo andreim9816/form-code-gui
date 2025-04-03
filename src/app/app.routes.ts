@@ -6,11 +6,13 @@ import {TestingComponent} from './routes/testing/testing.component';
 import {DragdropComponent} from './routes/dragdrop/dragdrop.component';
 import {EditFormComponent} from './routes/edit-form/edit-form.component';
 import {UsersComponent} from './routes/users/users.component';
+import {FormsComponent} from './routes/forms/forms.component';
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'login', component: LoginComponent},
   {path: 'templates', component: CreateTemplateComponent},
+  {path: 'forms', component: FormsComponent},
   {path: 'forms/:id', component: EditFormComponent},
   {path: 'tests', component: TestingComponent},
   {path: 'users', component: UsersComponent},

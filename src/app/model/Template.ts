@@ -6,5 +6,7 @@ export interface Template {
   title: string;
   description: string;
   company: Company;
+  companyId: number;
+  companyName: string; //used in FormsComponent's ag-grid
   sections: Section[];
 }
