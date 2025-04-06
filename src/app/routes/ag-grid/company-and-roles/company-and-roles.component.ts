@@ -11,30 +11,11 @@ import {ICellRendererParams} from 'ag-grid-community';
 })
 export class CompanyAndRolesComponent implements ICellRendererAngularComp {
   params: any;
-  companies: any[];
+  rolesPerCompany: any[];
 
   agInit(params: any): void {
     this.params = params;
-    const data = this.params.data;
-    this.companies = this.mapCompaniesToRoles(data.companies, data.companyRoles);
-  }
-
-  mapCompaniesToRoles(companies: any[], companyRoles: any[]): any[] {
-    const groupedRoles = (companyRoles ?? []).reduce((acc, role) => {
-      if (!acc[role.companyId]) {
-        acc[role.companyId] = [];
-      }
-      acc[role.companyId].push(role);
-      return acc;
-    }, {} as Record<number, any[]>);
-
-    return (companies ?? [])
-      .filter(company => groupedRoles[company.id])
-      .map(company => ({
-        id: company.id,
-        name: company.name,
-        roles: groupedRoles[company.id] || []
-      }));
+    this.rolesPerCompany = this.params.rolesPerCompany;
   }
 
   refresh(params: ICellRendererParams): boolean {

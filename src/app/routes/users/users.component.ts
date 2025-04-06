@@ -41,23 +41,52 @@ export class UsersComponent implements OnInit, OnDestroy {
   };
 
   colDefs: ColDef[] = [
-    {headerName: 'Id', field: 'id'},
+    {headerName: 'Id', field: 'id', width: 60},
     {headerName: 'User', valueGetter: (params: any) => `${params.data.firstname} ${params.data.lastname}`},
     {headerName: 'Email', field: 'email'},
     {
       headerName: 'Companies & Roles',
       cellRenderer: CompanyAndRolesComponent,
+      cellRendererParams: (params: any) => ({
+        rolesPerCompany: this.mapCompaniesToRoles(params.data.companies, params.data.companyRoles)
+      }),
+      valueGetter: (params) => {
+        const rolesPerCompany = this.mapCompaniesToRoles(params.data.companies, params.data.companyRoles)
+        const x = (rolesPerCompany ?? [])
+          .map((company: any) => `${company.name}: ${company.roles.map((r: any) => r.name).join(' ')}`)
+        // console.log(x);
+        return x;
+      },
       filter: 'agTextColumnFilter',
       autoHeight: true
     },
     {
       headerName: 'Actions', cellRenderer: UserActionsComponent,
       cellRendererParams: (params: any) => ({
-        allCompanies: this.companies$
+        rolesPerCompany: this.mapCompaniesToRoles(params.data.companies, params.data.companyRoles)
       }),
-      filter: false
+      filter: false,
+      width: 60
     }
   ];
+
+  mapCompaniesToRoles(companies: any[], companyRoles: any[]): any[] {
+    const groupedRoles = (companyRoles ?? []).reduce((acc, role) => {
+      if (!acc[role.companyId]) {
+        acc[role.companyId] = [];
+      }
+      acc[role.companyId].push(role);
+      return acc;
+    }, {} as Record<number, any[]>);
+
+    return (companies ?? [])
+      .filter(company => groupedRoles[company.id])
+      .map(company => ({
+        id: company.id,
+        name: company.name,
+        roles: groupedRoles[company.id] || []
+      }));
+  }
 
   ngOnDestroy() {
     this.destroy$.next();
