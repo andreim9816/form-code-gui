@@ -57,6 +57,10 @@ export class HttpService {
     return this.http.get<CompanyRole[]>(`${URL.COMPANIES_URL}/${companyId}/roles`);
   }
 
+  saveCompanyRolesForUser(userId: number, companyRoleIds: number[]): Observable<User> {
+    return this.http.patch<User>(`${URL.USER_URL}/${userId}/roles`, companyRoleIds);
+  }
+
   ///////////////////// Users /////////////////////
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${URL.USER_URL}`);

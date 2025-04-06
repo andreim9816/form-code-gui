@@ -3,7 +3,7 @@
   <li *ngFor="let company of rolesPerCompany" class="d-block">
     <strong>{{ company.name }}:</strong>
     <ul class="d-inline list-unstyled">
-      <li *ngFor="let role of company.roles" class="d-inline ms-2 badge bg-primary">{{ role.name }}</li>
+      <li *ngFor="let role of company.roles" class="d-inline ms-1 badge bg-secondary">{{ role.name }}</li>
     </ul>
   </li>
 </ul>

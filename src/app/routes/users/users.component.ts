@@ -11,6 +11,7 @@ import {MatFormField} from '@angular/material/form-field';
 import {MatOption, MatSelect} from '@angular/material/select';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {Company} from '../../model/Company';
+import {CompanyRole} from '../../model/CompanyRole';
 
 @Component({
   selector: 'app-users',
@@ -52,10 +53,8 @@ export class UsersComponent implements OnInit, OnDestroy {
       }),
       valueGetter: (params) => {
         const rolesPerCompany = this.mapCompaniesToRoles(params.data.companies, params.data.companyRoles)
-        const x = (rolesPerCompany ?? [])
-          .map((company: any) => `${company.name}: ${company.roles.map((r: any) => r.name).join(' ')}`)
-        // console.log(x);
-        return x;
+        return (rolesPerCompany ?? [])
+          .map((company: any) => `${company.name}: ${company.roles.map((r: any) => r.name).join(' ')}`);
       },
       filter: 'agTextColumnFilter',
       autoHeight: true
@@ -63,6 +62,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     {
       headerName: 'Actions', cellRenderer: UserActionsComponent,
       cellRendererParams: (params: any) => ({
+        allCompanies$: this.httpService.getCompanies(),
         rolesPerCompany: this.mapCompaniesToRoles(params.data.companies, params.data.companyRoles)
       }),
       filter: false,
@@ -70,7 +70,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     }
   ];
 
-  mapCompaniesToRoles(companies: any[], companyRoles: any[]): any[] {
+  mapCompaniesToRoles(companies: any[], companyRoles: any[]): RolesPerCompany[] {
     const groupedRoles = (companyRoles ?? []).reduce((acc, role) => {
       if (!acc[role.companyId]) {
         acc[role.companyId] = [];
@@ -79,17 +79,31 @@ export class UsersComponent implements OnInit, OnDestroy {
       return acc;
     }, {} as Record<number, any[]>);
 
-    return (companies ?? [])
-      .filter(company => groupedRoles[company.id])
-      .map(company => ({
-        id: company.id,
-        name: company.name,
-        roles: groupedRoles[company.id] || []
-      }));
+    const result: RolesPerCompany[] = [];
+
+    for (const [companyId, roles] of Object.entries(groupedRoles)) {
+      result.push({
+        id: Number(companyId),
+        name: (roles as CompanyRole[])[0].companyName,
+        roles: roles
+      } as RolesPerCompany);
+    }
+    return result;
   }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
   }
+}
+
+export interface RolesPerCompany {
+  id: number;
+  name: string;
+  roles: Role[];
+}
+
+export interface Role {
+  id: number;
+  name: string;
 }

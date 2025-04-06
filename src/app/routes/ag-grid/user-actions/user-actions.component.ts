@@ -3,8 +3,12 @@ import {ICellRendererAngularComp} from 'ag-grid-angular';
 import {ICellRendererParams} from 'ag-grid-community';
 import {CommonModule} from '@angular/common';
 import {User} from '../../../model/User';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
 import {UserEditRolesComponent} from '../../users/user-edit-roles/user-edit-roles.component';
+import {HttpService} from '../../../service/HttpService';
+import {Company} from '../../../model/Company';
+import {RolesPerCompany} from '../../users/users.component';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-user-actions',
@@ -17,17 +21,21 @@ import {UserEditRolesComponent} from '../../users/user-edit-roles/user-edit-role
 export class UserActionsComponent implements ICellRendererAngularComp {
   params: any;
   user: User;
-  rolesPerCompany: any[];
+  rolesPerCompany: RolesPerCompany[];
+  allCompanies: Company[];
 
   constructor(
-    private readonly dialog: MatDialog) {
+    private readonly dialog: MatDialog,
+    private readonly httpService: HttpService) {
   }
 
   agInit(params: ICellRendererParams): void {
     this.params = params;
     this.user = this.params.data;
     this.rolesPerCompany = this.params.rolesPerCompany;
-    console.log(this.user, this.rolesPerCompany);
+    (this.params.allCompanies$ as Observable<Company[]>).subscribe(data =>
+      this.allCompanies = data
+    )
   }
 
   onEditRolesClick(): void {
@@ -35,6 +43,7 @@ export class UserActionsComponent implements ICellRendererAngularComp {
       data: {
         user: this.user,
         rolesPerCompany: this.rolesPerCompany,
+        allCompanies: this.allCompanies
       },
       width: '500px',
       height: '500px'
