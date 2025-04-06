@@ -48,7 +48,9 @@ export class UserActionsComponent implements ICellRendererAngularComp {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.params?.onRefresh();
+      if (result) {
+        this.params?.onRefresh();
+      }
     });
   }
 
