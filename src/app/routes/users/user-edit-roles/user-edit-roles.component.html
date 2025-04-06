@@ -39,13 +39,20 @@
             <button type="button" class="btn-close" (click)="deleteCurrentCompany(company.id)"></button>
           </div>
           <br>
-          <mat-form-field>
+          <mat-form-field class="w-100">
             <mat-label>Roles</mat-label>
             <mat-select
               multiple
               [(ngModel)]="company.roles"
               [compareWith]="compareWithRole"
               [ngModelOptions]="{standalone: true}">
+
+              <mat-select-trigger>
+                <ng-container *ngFor="let company of company.roles; let i = index">
+                  <span class="badge bg-secondary me-1">{{ company.name }}</span>
+                </ng-container>
+              </mat-select-trigger>
+
               <mat-option
                 *ngFor="let companyRole of getAllRolesForCompany(company.id)"
                 [value]="companyRole"
@@ -72,23 +79,6 @@
           class="btn btn-secondary mt-3"
         >Add new company
         </button>
-
-        <!--            <mat-form-field>-->
-        <!--              <mat-label>Roles</mat-label>-->
-        <!--              <mat-select-->
-        <!--                multiple-->
-        <!--                [(ngModel)]="company.roles"-->
-        <!--                [compareWith]="compareWithRole"-->
-        <!--                [ngModelOptions]="{standalone: true}">-->
-        <!--                <mat-option-->
-        <!--                  *ngFor="let companyRole of getAllRolesForCompany(company.id)"-->
-        <!--                  [value]="companyRole"-->
-        <!--                >-->
-        <!--                  {{ companyRole.name }}-->
-        <!--                </mat-option>-->
-        <!--              </mat-select>-->
-        <!--            </mat-form-field>-->
-
       </ul>
 
     </div>
