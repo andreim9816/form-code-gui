@@ -1,1 +1,43 @@
-<span class="material-icons">more_vert</span>
+<a type="button"
+   [matMenuTriggerFor]="menu"
+   (click)="$event.stopPropagation()">
+  <span class="material-icons" style="line-height: 1.5">edit</span>
+</a>
+
+<mat-menu #menu="matMenu" style="width: 900px">
+  <div
+    mat-menu-item
+    class="p-2"
+    (click)="$event.stopPropagation()"
+    style="pointer-events: auto; width: 900px"
+  >
+    <mat-select multiple class="form-control">
+      <mat-option *ngFor="let company of allCompanies"
+                  [value]="company.id">{{ company.name }}
+      </mat-option>
+    </mat-select>
+    <mat-divider/>
+    <ul>
+      <li *ngFor="let company of userCompanies">
+        {{ company.name }}
+      </li>
+    </ul>
+  </div>
+
+  <!--  <div class="px-3 py-2">-->
+  <!--    <mat-form-field appearance="outline" style="width: 200px;">-->
+  <!--      <mat-label>Search</mat-label>-->
+  <!--      <input-->
+  <!--        matInput-->
+  <!--        placeholder="Search actions"-->
+  <!--      />-->
+  <!--    </mat-form-field>-->
+  <!--  </div>-->
+  <!--  <mat-divider></mat-divider>-->
+
+  <!--  <ng-container *ngFor="let action of filteredActions()">-->
+  <!--    <button mat-menu-item (click)="handleAction(action)">-->
+  <!--      {{ action }}-->
+  <!--    </button>-->
+  <!--  </ng-container>-->
+</mat-menu>

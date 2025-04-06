@@ -1,16 +1,23 @@
-<mat-form-field>
-  <mat-select [formControl]="companiesCtrl" multiple>
-    @for (company of companies$ | async; track company) {
-      <mat-option [value]="company.id">{{ company.name }}</mat-option>
-    }
-  </mat-select>
-</mat-form-field>
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3>Users</h3>
+    <button class="btn btn-primary">+ Add new user</button>
+  </div>
+  <mat-form-field>
+    <mat-select [formControl]="companiesCtrl" multiple>
+      @for (company of companies$ | async; track company) {
+        <mat-option [value]="company.id">{{ company.name }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
 
-<ag-grid-angular
-  class="ag-theme-alpine table table-striped table-bordered w-100"
-  style="height: 800px"
-  [rowData]="this.users$ | async"
-  [columnDefs]="colDefs"
-  [autoSizeStrategy]="{type: 'fitGridWidth'}"
->
-</ag-grid-angular>
+  <ag-grid-angular
+    class="ag-theme-alpine table table-striped table-bordered w-100"
+    style="height: 800px"
+    [rowData]="this.users$ | async"
+    [columnDefs]="colDefs"
+    [defaultColDef]="defaultColDef"
+    [autoSizeStrategy]="{type: 'fitGridWidth'}"
+  >
+  </ag-grid-angular>
+</div>

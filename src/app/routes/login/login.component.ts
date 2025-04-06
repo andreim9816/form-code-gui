@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
             this.userType = userDto.userType;
             this.isLoginFailed = false;
             this.isLoggedIn = true;
-            this.router.navigateByUrl('/template')
+            this.router.navigateByUrl('/users')
           },
           error: (err: any) => {
             this.errorMessage = err.error.message;

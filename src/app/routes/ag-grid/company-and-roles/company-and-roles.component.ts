@@ -38,6 +38,6 @@ export class CompanyAndRolesComponent implements ICellRendererAngularComp {
   }
 
   refresh(params: ICellRendererParams): boolean {
-    throw false;
+    return false;
   }
 }

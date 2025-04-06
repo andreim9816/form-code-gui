@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AgGridAngular} from 'ag-grid-angular'; // Angular Data Grid Component
 import type {ColDef} from 'ag-grid-community';
-import {UserType} from '../../model/UserType';
 import {CompanyAndRolesComponent} from '../ag-grid/company-and-roles/company-and-roles.component';
 import {HttpService} from '../../service/HttpService';
 import {User} from '../../model/User';
@@ -34,61 +33,34 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.companies$ = this.httpService.getCompanies();
   }
 
-  company1 = {
-    id: 1,
-    name: 'ANAF',
-    companyRoles: [{id: 1, name: 'Inspector 1', companyId: 1}, {id: 2, name: 'Inspector 2', companyId: 1}]
-  };
-  company2 = {
-    id: 2,
-    name: 'Primaria Roman',
-    companyRoles: [{id: 3, name: 'Inspector Roman 1', companyId: 2}, {id: 4, name: 'Inspector Roman 2', companyId: 2}]
+  defaultColDef = {
+    sortable: true,
+    filter: true,
+    floatingFilter: true, // small filter box under headers
+    resizable: true
   };
 
   colDefs: ColDef[] = [
+    {headerName: 'Id', field: 'id'},
     {headerName: 'User', valueGetter: (params: any) => `${params.data.firstname} ${params.data.lastname}`},
     {headerName: 'Email', field: 'email'},
-    {headerName: 'Companies & Roles', cellRenderer: CompanyAndRolesComponent, autoHeight: true},
-    {headerName: 'Actions', cellRenderer: UserActionsComponent}
+    {
+      headerName: 'Companies & Roles',
+      cellRenderer: CompanyAndRolesComponent,
+      filter: 'agTextColumnFilter',
+      autoHeight: true
+    },
+    {
+      headerName: 'Actions', cellRenderer: UserActionsComponent,
+      cellRendererParams: (params: any) => ({
+        allCompanies: this.companies$
+      }),
+      filter: false
+    }
   ];
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
   }
-
-  rowData = [
-    {
-      username: 'andreim98',
-      firstname: 'Andrei',
-      lastname: 'Manolache',
-      email: 'andreim98@yahoo.com',
-      phoneNumber: '0741130693',
-      userTypes: [UserType.ADMIN, UserType.USER],
-      companies: [this.company1, this.company2],
-      companyRoles: [
-        {id: 1, name: 'Inspector 1', companyId: 1},
-        {id: 2, name: 'Inspector 2', companyId: 1},
-        {id: 3, name: 'Inspector Roman 1', companyId: 2}
-      ]
-    },
-    {
-      username: 'diana2003',
-      firstname: 'Diana',
-      lastname: 'Manolache',
-      email: 'diana2003@yahoo.com',
-      phoneNumber: '0757175915',
-      userTypes: [UserType.USER],
-      companies: [this.company2],
-      companyRoles: [{id: 4, name: 'Inspector Roman 2', companyId: 2}]
-    },
-    {
-      username: 'laura2317',
-      firstname: 'Laura',
-      lastname: 'Cozma',
-      email: 'cozmalaura23@yahoo.com',
-      phoneNumber: '0727874060',
-      userTypes: [UserType.USER]
-    }
-  ];
 }
