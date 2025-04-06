@@ -5,7 +5,6 @@ import {CommonModule} from '@angular/common';
 import {User} from '../../../model/User';
 import {MatDialog} from '@angular/material/dialog';
 import {UserEditRolesComponent} from '../../users/user-edit-roles/user-edit-roles.component';
-import {HttpService} from '../../../service/HttpService';
 import {Company} from '../../../model/Company';
 import {RolesPerCompany} from '../../users/users.component';
 import {Observable} from 'rxjs';
@@ -25,8 +24,7 @@ export class UserActionsComponent implements ICellRendererAngularComp {
   allCompanies: Company[];
 
   constructor(
-    private readonly dialog: MatDialog,
-    private readonly httpService: HttpService) {
+    private readonly dialog: MatDialog) {
   }
 
   agInit(params: ICellRendererParams): void {
@@ -45,13 +43,12 @@ export class UserActionsComponent implements ICellRendererAngularComp {
         rolesPerCompany: this.rolesPerCompany,
         allCompanies: this.allCompanies
       },
-      width: '500px',
-      height: '500px'
+      width: '600px',
+      maxWidth: '90vw',
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      // this.animal = result;
+      this.params?.onRefresh();
     });
   }
 

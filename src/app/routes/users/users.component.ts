@@ -30,6 +30,10 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.fetchData();
+  }
+
+  fetchData(): void {
     this.users$ = this.httpService.getUsers();
     this.companies$ = this.httpService.getCompanies();
   }
@@ -63,7 +67,8 @@ export class UsersComponent implements OnInit, OnDestroy {
       headerName: 'Actions', cellRenderer: UserActionsComponent,
       cellRendererParams: (params: any) => ({
         allCompanies$: this.httpService.getCompanies(),
-        rolesPerCompany: this.mapCompaniesToRoles(params.data.companies, params.data.companyRoles)
+        rolesPerCompany: this.mapCompaniesToRoles(params.data.companies, params.data.companyRoles),
+        onRefresh: () => this.refreshData()
       }),
       filter: false,
       width: 60
@@ -90,6 +95,11 @@ export class UsersComponent implements OnInit, OnDestroy {
     }
     return result;
   }
+
+  refreshData(): void {
+    this.fetchData();
+  }
+
 
   ngOnDestroy() {
     this.destroy$.next();
