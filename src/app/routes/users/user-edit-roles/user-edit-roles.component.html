@@ -1,6 +1,7 @@
-<h3 mat-dialog-title>User details</h3>
+<div mat-dialog-title>User details</div>
 
-<mat-dialog-content class="mat-typography">
+<mat-dialog-content>
+  <div class="mb-2"></div>
 
   <div class="row mb-3">
     <label class="col-2 col-form-label">Username</label>
@@ -27,18 +28,17 @@
 
   <!--companies-->
   <div class="row mb-2">
-    <h5>Companies:</h5>
+    <h4>Roles:</h4>
   </div>
   <div class="row">
     <div class="col">
       <ul class="list-unstyled">
         <li *ngFor="let company of this.rolesPerCompany"
-            class="mb-3">
+            class="mt-3">
           <div class="d-flex justify-content-between align-items-center">
-            <label>{{ company.name }}</label>
+            <h5>{{ company.name }}</h5>
             <button type="button" class="btn-close" (click)="deleteCurrentCompany(company.id)"></button>
           </div>
-          <br>
           <mat-form-field class="w-100">
             <mat-label>Roles</mat-label>
             <mat-select
@@ -74,10 +74,10 @@
 
         <button
           type="button"
-          *ngIf="getCompaniesWithoutRoleForUser().length > 0"
+          *ngIf="getCompaniesWithoutRoleForUser().length > 0 && !isNewCompany"
           (click)="addNewCompanyForRoles()"
-          class="btn btn-secondary mt-3"
-        >Add new company
+          class="btn btn-sm text-primary m-0 p-0"
+        >+Add new company
         </button>
       </ul>
 
