@@ -22,9 +22,11 @@ import {DateValidatorComponent} from '../validations/date-validator/date-validat
 import {DateValidator} from '../../model/DateValidator';
 import {DateCustomValidator} from '../../enum/DateCustomValidator';
 import {MatOption} from '@angular/material/core';
-import {MatSelect} from '@angular/material/select';
+import {MatSelect, MatSelectChange, MatSelectTrigger} from '@angular/material/select';
 import {CompanyRole} from '../../model/CompanyRole';
 import {Subject, takeUntil} from 'rxjs';
+import {Company} from '../../model/Company';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-create-template',
@@ -47,6 +49,7 @@ import {Subject, takeUntil} from 'rxjs';
     MatOption,
     MatSelect,
     FormsModule,
+    MatSelectTrigger,
   ],
   templateUrl: './create-template.component.html'
 })
@@ -59,8 +62,9 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
   currentFieldType: ContentType;
   form: FormGroup;
   sections: Section[] = [];
-  company = {id: 1, name: 'ANAF'};
-  companyRoles: CompanyRole[];
+  company: Company;
+  rolesForCompanies: CompanyRole[] = [];
+  companiesWhereICanCreateATemplate: Company[];
 
   cursorPositionInField: number | undefined;
 
@@ -74,23 +78,20 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
 
   constructor(private readonly fb: FormBuilder,
               private readonly dialog: MatDialog,
-              private readonly httpService: HttpService) {
+              private readonly httpService: HttpService,
+              private readonly router: Router) {
   }
 
   ngOnInit(): void {
     document.addEventListener('click', (event) => this.onClickOutside(event));
 
     this.form = this.fb.group({
-      companyIdCtrl: [1, Validators.required],
+      companyIdCtrl: [undefined, Validators.required],
       templateNameCtrl: [undefined, Validators.required],
       templateDescriptionCtrl: [undefined, Validators.required]
     });
 
-    this.httpService.getCompanyRoleByCompanyId(this.company.id)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(companyRoles => {
-        this.companyRoles = companyRoles;
-      })
+    this.getCompaniesWhereICanCreateATemplate();
 
     if (this.mockData) {
       this.sections = [
@@ -242,12 +243,27 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
     }
   }
 
+  selectDifferentCompany($event: MatSelectChange): void {
+    this.company = $event.value;
+    this.httpService.getCompanyRolesByCompanyId($event.value.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((companyRoles) => {
+        this.rolesForCompanies = companyRoles;
+      });
+  }
+
   ngAfterViewChecked() {
     if (this.viewChecked && this.getCurrentSectionField()) {
       const htmlElement = document.getElementById('' + this.getCurrentSectionField()?.id) as HTMLElement;
       htmlElement.focus();
       this.viewChecked = false;
     }
+  }
+
+  getCompaniesWhereICanCreateATemplate(): void {
+    this.httpService.getCompanies(true)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(companies => this.companiesWhereICanCreateATemplate = companies);
   }
 
   createNewSection(title: string | undefined, isValidation: boolean) {
@@ -369,13 +385,10 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
   submit(): void {
     this.displayInfo();
 
-    this.form.controls['templateNameCtrl'].setValue('Template name');
-    this.form.controls['templateDescriptionCtrl'].setValue('Template description');
-
     if (this.form.invalid) {
       return;
     }
-    const companyId = this.form.controls['companyIdCtrl'].value;
+    const companyId = this.form.controls['companyIdCtrl'].value.id;
     const body = {
       title: this.form.controls['templateNameCtrl'].value,
       description: this.form.controls['templateDescriptionCtrl'].value,
@@ -384,7 +397,8 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
     this.httpService.saveTemplate(companyId, body)
       .subscribe({
         next: result => {
-          console.log(result);
+          console.log('success result:', result);
+          this.router.navigateByUrl('/forms');
         },
         error: err => {
           console.error(err);

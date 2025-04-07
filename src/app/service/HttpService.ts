@@ -19,8 +19,10 @@ export class HttpService {
 
   ///////////////////// Company /////////////////////
 
-  getCompanies(): Observable<Company[]> {
-    return this.http.get<Company[]>(`${URL.COMPANIES_URL}`);
+  getCompanies(createTemplate: boolean = false): Observable<Company[]> {
+    const params = new HttpParams()
+      .set('createTemplate', createTemplate);
+    return this.http.get<Company[]>(`${URL.COMPANIES_URL}`, {params});
   }
 
   ///////////////////// Template /////////////////////
@@ -53,7 +55,7 @@ export class HttpService {
   }
 
   ///////////////////// Company Role /////////////////////
-  getCompanyRoleByCompanyId(companyId: number): Observable<CompanyRole[]> {
+  getCompanyRolesByCompanyId(companyId: number): Observable<CompanyRole[]> {
     return this.http.get<CompanyRole[]>(`${URL.COMPANIES_URL}/${companyId}/roles`);
   }
 

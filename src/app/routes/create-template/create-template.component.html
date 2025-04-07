@@ -17,8 +17,18 @@
         <div class="row">
           <div class="col">
             <mat-form-field>
-              <mat-label>Company</mat-label>
-              <input matInput readonly formControlName="companyIdCtrl">
+              <mat-label>Companies</mat-label>
+              <mat-select
+                formControlName="companyIdCtrl"
+                (selectionChange)="selectDifferentCompany($event)"
+              >
+                <mat-option
+                  *ngFor="let company of companiesWhereICanCreateATemplate"
+                  [value]="company"
+                >
+                  {{ company.name }}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
           </div>
         </div>
@@ -51,8 +61,15 @@
                     <mat-select
                       [(ngModel)]="section.companyRoles"
                       [ngModelOptions]="{standalone: true}"
-                      multiple class="form-control w-auto" style="min-width: 200px; max-width: 400px;">
-                      <mat-option *ngFor="let companyRole of companyRoles"
+                      multiple class="form-control w-auto" style="min-width: 200px">
+
+                      <mat-select-trigger>
+                        <ng-container *ngFor="let role of section.companyRoles; let i = index">
+                          <span class="badge bg-secondary me-1">{{ role.name }}</span>
+                        </ng-container>
+                      </mat-select-trigger>
+
+                      <mat-option *ngFor="let companyRole of rolesForCompanies"
                                   [value]="companyRole">{{ companyRole.name }}</mat-option>
                     </mat-select>
                   </span>
@@ -139,7 +156,8 @@
            (click)="addNewSectionAfterCurrentSection('Validation section', true)">Add validation section
         </a>
       </li>
-      <li *ngIf="displayDeleteSectionField()"><a class="dropdown-item" (click)="onDeleteCurrentField()">Delete field</a></li>
+      <li *ngIf="displayDeleteSectionField()"><a class="dropdown-item" (click)="onDeleteCurrentField()">Delete field</a>
+      </li>
       <li><a class="dropdown-item" (click)="deleteCurrentSection()">Delete section</a></li>
     </ul>
   </form>
