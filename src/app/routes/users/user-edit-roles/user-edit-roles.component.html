@@ -63,15 +63,18 @@
           </mat-form-field>
         </li>
 
-        <mat-select *ngIf="isNewCompany" placeholder="Select new company">
-          <mat-option
-            *ngFor="let company of getCompaniesWithoutRoleForUser()"
-            [value]="company.id"
-            (click)="selectNewCompany(company)"
-          >{{ company.name }}
-          </mat-option>
-        </mat-select>
 
+        <mat-form-field *ngIf="isNewCompany" class="w-100">
+          <mat-label>Select new company</mat-label>
+          <mat-select placeholder="Select new company">
+            <mat-option
+              *ngFor="let company of getCompaniesWithoutRoleForUser()"
+              [value]="company.id"
+              (click)="selectNewCompany(company)"
+            >{{ company.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
         <button
           type="button"
           *ngIf="getCompaniesWithoutRoleForUser().length > 0 && !isNewCompany"
