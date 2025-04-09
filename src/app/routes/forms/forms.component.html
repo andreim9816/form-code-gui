@@ -1,16 +1,125 @@
 <div class="container">
-  <h3>Assigned forms</h3>
-  <ag-grid-angular
-    class="ag-theme-alpine table table-striped table-bordered w-100"
-    style="height: 700px"
-    [rowData]="forms"
-    [columnDefs]="colDefs"
-    [autoSizeStrategy]="{type: 'fitGridWidth'}"
 
-    [pagination]="true"
-    [paginationPageSize]="paginationPageSize"
-    [paginationPageSizeSelector]="paginationPageSizeSelector"
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Start a new Form</mat-panel-title>
+    </mat-expansion-panel-header>
 
-  >
-  </ag-grid-angular>
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmitStartNewForm()">
+      <mat-form-field class="w-100">
+        <mat-label>Select a form</mat-label>
+        <mat-select formControlName="templateIdCtrl">
+          @for (template of templates; track template.id) {
+            <mat-option [value]="template.id">{{ template.title }} - {{ template.description }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-flat-button color="primary" type="submit" [disabled]="formGroup.invalid">
+        Start Form
+      </button>
+
+    </form>
+
+  </mat-expansion-panel>
+
+  <br>
+  <br>
+
+  <mat-tab-group>
+    <mat-tab label="My Forms">
+
+      <ng-container
+        *ngTemplateOutlet="formList; context: { forms: myForms, isMyForms: true, isAssigned: false }">
+      </ng-container>
+
+      <!--      <mat-card-->
+      <!--        *ngFor="let form of forms"-->
+      <!--        class="mt-3"-->
+      <!--        appearance="outlined"-->
+      <!--      >-->
+      <!--        <mat-card-header>-->
+      <!--          <mat-card-title>{{ form.template.title }}</mat-card-title>-->
+      <!--          <mat-card-subtitle>{{ form.template.description }}</mat-card-subtitle>-->
+      <!--        </mat-card-header>-->
+      <!--        <br>-->
+      <!--        <mat-card-content>-->
+      <!--          <div><span>Company: {{ form.template.companyName }}</span></div>-->
+      <!--          <div><span>Status:</span><span [innerHTML]="getStatus(form)"></span></div>-->
+      <!--          <div><span>Created date: {{ form.createdDate }}</span></div>-->
+      <!--          <div><span>Created by: {{ form.creatorUser.lastname }} {{ form.creatorUser.firstname }}</span></div>-->
+      <!--        </mat-card-content>-->
+      <!--      </mat-card>-->
+
+    </mat-tab>
+    <mat-tab label="Assigned Forms">
+
+      <ng-container
+        *ngTemplateOutlet="formList; context: { forms: assignedForms, isMyForms: false, isAssigned: true  }"></ng-container>
+
+      <!--      <mat-card-->
+      <!--        *ngFor="let form of forms"-->
+      <!--        class="mt-3"-->
+      <!--        appearance="outlined"-->
+      <!--      >-->
+      <!--        <mat-card-header>-->
+      <!--          <mat-card-title>{{ form.template.title }}</mat-card-title>-->
+      <!--          <mat-card-subtitle>{{ form.template.description }}</mat-card-subtitle>-->
+      <!--        </mat-card-header>-->
+      <!--        <br>-->
+      <!--        <mat-card-content>-->
+      <!--          <div><span>Company: {{ form.template.companyName }}</span></div>-->
+      <!--          <div><span>Status:</span><span [innerHTML]="getStatus(form)"></span></div>-->
+      <!--          <div><span>Created date: {{ form.createdDate }}</span></div>-->
+      <!--          <div><span>Created by: {{ form.creatorUser.lastname }} {{ form.creatorUser.firstname }}</span></div>-->
+      <!--        </mat-card-content>-->
+      <!--      </mat-card>-->
+
+    </mat-tab>
+  </mat-tab-group>
+
+  <!--  <ag-grid-angular-->
+  <!--    class="ag-theme-alpine table table-striped table-bordered w-100"-->
+  <!--    style="height: 700px"-->
+  <!--    [rowData]="forms"-->
+  <!--    [columnDefs]="colDefs"-->
+  <!--    [autoSizeStrategy]="{type: 'fitGridWidth'}"-->
+
+  <!--    [pagination]="true"-->
+  <!--    [paginationPageSize]="paginationPageSize"-->
+  <!--    [paginationPageSizeSelector]="paginationPageSizeSelector"-->
+
+  <!--  >-->
+  <!--  </ag-grid-angular>-->
 </div>
+
+
+<ng-template #formList let-forms="forms" let-isMyForms="isMyForms" let-isAssigned="isAssigned">
+  <mat-card
+    *ngFor="let form of forms"
+    class="mt-3"
+    appearance="outlined"
+  >
+    <mat-card-header>
+      <mat-card-title>{{ form.template.title }}</mat-card-title>
+      <mat-card-subtitle>{{ form.template.description }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <br>
+
+    <mat-card-content>
+      <div><span>Company: {{ form.template.companyName }}</span></div>
+      <div><span>Status:</span><span [innerHTML]="getStatus(form)"></span></div>
+      <div><span>Created date: {{ form.createdDate }}</span></div>
+      <div><span>Created by: {{ form.creatorUser.lastname }} {{ form.creatorUser.firstname }}</span></div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-button type="button"
+              [disabled]="isMyForms && isValidationState(form) || isAssigned && !isValidationState(forms)"
+              (click)="openForm(form)">
+        Open
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</ng-template>

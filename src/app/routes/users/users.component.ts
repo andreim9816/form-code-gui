@@ -53,10 +53,10 @@ export class UsersComponent implements OnInit, OnDestroy {
       headerName: 'Companies & Roles',
       cellRenderer: CompanyAndRolesComponent,
       cellRendererParams: (params: any) => ({
-        rolesPerCompany: this.mapCompaniesToRoles(params.data.companies, params.data.companyRoles)
+        rolesPerCompany: this.mapCompaniesToRoles(params.data.companyRoles)
       }),
       valueGetter: (params) => {
-        const rolesPerCompany = this.mapCompaniesToRoles(params.data.companies, params.data.companyRoles)
+        const rolesPerCompany = this.mapCompaniesToRoles(params.data.companyRoles)
         return (rolesPerCompany ?? [])
           .map((company: any) => `${company.name}: ${company.roles.map((r: any) => r.name).join(' ')}`);
       },
@@ -67,7 +67,7 @@ export class UsersComponent implements OnInit, OnDestroy {
       headerName: 'Actions', cellRenderer: UserActionsComponent,
       cellRendererParams: (params: any) => ({
         allCompanies$: this.httpService.getCompanies(),
-        rolesPerCompany: this.mapCompaniesToRoles(params.data.companies, params.data.companyRoles),
+        rolesPerCompany: this.mapCompaniesToRoles(params.data.companyRoles),
         onRefresh: () => this.refreshData()
       }),
       filter: false,
@@ -75,7 +75,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     }
   ];
 
-  mapCompaniesToRoles(companies: any[], companyRoles: any[]): RolesPerCompany[] {
+  mapCompaniesToRoles(companyRoles: any[]): RolesPerCompany[] {
     const groupedRoles = (companyRoles ?? []).reduce((acc, role) => {
       if (!acc[role.companyId]) {
         acc[role.companyId] = [];

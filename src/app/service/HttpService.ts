@@ -34,7 +34,15 @@ export class HttpService {
     return this.http.get<Template>(`${URL.TEMPLATE_URL}/${id}`);
   }
 
+  getTemplatesForCompanyId(companyId: number): Observable<Template[]> {
+    return this.http.get<Template[]>(`${URL.COMPANIES_URL}/${companyId}/templates`);
+  }
+
   ///////////////////// Form /////////////////////
+  createForm(templateId: number): Observable<Form> {
+    return this.http.post<Form>(`${URL.TEMPLATE_URL}/${templateId}/forms`, null);
+  }
+
   getForms(createdByMe: boolean, assignedToMe: boolean): Observable<Form[]> {
     const params = new HttpParams()
       .set('assignedToMe', assignedToMe)
