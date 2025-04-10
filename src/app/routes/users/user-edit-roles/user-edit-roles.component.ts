@@ -57,7 +57,7 @@ export class UserEditRolesComponent implements OnInit {
   getCompaniesWithoutRoleForUser(): Company[] {
     const companyIdsOfUser = this.rolesPerCompany.map((c) => c.id);
     return this.allCompanies.filter((company: Company) => {
-      return !companyIdsOfUser.includes(company.id);
+      return !companyIdsOfUser.includes(company.id!);
     })
   }
 

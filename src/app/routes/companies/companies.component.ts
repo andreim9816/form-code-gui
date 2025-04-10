@@ -22,7 +22,7 @@ export class CompaniesComponent implements OnInit {
   paginationPageSizeSelector: number[] | boolean = [10, 20, 50];
 
   colDefs: ColDef[] = [
-    {headerName: 'Company', field: 'name'},
+    {headerName: 'Company', field: 'name', width: 75},
     {headerName: 'Admins', cellRenderer: CompanyAdminsComponent},
     {headerName: 'Roles', cellRenderer: CompanyRolesComponent, autoHeight: true},
     //todo add edit button
@@ -46,12 +46,13 @@ export class CompaniesComponent implements OnInit {
 
   addNewCompany(): void {
     const dialogRef = this.dialog.open(CreateCompanyComponent, {
+      data: {
+        company: undefined
+      },
       width: '600px',
       maxWidth: '90vw',
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      this.fetchData();
-    });
+    dialogRef.afterClosed().subscribe(() => this.fetchData());
   }
 }
