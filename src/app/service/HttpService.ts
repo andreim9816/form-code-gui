@@ -25,6 +25,10 @@ export class HttpService {
     return this.http.get<Company[]>(`${URL.COMPANIES_URL}`, {params});
   }
 
+  createCompany(body: any): Observable<Company> {
+    return this.http.post<Company>(`${URL.COMPANIES_URL}`, body);
+  }
+
   ///////////////////// Template /////////////////////
   saveTemplate(companyId: number, body: any) {
     return this.http.post<Section[]>(`${URL.COMPANIES_URL}/${companyId}/templates`, body);
