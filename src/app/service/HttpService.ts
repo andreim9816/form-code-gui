@@ -29,6 +29,10 @@ export class HttpService {
     return this.http.post<Company>(`${URL.COMPANIES_URL}`, body);
   }
 
+  updateCompany(companyId: number,body: any): Observable<Company> {
+    return this.http.patch<Company>(`${URL.COMPANIES_URL}/${companyId}`, body);
+  }
+
   ///////////////////// Template /////////////////////
   saveTemplate(companyId: number, body: any) {
     return this.http.post<Section[]>(`${URL.COMPANIES_URL}/${companyId}/templates`, body);

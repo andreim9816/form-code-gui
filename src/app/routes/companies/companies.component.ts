@@ -18,14 +18,24 @@ import {CreateCompanyComponent} from './create-company/create-company.component'
 })
 export class CompaniesComponent implements OnInit {
   companies: Company[];
-  paginationPageSize = 10;
+  paginationPageSize = 20;
   paginationPageSizeSelector: number[] | boolean = [10, 20, 50];
 
   colDefs: ColDef[] = [
+    {headerName: 'id', field: 'id'},
     {headerName: 'Company', field: 'name', width: 75},
     {headerName: 'Admins', cellRenderer: CompanyAdminsComponent},
     {headerName: 'Roles', cellRenderer: CompanyRolesComponent, autoHeight: true},
-    //todo add edit button
+    {
+      headerName: 'Edit',
+      cellRenderer: () => {
+        return `<button class="btn btn-sm btn-primary">Edit</button>`;
+      },
+      onCellClicked: (params) => {
+        this.openAddEditCompanyModal(params.data);
+      },
+      width: 30
+    }
   ];
 
   constructor(
@@ -44,15 +54,19 @@ export class CompaniesComponent implements OnInit {
       });
   }
 
-  addNewCompany(): void {
+  openAddEditCompanyModal(company: Company | undefined): void {
     const dialogRef = this.dialog.open(CreateCompanyComponent, {
       data: {
-        company: undefined
+        company
       },
       width: '600px',
       maxWidth: '90vw',
     });
 
-    dialogRef.afterClosed().subscribe(() => this.fetchData());
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.fetchData();
+      }
+    });
   }
 }

@@ -9,12 +9,12 @@ import {
 } from '@angular/material/dialog';
 import {CommonModule} from '@angular/common';
 import {
-  MatCell,
-  MatCellDef,
+  MatCell, MatCellDef,
   MatColumnDef,
   MatHeaderCell,
-  MatHeaderCellDef, MatHeaderRow,
-  MatHeaderRowDef, MatRow, MatRowDef,
+  MatHeaderCellDef,
+  MatHeaderRow, MatHeaderRowDef,
+  MatRow, MatRowDef,
   MatTable
 } from '@angular/material/table';
 import {Subject, takeUntil} from 'rxjs';
@@ -28,16 +28,15 @@ import {FormsModule} from '@angular/forms';
 import {MatCheckbox} from '@angular/material/checkbox';
 import {MatOption, MatSelect, MatSelectTrigger} from '@angular/material/select';
 import {MatButton} from '@angular/material/button';
+import {Role} from '../../users/users.component';
 
 @Component({
   selector: 'app-create-company',
   imports: [
     CommonModule,
     MatTable,
-    MatCellDef,
     MatCell,
     MatHeaderCell,
-    MatHeaderCellDef,
     MatLabel,
     MatSelectTrigger,
     MatColumnDef,
@@ -55,23 +54,24 @@ import {MatButton} from '@angular/material/button';
     MatDialogActions,
     MatButton,
     MatDialogTitle,
-    MatHeaderRowDef,
     MatHeaderRow,
-    MatRowDef,
-    MatRow
+    MatRow,
+    MatHeaderCellDef,
+    MatCellDef,
+    MatHeaderRowDef,
+    MatRowDef
   ],
   templateUrl: './create-company.component.html'
 })
 export class CreateCompanyComponent implements OnInit, OnDestroy {
   company: Company;
 
-  companyName: string;
   allUsers: User[];
 
   @ViewChild(MatTable)
   table: MatTable<RoleRow>;
 
-  displayedColumns: string[] = ['name', 'create_template', 'delete'];
+  displayedColumns: string[] = ['name', 'createTemplate', 'delete'];
   roles: RoleRow[] = [];
 
   destroy$ = new Subject<void>();
@@ -82,7 +82,12 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) public data: any) {
     if (data.company) {
       this.company = data.company;
-      this.roles = this.company.companyRoles.map(x => ({name: x.name, create_template: x.createTemplate}))
+      this.roles = this.company.companyRoles.map(x => (
+        {
+          companyRoleId: x.id,
+          name: x.name,
+          createTemplate: x.createTemplate
+        }))
     } else {
       this.company = {
         id: undefined,
@@ -102,7 +107,7 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
   }
 
   addRole(): void {
-    this.roles.push({name: '', create_template: false} as RoleRow);
+    this.roles.push({companyRoleId: undefined, name: '', createTemplate: false} as RoleRow);
     this.table?.renderRows();
   }
 
@@ -112,26 +117,34 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
     this.table?.renderRows();
   }
 
-  onToggleCanCreate(row: RoleRow) {
-    row.create_template = !row.create_template;
-  }
-
   close(): void {
     this.dialogRef.close();
   }
 
   submit(): void {
     const body = {
-      name: this.companyName,
+      name: this.company.name,
       companyRoles: this.roles,
       adminUserIds: this.company.adminUsers.map(x => x.id)
     };
-    this.httpService.createCompany(body)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(company => {
-        this.dialogRef.close(company);
-      });
+    console.log(body);
+
+    if (this.company.id) {
+      this.httpService.updateCompany(this.company.id, body)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(company => {
+          this.dialogRef.close(company);
+        });
+    } else {
+      this.httpService.createCompany(body)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(company => {
+          this.dialogRef.close(company);
+        });
+    }
   }
+
+  compareWithUser= (c1: User, c2: User) => c1 && c2 && c1.id === c2.id;
 
   ngOnDestroy() {
     this.destroy$.next();
@@ -140,6 +153,7 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
 }
 
 interface RoleRow {
+  companyRoleId: number | undefined;
   name: string;
-  create_template: boolean;
+  createTemplate: boolean;
 }
