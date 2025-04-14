@@ -27,10 +27,14 @@ import {CompanyRole} from '../../model/CompanyRole';
 import {Subject, takeUntil} from 'rxjs';
 import {Company} from '../../model/Company';
 import {Router} from '@angular/router';
+import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
+import {HttpErrorResponse} from '@angular/common/http';
+import {NotificationService} from '../../service/notification-service';
 
 @Component({
   selector: 'app-create-template',
   imports: [
+    SweetAlert2Module,
     CommonModule,
     ReactiveFormsModule,
     MatButton,
@@ -79,6 +83,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
   constructor(private readonly fb: FormBuilder,
               private readonly dialog: MatDialog,
               private readonly httpService: HttpService,
+              private readonly notificationService: NotificationService,
               private readonly router: Router) {
   }
 
@@ -225,18 +230,6 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
                 maxValue: 10
               }
             }
-          ]
-        },
-        {
-          title: 'Validation section',
-          isValidation: true,
-          companyRoles: [] as CompanyRole[],
-          sectionFields: [
-            {
-              id: HtmlUtils.generateUUID(),
-              defaultValue: null,
-              contentType: ContentType.STRING
-            },
           ]
         }
       ] as Section[];
@@ -400,8 +393,9 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
           console.log('success result:', result);
           this.router.navigateByUrl('/forms');
         },
-        error: err => {
-          console.error(err);
+        error: (err: HttpErrorResponse) => {
+          const errorMessage = err.error.message;
+          this.notificationService.displayNotificationError(errorMessage);
         }
       })
   }

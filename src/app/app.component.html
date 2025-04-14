@@ -1,4 +1,12 @@
 <app-navbar></app-navbar>
-<div class="mx-3 my-3">
+<div class="m-3">
   <router-outlet></router-outlet>
+</div>
+
+<div class="spinner-backdrop" *ngIf="loading$ | async">
+  <mat-progress-spinner
+    mode="indeterminate"
+    diameter="60"
+    color="accent">
+  </mat-progress-spinner>
 </div>

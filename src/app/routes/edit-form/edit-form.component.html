@@ -1,6 +1,8 @@
 <div class="container-fluid" *ngIf="this.form">
-  <p>{{ form.template.title }}</p>
-  <p>{{ form.template.description }}</p>
+  <h3>{{ form.template.title }}</h3>
+  <h5 class="text-secondary">{{ form.template.description }}</h5>
+  <br>
+
   <form [formGroup]="formGroup" (ngSubmit)="submit()">
     <div class="col-8 border-start border-end">
       <div class="row">

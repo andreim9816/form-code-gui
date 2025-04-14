@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpService} from '../../service/HttpService';
 import {Subject, takeUntil} from 'rxjs';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {
   AbstractControl,
   FormArray,
@@ -28,6 +28,8 @@ import {FormSectionStatus} from '../../enum/FormSectionStatus';
 import {FormSectionUpdate} from '../../dto/request/FormSectionUpdate';
 import {FormSectionField} from '../../model/FormSectionField';
 import {StorageService} from '../../service/StorageService';
+import {HttpErrorResponse} from '@angular/common/http';
+import {NotificationService} from '../../service/notification-service';
 
 @Component({
   selector: 'app-edit-form',
@@ -53,6 +55,8 @@ export class EditFormComponent implements OnInit, OnDestroy {
   constructor(private readonly route: ActivatedRoute,
               private readonly fb: FormBuilder,
               private readonly httpService: HttpService,
+              private readonly router: Router,
+              private readonly notificationService: NotificationService,
               readonly storageService: StorageService) {
   }
 
@@ -102,10 +106,12 @@ export class EditFormComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (result) => {
-          console.log(result);
+          this.router.navigate(['/forms']);
+          this.notificationService.displayNotificationMessage("Successfully submitted");
         },
-        error: (err) => {
-          console.error(err);
+        error: (err: HttpErrorResponse) => {
+          const errorMessage = err.error.message;
+          this.notificationService.displayNotificationError(errorMessage);
         }
       })
   }
@@ -131,8 +137,12 @@ export class EditFormComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (result) => {
+          this.router.navigate(['/forms']);
+          this.notificationService.displayNotificationMessage("Form rejected");
         },
-        error: (err) => {
+        error: (err: HttpErrorResponse) => {
+          const errorMessage = err.error.message;
+          this.notificationService.displayNotificationError(errorMessage);
         }
       })
   }

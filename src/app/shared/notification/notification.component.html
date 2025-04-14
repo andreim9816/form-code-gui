@@ -1,0 +1,11 @@
+<swal [title]="title">
+  <!-- This form will be displayed as the alert main content
+       Targets the alert's main content zone by default -->
+
+
+  <!-- This targets the confirm button's inner content
+       Notice the usage of ng-container to avoid creating an useless DOM element inside the button -->
+  <ng-container *swalPortal="swalTargets.confirmButton">
+    Send ({{ secondsLeft }} seconds left)
+  </ng-container>
+</swal>

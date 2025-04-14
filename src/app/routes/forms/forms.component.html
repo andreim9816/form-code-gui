@@ -110,6 +110,7 @@
     <mat-card-content>
       <div><span>Company: {{ form.template.companyName }}</span></div>
       <div><span>Status:</span><span [innerHTML]="getStatus(form)"></span></div>
+      <div><span>Last modified date: {{ form.lastModifiedDate }}</span></div>
       <div><span>Created date: {{ form.createdDate }}</span></div>
       <div><span>Created by: {{ form.creatorUser.lastname }} {{ form.creatorUser.firstname }}</span></div>
     </mat-card-content>

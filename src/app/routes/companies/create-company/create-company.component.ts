@@ -9,10 +9,10 @@ import {
 } from '@angular/material/dialog';
 import {CommonModule} from '@angular/common';
 import {
-  MatCell, MatCellDef,
+  MatCell,
+  MatCellDef,
   MatColumnDef,
-  MatHeaderCell,
-  MatHeaderCellDef,
+  MatHeaderCell, MatHeaderCellDef,
   MatHeaderRow, MatHeaderRowDef,
   MatRow, MatRowDef,
   MatTable
@@ -20,15 +20,16 @@ import {
 import {Subject, takeUntil} from 'rxjs';
 import {User} from '../../../model/User';
 import {Company} from '../../../model/Company';
-import {MatFormField, MatLabel} from '@angular/material/form-field';
+import {MatError, MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle} from '@angular/material/expansion';
 import {MatDivider} from '@angular/material/divider';
 import {MatInput} from '@angular/material/input';
-import {FormsModule} from '@angular/forms';
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatCheckbox} from '@angular/material/checkbox';
 import {MatOption, MatSelect, MatSelectTrigger} from '@angular/material/select';
 import {MatButton} from '@angular/material/button';
-import {Role} from '../../users/users.component';
+import {NotificationService} from '../../../service/notification-service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-create-company',
@@ -59,7 +60,9 @@ import {Role} from '../../users/users.component';
     MatHeaderCellDef,
     MatCellDef,
     MatHeaderRowDef,
-    MatRowDef
+    MatRowDef,
+    ReactiveFormsModule,
+    FormsModule
   ],
   templateUrl: './create-company.component.html'
 })
@@ -71,13 +74,17 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
   @ViewChild(MatTable)
   table: MatTable<RoleRow>;
 
+  formGroup: FormGroup;
+
   displayedColumns: string[] = ['name', 'createTemplate', 'delete'];
   roles: RoleRow[] = [];
 
   destroy$ = new Subject<void>();
 
   constructor(
+    private readonly fb: FormBuilder,
     private readonly httpService: HttpService,
+    private readonly notificationService: NotificationService,
     public dialogRef: MatDialogRef<CreateCompanyComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     if (data.company) {
@@ -99,6 +106,17 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.createFormGroup();
+    this.getAllUsers();
+  }
+
+  createFormGroup(): void {
+    this.formGroup = this.fb.group({
+      nameCtrl: [this.company.name, Validators.required]
+    });
+  }
+
+  getAllUsers(): void {
     this.httpService.getUsers()
       .pipe(takeUntil(this.destroy$))
       .subscribe(allUsers => {
@@ -123,28 +141,58 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
 
   submit(): void {
     const body = {
-      name: this.company.name,
+      name:  this.formGroup.controls['nameCtrl'].value,
       companyRoles: this.roles,
       adminUserIds: this.company.adminUsers.map(x => x.id)
     };
     console.log(body);
 
+    const errors = this.formGroup.controls['nameCtrl'];
+    console.log(errors, errors.errors);
+    if (!this.formGroup.valid) {
+      return;
+    }
+
     if (this.company.id) {
       this.httpService.updateCompany(this.company.id, body)
         .pipe(takeUntil(this.destroy$))
-        .subscribe(company => {
-          this.dialogRef.close(company);
+        .subscribe({
+          next: (company) => {
+            this.dialogRef.close(company);
+          },
+          error: (err: HttpErrorResponse) => {
+            const errorMessage = err.error.message;
+            this.notificationService.displayNotificationError(errorMessage);
+          }
         });
     } else {
       this.httpService.createCompany(body)
         .pipe(takeUntil(this.destroy$))
-        .subscribe(company => {
-          this.dialogRef.close(company);
+        .subscribe({
+          next: (company) => {
+            this.dialogRef.close(company);
+          },
+          error: (err: HttpErrorResponse) => {
+            const errorMessage = err.error.message;
+            this.notificationService.displayNotificationError(errorMessage);
+          }
         });
     }
   }
 
-  compareWithUser= (c1: User, c2: User) => c1 && c2 && c1.id === c2.id;
+  compareWithUser = (c1: User, c2: User) => c1 && c2 && c1.id === c2.id;
+
+  isEdit(): boolean {
+    return this.company.id != null;
+  }
+
+  displayTitle(): string {
+    if (this.isEdit()) {
+      return 'Edit company';
+    } else {
+      return 'Add company';
+    }
+  }
 
   ngOnDestroy() {
     this.destroy$.next();

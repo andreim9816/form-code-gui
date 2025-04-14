@@ -53,8 +53,8 @@ export class HttpService {
 
   getForms(createdByMe: boolean, assignedToMe: boolean): Observable<Form[]> {
     const params = new HttpParams()
-      .set('assignedToMe', assignedToMe)
-      .set('createdByMe', createdByMe);
+      .set('createdByMe', createdByMe)
+      .set('assignedToMe', assignedToMe);
     return this.http.get<Form[]>(`${URL.FORM_URL}`, {params});
   }
 

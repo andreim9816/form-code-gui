@@ -22,6 +22,8 @@ import {MatSelect} from '@angular/material/select';
 import {Template} from '../../model/Template';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatButton} from '@angular/material/button';
+import {HttpErrorResponse} from '@angular/common/http';
+import {NotificationService} from '../../service/notification-service';
 
 @Component({
   selector: 'app-forms',
@@ -65,6 +67,7 @@ export class FormsComponent implements OnInit {
 
   constructor(private readonly httpService: HttpService,
               private readonly sanitizer: DomSanitizer,
+              private readonly notificationService: NotificationService,
               private readonly fb: FormBuilder,
               private readonly router: Router) {
   }
@@ -175,8 +178,14 @@ export class FormsComponent implements OnInit {
   onSubmitStartNewForm(): void {
     const templateId = this.formGroup.controls['templateIdCtrl'].value;
     this.httpService.createForm(templateId)
-      .subscribe(form => {
-        this.router.navigate(['/forms', form.id]);
+      .subscribe({
+        next: form => {
+          this.router.navigate(['/forms', form.id]);
+        },
+        error: (err: HttpErrorResponse) => {
+          const errorMessage = err.error.message;
+          this.notificationService.displayNotificationError(errorMessage);
+        }
       });
   }
 }

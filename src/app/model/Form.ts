@@ -6,6 +6,7 @@ export interface Form {
   id: number;
   createdDate: Date;
   finishedDate: Date;
+  lastModifiedDate: Date;
 
   currentValidationSectionId: number;
   currentSectionId: number;
