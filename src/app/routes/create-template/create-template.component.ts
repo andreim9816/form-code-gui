@@ -16,13 +16,13 @@ import {CheckboxComponent} from '../../shared/checkbox/checkbox.component';
 import {HttpService} from '../../service/HttpService';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogConfirmDeleteComponent} from '../dialog-confirm-delete/dialog-confirm-delete.component';
-import {TextValidatorComponent} from '../validations/text-validator/text-validator.component';
+import {PersonalDataType, TextValidatorComponent} from '../validations/text-validator/text-validator.component';
 import {NumberValidatorComponent} from '../validations/number-validator/number-validator.component';
 import {DateValidatorComponent} from '../validations/date-validator/date-validator.component';
 import {DateValidator} from '../../model/DateValidator';
 import {DateCustomValidator} from '../../enum/DateCustomValidator';
 import {MatOption} from '@angular/material/core';
-import {MatSelect, MatSelectChange, MatSelectTrigger} from '@angular/material/select';
+import {MatSelect, MatSelectTrigger} from '@angular/material/select';
 import {CompanyRole} from '../../model/CompanyRole';
 import {Subject, takeUntil} from 'rxjs';
 import {Company} from '../../model/Company';
@@ -55,7 +55,8 @@ import {NotificationService} from '../../service/notification-service';
     FormsModule,
     MatSelectTrigger,
   ],
-  templateUrl: './create-template.component.html'
+  templateUrl: './create-template.component.html',
+  styleUrls: ['create-template.component.css']
 })
 export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDestroy {
   @ViewChild('contextMenu') contextMenu!: ElementRef;
@@ -68,7 +69,6 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
   sections: Section[] = [];
   company: Company;
   rolesForCompanies: CompanyRole[] = [];
-  companiesWhereICanCreateATemplate: Company[];
 
   cursorPositionInField: number | undefined;
 
@@ -90,13 +90,12 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
   ngOnInit(): void {
     document.addEventListener('click', (event) => this.onClickOutside(event));
 
+    this.getCompanyRoles();
+
     this.form = this.fb.group({
-      companyIdCtrl: [undefined, Validators.required],
       templateNameCtrl: [undefined, Validators.required],
       templateDescriptionCtrl: [undefined, Validators.required]
     });
-
-    this.getCompaniesWhereICanCreateATemplate();
 
     if (this.mockData) {
       this.sections = [
@@ -115,6 +114,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
               id: HtmlUtils.generateUUID(),
               defaultValue: null,
               contentType: ContentType.STRING,
+              personalDataType: PersonalDataType.NAME,
               textValidator: {
                 isRequired: true,
                 minSize: 5,
@@ -122,7 +122,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
                 isEmail: false,
                 isNoSpace: false,
                 isNoNumber: true,
-                regex: null
+                regex: null,
               }
             },
             {
@@ -135,6 +135,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
               id: HtmlUtils.generateUUID(),
               defaultValue: null,
               contentType: ContentType.STRING,
+              personalDataType: PersonalDataType.ADDRESS,
               textValidator: {
                 isRequired: true,
                 minSize: 5,
@@ -142,7 +143,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
                 isEmail: false,
                 isNoSpace: false,
                 isNoNumber: false,
-                regex: null
+                regex: null,
               }
             },
             {
@@ -155,6 +156,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
               id: HtmlUtils.generateUUID(),
               defaultValue: null,
               contentType: ContentType.DATE,
+              personalDataType: PersonalDataType.ADDRESS,
               dateValidator: {
                 isRequired: true,
                 startDate: new Date(1900, 0, 1),
@@ -172,6 +174,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
               id: HtmlUtils.generateUUID(),
               defaultValue: null,
               contentType: ContentType.STRING,
+              personalDataType: PersonalDataType.CNP,
               textValidator: {
                 isRequired: true,
                 minSize: 13,
@@ -179,7 +182,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
                 isEmail: false,
                 isNoSpace: true,
                 isNoNumber: false,
-                regex: '[1-8]\\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\\d|3[01])\\d{6}'
+                regex: '[1-8]\\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\\d|3[01])\\d{6}',
               }
             },
             {
@@ -193,7 +196,8 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
                 isEmail: false,
                 isNoSpace: false,
                 isNoNumber: false,
-                regex: null
+                regex: null,
+                personalDataType: null
               }
             },
             {
@@ -236,12 +240,11 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
     }
   }
 
-  selectDifferentCompany($event: MatSelectChange): void {
-    this.company = $event.value;
-    this.httpService.getCompanyRolesByCompanyId($event.value.id)
+  getCompanyRoles() {
+    this.httpService.getCompanyRoles()
       .pipe(takeUntil(this.destroy$))
-      .subscribe((companyRoles) => {
-        this.rolesForCompanies = companyRoles;
+      .subscribe(rolesForCompanies => {
+        this.rolesForCompanies = rolesForCompanies;
       });
   }
 
@@ -251,12 +254,6 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
       htmlElement.focus();
       this.viewChecked = false;
     }
-  }
-
-  getCompaniesWhereICanCreateATemplate(): void {
-    this.httpService.getCompanies(true)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(companies => this.companiesWhereICanCreateATemplate = companies);
   }
 
   createNewSection(title: string | undefined, isValidation: boolean) {
@@ -381,13 +378,12 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
     if (this.form.invalid) {
       return;
     }
-    const companyId = this.form.controls['companyIdCtrl'].value.id;
     const body = {
       title: this.form.controls['templateNameCtrl'].value,
       description: this.form.controls['templateDescriptionCtrl'].value,
       sections: this.sections
     }
-    this.httpService.saveTemplate(companyId, body)
+    this.httpService.saveTemplate(body)
       .subscribe({
         next: result => {
           console.log('success result:', result);
@@ -430,7 +426,8 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
         isEmail: undefined,
         isNoSpace: undefined,
         isNoNumber: undefined,
-        regex: undefined
+        regex: undefined,
+
       }
     } as SectionField;
   }

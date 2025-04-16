@@ -34,16 +34,16 @@ export class HttpService {
   }
 
   ///////////////////// Template /////////////////////
-  saveTemplate(companyId: number, body: any) {
-    return this.http.post<Section[]>(`${URL.COMPANIES_URL}/${companyId}/templates`, body);
+  saveTemplate(body: any) {
+    return this.http.post<Section[]>(`${URL.COMPANIES_URL}/templates`, body);
   }
 
   getTemplate(id: number): Observable<Template> {
     return this.http.get<Template>(`${URL.TEMPLATE_URL}/${id}`);
   }
 
-  getTemplatesForCompanyId(companyId: number): Observable<Template[]> {
-    return this.http.get<Template[]>(`${URL.COMPANIES_URL}/${companyId}/templates`);
+  getTemplatesForCompany(): Observable<Template[]> {
+    return this.http.get<Template[]>(`${URL.COMPANIES_URL}/templates`);
   }
 
   ///////////////////// Form /////////////////////
@@ -71,8 +71,8 @@ export class HttpService {
   }
 
   ///////////////////// Company Role /////////////////////
-  getCompanyRolesByCompanyId(companyId: number): Observable<CompanyRole[]> {
-    return this.http.get<CompanyRole[]>(`${URL.COMPANIES_URL}/${companyId}/roles`);
+  getCompanyRoles(): Observable<CompanyRole[]> {
+    return this.http.get<CompanyRole[]>(`${URL.COMPANIES_URL}/roles`);
   }
 
   saveCompanyRolesForUser(userId: number, companyRoleIds: number[]): Observable<User> {

@@ -73,9 +73,18 @@ export class EditFormComponent implements OnInit, OnDestroy {
       })
   }
 
-  isDisabledField(formSection: FormSection): boolean {
+  isDisabledField(formSection: FormSection, formSectionField?: FormSectionField | undefined): boolean {
     const currentUserFromToken = this.storageService.getUser().id;
+    if (this.form.currentUser === null || this.form.currentUser === undefined) {
+      return true; // if form is finished and doesn't have a currentUser, then the field should be disabled
+    }
     if (this.form.currentUser.id !== currentUserFromToken) {
+      return true;
+    }
+    if (formSectionField !== undefined
+      && formSectionField.sectionField.personalDataType !== null
+      && formSectionField.sectionField.personalDataType !== undefined
+    ) {
       return true;
     }
     // if it's my turn, then display the formSection if it's between currentSectionId and currentValidationSectionId
@@ -213,7 +222,7 @@ export class EditFormComponent implements OnInit, OnDestroy {
 
       section.formSectionFields.forEach((field) => {
         const fieldControl = new FormControl(
-          {value: this.getValueForControl(field), disabled: this.isDisabledField(section)},
+          {value: this.getValueForControl(field), disabled: this.isDisabledField(section, field)},
           this.getValidators(section, field.sectionField)
         );
 

@@ -52,4 +52,24 @@
     <label>Regex validator</label>
     <input type="text" placeholder="Enter regex" class="form-control" formControlName="regexCtrl">
   </div>
+
+  <mat-label>Is readonly field</mat-label>
+  <br>
+  <mat-button-toggle-group
+    [value]="selectedPersonalDataType"
+    appearance="standard"
+  >
+    <mat-button-toggle
+      [value]="PersonalDataType.CNP"
+      (click)="onToggleClick(PersonalDataType.CNP)">CNP
+    </mat-button-toggle>
+    <mat-button-toggle
+      [value]="PersonalDataType.NAME"
+      (click)="onToggleClick(PersonalDataType.NAME)">Name
+    </mat-button-toggle>
+    <mat-button-toggle
+      [value]="PersonalDataType.ADDRESS"
+      (click)="onToggleClick(PersonalDataType.ADDRESS)">Address
+    </mat-button-toggle>
+  </mat-button-toggle-group>
 </form>

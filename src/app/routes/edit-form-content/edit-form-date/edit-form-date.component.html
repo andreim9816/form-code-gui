@@ -3,6 +3,7 @@
 <ng-container *ngIf="formSectionField.sectionField.defaultValue === null">
   <input
     [formControl]="fieldControl"
+    [readonly]="isReadonlyField()"
     [value]="fieldControl.value"
     (input)="onDateInput($event)"
     type="date"

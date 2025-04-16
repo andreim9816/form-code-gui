@@ -1,9 +1,10 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {MatOption, MatSelect} from '@angular/material/select';
+import {MatLabel, MatOption, MatSelect} from '@angular/material/select';
 import {CommonModule} from '@angular/common';
 import {TextCustomValidator} from '../../../enum/TextCustomValidator';
 import {SectionField} from '../../../model/SectionField';
+import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-toggle';
 
 @Component({
   selector: 'app-text-validator',
@@ -13,7 +14,10 @@ import {SectionField} from '../../../model/SectionField';
     FormsModule,
     MatSelect,
     MatOption,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatButtonToggleGroup,
+    MatButtonToggle,
+    MatLabel
   ],
   templateUrl: './text-validator.component.html'
 })
@@ -21,6 +25,7 @@ export class TextValidatorComponent implements OnInit, OnChanges {
   @Input()
   sectionField: SectionField;
   formGroup: FormGroup;
+  selectedPersonalDataType: PersonalDataType | null = null;
 
   constructor(private fb: FormBuilder) {
   }
@@ -61,6 +66,7 @@ export class TextValidatorComponent implements OnInit, OnChanges {
     }, {
       validators: this.maxSizeValueGoeThanMinSize
     });
+    this.selectedPersonalDataType = this.sectionField.personalDataType;
   }
 
   onFormChanges(): void {
@@ -71,11 +77,11 @@ export class TextValidatorComponent implements OnInit, OnChanges {
         this.sectionField.textValidator!.maxSize = formValues.maxSizeCtrl;
         this.sectionField.textValidator!.regex = formValues.regexCtrl;
 
-        this.sectionField.textValidator!.isNoSpace = formValues.customValidatorsCtrl.includes(TextCustomValidator.IS_NO_SPACES)
-        this.sectionField.textValidator!.isEmail = formValues.customValidatorsCtrl.includes(TextCustomValidator.IS_EMAIL)
-        this.sectionField.textValidator!.isNoNumber = formValues.customValidatorsCtrl.includes(TextCustomValidator.IS_NO_NUMBERS)
+        this.sectionField.textValidator!.isNoSpace = formValues.customValidatorsCtrl.includes(TextCustomValidator.IS_NO_SPACES);
+        this.sectionField.textValidator!.isEmail = formValues.customValidatorsCtrl.includes(TextCustomValidator.IS_EMAIL);
+        this.sectionField.textValidator!.isNoNumber = formValues.customValidatorsCtrl.includes(TextCustomValidator.IS_NO_NUMBERS);
       }
-    })
+    });
   }
 
   maxSizeValueGoeThanMinSize(group: AbstractControl): null {
@@ -105,5 +111,23 @@ export class TextValidatorComponent implements OnInit, OnChanges {
     return null;
   }
 
+  onToggleClick(event: PersonalDataType) {
+    if (this.selectedPersonalDataType === event) {
+      this.selectedPersonalDataType = null;
+    } else {
+      this.selectedPersonalDataType = event;
+    }
+
+    this.sectionField.personalDataType = this.selectedPersonalDataType;
+  }
+
   readonly TextCustomValidator = TextCustomValidator;
+  readonly PersonalDataType = PersonalDataType;
+}
+
+export enum PersonalDataType {
+  CNP,
+  NAME,
+  ADDRESS,
+  DATE
 }

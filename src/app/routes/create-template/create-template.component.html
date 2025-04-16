@@ -17,24 +17,6 @@
         <div class="row">
           <div class="col">
             <mat-form-field>
-              <mat-label>Companies</mat-label>
-              <mat-select
-                formControlName="companyIdCtrl"
-                (selectionChange)="selectDifferentCompany($event)"
-              >
-                <mat-option
-                  *ngFor="let company of companiesWhereICanCreateATemplate"
-                  [value]="company"
-                >
-                  {{ company.name }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <mat-form-field>
               <mat-label>Template name</mat-label>
               <input matInput formControlName="templateNameCtrl">
             </mat-form-field>
@@ -159,6 +141,16 @@
       <li *ngIf="displayDeleteSectionField()"><a class="dropdown-item" (click)="onDeleteCurrentField()">Delete field</a>
       </li>
       <li><a class="dropdown-item" (click)="deleteCurrentSection()">Delete section</a></li>
+
+      <!--      &lt;!&ndash; Autocomplete with submenu &ndash;&gt;-->
+      <!--        <li class="dropdown-submenu position-relative" *ngIf="displayValidatorColumn()">-->
+      <!--          <a class="dropdown-item dropdown-toggle">Autocomplete</a>-->
+      <!--          <ul class="dropdown-menu position-absolute start-100 top-0 mt-0">-->
+      <!--            <li><a class="dropdown-item">Option 1</a></li>-->
+      <!--            <li><a class="dropdown-item">Option 2</a></li>-->
+      <!--            <li><a class="dropdown-item">Option 3</a></li>-->
+      <!--          </ul>-->
+      <!--        </li>-->
     </ul>
   </form>
 </div>

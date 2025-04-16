@@ -6,4 +6,8 @@ export interface UserDto {
   phoneNumber: string;
   email: string;
   userType: UserType;
+  firstname: string;
+  lastname: string;
+  cnp: string;
+  dateOfBirth: Date;
 }

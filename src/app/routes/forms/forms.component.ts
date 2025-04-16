@@ -101,49 +101,11 @@ export class FormsComponent implements OnInit {
   }
 
   getTemplatesForCompany(): void {
-    this.httpService.getTemplatesForCompanyId(1) //todo !!!!!!!!!!!!!! this should be taken from backend
+    this.httpService.getTemplatesForCompany()
       .subscribe(templates => {
         this.templates = templates;
       });
   }
-
-  colDefs: ColDef[] = [
-    {headerName: 'Id', field: 'id'},
-    {headerName: 'Company', field: 'template.companyName'},
-    {headerName: 'Form name', field: 'template.title'},
-    {headerName: 'Form description', field: 'template.description'},
-    {headerName: 'Created date', field: 'createdDate', type: 'date'},
-    // {headerName: 'Last modified date', field: ''}
-    {
-      headerName: 'Created by',
-      valueGetter: (params: any) => `${params.data.creatorUser.lastname} ${params.data.creatorUser.firstname}`
-    },
-    {
-      headerName: 'Status',
-      cellRenderer: (params: any) => {
-        const form = params.data;
-        if (this.isValidationState(form)) {
-          return `<span class="p-2 badge bg-primary">Pending validation</span>`
-        }
-        if (this.isUsersTurnState(form)) {
-          return `<span class="p-2 badge bg-secondary">Waiting for user input</span>`
-        }
-        // technically this can never be true because these forms will not be displayed here
-        if (this.isFinished(form)) {
-          return `<span class="p-2 badge bg-success">Finished</span>`
-        }
-        return '';
-      }
-    },
-    {
-      headerName: 'Action',
-      cellRenderer: FormActionsComponent,
-      cellRendererParams: (params: any) => ({
-        formId: params.data.id,
-        disabled: !this.isValidationState(params.data)
-      })
-    }
-  ];
 
   getStatus(form: Form): SafeHtml {
     if (this.isValidationState(form)) {
@@ -152,7 +114,6 @@ export class FormsComponent implements OnInit {
     if (this.isUsersTurnState(form)) {
       return this.sanitizer.bypassSecurityTrustHtml(`<span class="p-2 badge bg-secondary">Waiting for user input</span>`);
     }
-    // technically this can never be true because these forms will not be displayed here
     if (this.isFinished(form)) {
       return this.sanitizer.bypassSecurityTrustHtml(`<span class="p-2 badge bg-success">Finished</span>`);
     }
@@ -160,11 +121,13 @@ export class FormsComponent implements OnInit {
   }
 
   isValidationState(form: Form): boolean {
-    return form.currentValidationSectionId === form.currentSectionId;
+    return form.currentValidationSectionId === form.currentSectionId
+      && form.currentValidationSectionId !== null
+      && form.currentValidationSectionId !== undefined;
   }
 
   isFinished(form: Form) {
-    return form.currentValidationSectionId == null || form.currentSectionId == null;
+    return form.finishedDate !== null && form.finishedDate !== undefined;
   }
 
   isUsersTurnState(form: Form): boolean {

@@ -1,0 +1,12 @@
+.dropdown-submenu {
+  position: relative;
+
+  .dropdown-menu {
+    display: none;
+    min-width: 10rem;
+  }
+
+  &:hover > .dropdown-menu {
+    display: block;
+  }
+}

@@ -3,6 +3,7 @@
 <ng-container *ngIf="formSectionField.sectionField.defaultValue === null">
 <textarea
   [formControl]="fieldControl"
+  [readonly]="isReadonlyField()"
   class="form-control"
   style="height: 30px; min-width: 50px; field-sizing: content"
 ></textarea>
