@@ -1,0 +1,21 @@
+<ng-container *ngIf="!fieldControl.disabled">
+  <button
+    type="button"
+    (click)="fileInput.click()"
+  >Choose File
+  </button>
+  <input
+    type="file"
+    #fileInput
+    hidden
+    (change)="onFileSelected($event)">
+  <span>{{ selectedFile?.name }}</span>
+</ng-container>
+
+<ng-container *ngIf="fieldControl.disabled">
+  <button
+    type="button"
+    (click)="downloadFile()">
+    Download file
+  </button>
+</ng-container>

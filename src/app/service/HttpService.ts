@@ -17,6 +17,16 @@ export class HttpService {
   constructor(private http: HttpClient) {
   }
 
+  ///////////////////// Form Section /////////////////////
+  downloadFile(fileId: number) {
+    return this.http.get<any>(`${URL.FORM_SECTIONS_URL}/files/${fileId}`);
+  }
+
+  uploadFiles(formData: FormData) {
+    return this.http.post<any>(`${URL.FORM_SECTIONS_URL}/files`, formData);
+  }
+
+
   ///////////////////// Company /////////////////////
 
   getCompanies(createTemplate: boolean = false): Observable<Company[]> {
@@ -29,7 +39,7 @@ export class HttpService {
     return this.http.post<Company>(`${URL.COMPANIES_URL}`, body);
   }
 
-  updateCompany(companyId: number,body: any): Observable<Company> {
+  updateCompany(companyId: number, body: any): Observable<Company> {
     return this.http.patch<Company>(`${URL.COMPANIES_URL}/${companyId}`, body);
   }
 

@@ -30,6 +30,7 @@ import {FormSectionField} from '../../model/FormSectionField';
 import {StorageService} from '../../service/StorageService';
 import {HttpErrorResponse} from '@angular/common/http';
 import {NotificationService} from '../../service/notification-service';
+import {EditFormFileComponent} from '../edit-form-content/edit-form-file/edit-form-file.component';
 
 @Component({
   selector: 'app-edit-form',
@@ -41,7 +42,8 @@ import {NotificationService} from '../../service/notification-service';
     ReactiveFormsModule,
     EditFormTextComponent,
     EditFormNumberComponent,
-    EditFormDateComponent
+    EditFormDateComponent,
+    EditFormFileComponent
   ],
   templateUrl: './edit-form.component.html'
 })
@@ -97,10 +99,11 @@ export class EditFormComponent implements OnInit, OnDestroy {
 
   submit(): void {
     this.displayAllControlError();
-    this.removeRequiredValidatorToEnabledControls();
+    // this.removeRequiredValidatorToEnabledControls();
     this.submitted = true;
 
     if (this.formGroup.invalid) {
+      console.error('invalid form');
       return;
     }
     this.updateFormSectionFieldsWithFormControlValues(); // used for sending data to backend
@@ -222,7 +225,10 @@ export class EditFormComponent implements OnInit, OnDestroy {
 
       section.formSectionFields.forEach((field) => {
         const fieldControl = new FormControl(
-          {value: this.getValueForControl(field), disabled: this.isDisabledField(section, field)},
+          {
+            value: this.getValueForControl(field),
+            disabled: this.isDisabledField(section, field)
+          },
           this.getValidators(section, field.sectionField)
         );
 
@@ -231,7 +237,7 @@ export class EditFormComponent implements OnInit, OnDestroy {
 
       formSectionsArray.push(sectionGroup);
     });
-    console.log(this.formGroup);
+    // console.log(this.formGroup);
   }
 
   displayAllControlError(): void {

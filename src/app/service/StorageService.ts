@@ -25,6 +25,8 @@ export class StorageService {
   }
 
   getUser(): UserDto {
-    return JSON.parse(<string>sessionStorage.getItem(USER_KEY));
+    const user = JSON.parse(<string>sessionStorage.getItem(USER_KEY));
+    // console.log('user', user);
+    return user;
   }
 }

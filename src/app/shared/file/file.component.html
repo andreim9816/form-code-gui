@@ -1,0 +1,15 @@
+<div class="form-control">
+  <button
+    type="button"
+    (click)="fileInput.click()">
+    Choose File
+  </button>
+
+  <input
+    type="file"
+    #fileInput
+    hidden
+    (change)="onFileSelected($event)"
+  >
+  <span>{{ selectedFile?.name }}</span>
+</div>

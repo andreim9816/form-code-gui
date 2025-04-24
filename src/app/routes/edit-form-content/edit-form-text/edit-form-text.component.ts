@@ -34,7 +34,8 @@ export class EditFormTextComponent implements OnInit {
   }
 
   getDefaultValue() {
-    if (this.formSectionField.contentString != null) {
+    if (this.formSectionField.contentString != null
+      && this.formSectionField.contentString.value != null) {
       return this.formSectionField.contentString.value;
     }
 

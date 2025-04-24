@@ -6,6 +6,7 @@
         <button type="button" mat-button class="d-block" (click)="addNewBreakLine()">Break line</button>
         <button type="button" mat-button class="d-block" (click)="addNumber()">Number</button>
         <button type="button" mat-button class="d-block" (click)="addDate()">Date</button>
+        <button type="button" mat-button class="d-block" (click)="addFileAttachment()">File</button>
         <!--        <button type="button" mat-button class="d-block" (click)="addCheckbox()">Checkbox</button>-->
         <button type="button" mat-button class="d-block" (click)="removeElement()">Remove element</button>
         <button type="button" mat-button class="d-block" (click)="displayInfo()">Display info</button>
@@ -93,6 +94,15 @@
                       style="vertical-align: top"
                       (contextmenu)="setCurrentIndexesAndOpenContextMenu(sectionIndex, sectionFieldIndex, $event)"
                     ></app-date>
+                    <app-file
+                      *ngIf="sectionField.contentType === ContentType.FILE"
+                      [sectionField]="sectionField"
+                      (click)="handleOnClick(sectionIndex, sectionFieldIndex);this.setCurrentFieldType(ContentType.FILE)"
+                      class="d-inline-block"
+                      style="vertical-align: top"
+                      (contextmenu)="setCurrentIndexesAndOpenContextMenu(sectionIndex, sectionFieldIndex, $event)"
+                    >
+                    </app-file>
                     <app-checkbox
                       *ngIf="sectionField.contentType === ContentType.BOOLEAN"
                       [sectionField]="sectionField"

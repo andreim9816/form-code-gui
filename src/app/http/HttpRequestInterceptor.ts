@@ -16,7 +16,7 @@ export const httpRequestInterceptor: HttpInterceptorFn = (req, next) => {
     finalize(() => {
       requestsCompleted++;
 
-      console.log(requestsCompleted, totalRequests);
+      // console.log(requestsCompleted, totalRequests);
 
       if (requestsCompleted === totalRequests) {
         loader.hide();

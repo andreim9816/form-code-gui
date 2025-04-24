@@ -45,6 +45,13 @@
                       class="d-inline-block"
                       style="vertical-align: top"
                     ></app-edit-form-date>
+                    <app-edit-form-file
+                      *ngIf="getFormSectionField(sectionIndex, sectionFieldIndex).sectionField.contentType === ContentType.FILE"
+                      [formSectionField]="getFormSectionField(sectionIndex, sectionFieldIndex)"
+                      [fieldControl]="fieldControl"
+                      class="d-inline-block"
+                      style="vertical-align: top"
+                    ></app-edit-form-file>
                   </span>
                 </div>
               </li>

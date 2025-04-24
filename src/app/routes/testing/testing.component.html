@@ -1,10 +1,18 @@
-<div class="position-relative">
-  <!-- The Input Field -->
-  <input type="text" class="form-control" (contextmenu)="openContextMenu($event, inputRef)" #inputRef>
+<mat-card class="upload-card">
+  <mat-card-title>Upload File</mat-card-title>
 
-  <!-- Context Menu -->
-  <ul #contextMenu class="dropdown-menu show position-absolute" [ngStyle]="contextMenuStyles">
-    <li><a class="dropdown-item" (click)="onDelete()">Delete</a></li>
-    <li><a class="dropdown-item" (click)="onEdit()">Edit</a></li>
-  </ul>
-</div>
+  <mat-card-content>
+    <!--    <input type="file" (change)="onFileSelected($event)" matInput />-->
+
+    <!--    <div style="margin-top: 16px;">-->
+    <!--      <button mat-raised-button color="primary" (click)="onUpload()" [disabled]="!selectedFile">-->
+    <!--        Upload-->
+    <!--      </button>-->
+    <!--    </div>-->
+
+    <button disabled type="button" (click)="fileInput.click()">Choose File</button>
+    <input  type="file" #fileInput hidden (change)="onFileSelected($event)">
+    <span>{{ selectedFile?.name }}</span>
+
+  </mat-card-content>
+</mat-card>

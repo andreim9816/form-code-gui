@@ -1,52 +1,39 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {HttpClient} from '@angular/common/http';
+import {MatCard, MatCardContent, MatCardTitle} from '@angular/material/card';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-testing',
-  imports: [CommonModule],
+  imports: [CommonModule, MatCardContent, MatCardTitle, MatCard, ReactiveFormsModule],
   templateUrl: './testing.component.html',
   styleUrl: './testing.component.css'
 })
-export class TestingComponent implements OnInit {
+export class TestingComponent {
+  selectedFile!: File;
+  uploadMessage: string = '';
 
-  ngOnInit(): void {
-    document.addEventListener('click', (event) => this.onClickOutside(event));
+  constructor(private http: HttpClient) {
   }
 
-  @ViewChild('contextMenu') contextMenu!: ElementRef;
-  contextMenuStyles = {display: 'none', top: '0px', left: '0px'};
-
-  openContextMenu(event: MouseEvent, input: HTMLInputElement) {
-    event.preventDefault(); // Prevent the default right-click menu
-
-    // Position the menu at the mouse cursor
-    this.contextMenuStyles = {
-      display: 'block',
-      top: `${event.clientY}px`,
-      left: `${event.clientX}px`,
-    };
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
   }
 
-  onDelete() {
-    console.log('Delete clicked');
-    alert('Delete action triggered');
-    this.closeContextMenu();
-  }
+  onUpload() {
+    const formData = new FormData();
+    formData.append('file', this.selectedFile);
 
-  onEdit() {
-    console.log('Edit clicked');
-    alert('Edit action triggered');
-    this.closeContextMenu();
-  }
-
-  closeContextMenu() {
-    this.contextMenuStyles = {display: 'none', top: '0px', left: '0px'};
-  }
-
-  // Close menu when clicking outside
-  onClickOutside(event: Event) {
-    if (!this.contextMenu.nativeElement.contains(event.target)) {
-      this.closeContextMenu();
-    }
+    this.http.post('http://localhost:8080/api/files/upload', formData)
+      .subscribe({
+        next: (response: any) => {
+          this.uploadMessage = 'File uploaded successfully!';
+        },
+        error: (error) => {
+          this.uploadMessage = 'Upload failed.';
+          console.error(error);
+        }
+      });
   }
 }

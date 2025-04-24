@@ -145,10 +145,7 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
       companyRoles: this.roles,
       adminUserIds: this.company.adminUsers.map(x => x.id)
     };
-    console.log(body);
 
-    const errors = this.formGroup.controls['nameCtrl'];
-    console.log(errors, errors.errors);
     if (!this.formGroup.valid) {
       return;
     }

@@ -44,7 +44,8 @@ export class EditFormDateComponent implements OnInit {
   }
 
   getDefaultValue() {
-    if (this.formSectionField.contentDate != null) {
+    if (this.formSectionField.contentDate != null
+      && this.formSectionField.contentDate.value != null) {
       return this.transformDate(this.formSectionField.contentDate.value);
     }
     if (this.isReadonlyField()) {

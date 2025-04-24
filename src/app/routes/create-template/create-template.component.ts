@@ -30,6 +30,7 @@ import {Router} from '@angular/router';
 import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
 import {HttpErrorResponse} from '@angular/common/http';
 import {NotificationService} from '../../service/notification-service';
+import {FileComponent} from '../../shared/file/file.component';
 
 @Component({
   selector: 'app-create-template',
@@ -54,6 +55,7 @@ import {NotificationService} from '../../service/notification-service';
     MatSelect,
     FormsModule,
     MatSelectTrigger,
+    FileComponent,
   ],
   templateUrl: './create-template.component.html',
   styleUrls: ['create-template.component.css']
@@ -330,6 +332,12 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
     this.addNewFieldInCurrentSection(newField);
   }
 
+  addFileAttachment(): void {
+    this.setCurrentFieldType(ContentType.FILE);
+    const newField = this.newFileField();
+    this.addNewFieldInCurrentSection(newField);
+  }
+
   addNewBreakLine(): void {
     if (
       this.getCurrentSectionField()?.defaultValue !== ''
@@ -429,6 +437,15 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
         regex: undefined,
 
       }
+    } as SectionField;
+  }
+
+  newFileField(): SectionField {
+    return {
+      id: HtmlUtils.generateUUID(),
+      addedDate: new Date(),
+      defaultValue: null,
+      contentType: ContentType.FILE
     } as SectionField;
   }
 
