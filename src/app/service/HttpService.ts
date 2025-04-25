@@ -19,7 +19,11 @@ export class HttpService {
 
   ///////////////////// Form Section /////////////////////
   downloadFile(fileId: number) {
-    return this.http.get<any>(`${URL.FORM_SECTIONS_URL}/files/${fileId}`);
+    return this.http.get(`${URL.FORM_SECTIONS_URL}/files/${fileId}`,
+      {
+        responseType: 'blob',
+        observe: 'response'
+      });
   }
 
   uploadFiles(formData: FormData) {

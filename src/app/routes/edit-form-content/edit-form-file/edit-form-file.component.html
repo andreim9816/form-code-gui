@@ -1,21 +1,34 @@
+<ng-container *ngIf="fieldControl.disabled">
+  <span class="me-1">{{ formSectionField.contentFile.name }}</span>
+
+  <button
+    type="button"
+    (click)="downloadFileFromServer()">
+    Download file
+  </button>
+</ng-container>
+
 <ng-container *ngIf="!fieldControl.disabled">
+  <span class="me-1">{{ getDisplayFileName() }}</span>
+
+  <ng-container *ngIf="formSectionField.contentFile || this.selectedFile">
+    <button
+      class="me-1"
+      type="button"
+      (click)="downloadFile()">
+      Download
+    </button>
+  </ng-container>
+
   <button
     type="button"
     (click)="fileInput.click()"
   >Choose File
   </button>
+
   <input
     type="file"
     #fileInput
     hidden
     (change)="onFileSelected($event)">
-  <span>{{ selectedFile?.name }}</span>
-</ng-container>
-
-<ng-container *ngIf="fieldControl.disabled">
-  <button
-    type="button"
-    (click)="downloadFile()">
-    Download file
-  </button>
 </ng-container>
