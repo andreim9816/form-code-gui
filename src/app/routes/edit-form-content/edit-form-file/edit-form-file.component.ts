@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {NgIf} from '@angular/common';
 import {FormSectionField} from '../../../model/FormSectionField';
@@ -17,6 +17,11 @@ export class EditFormFileComponent {
   formSectionField: FormSectionField;
   @Input()
   fieldControl!: any;
+  @Output()
+  newFileContent = new EventEmitter<{
+    file: File | null,
+    contentFileId: number
+  }>();
 
   selectedFile: File | null;
 
@@ -25,18 +30,16 @@ export class EditFormFileComponent {
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
+    this.newFileContent.emit({
+      file: this.selectedFile,
+      contentFileId: this.formSectionField.contentFile.id
+    });
+
     console.log(this.selectedFile);
-    if (this.selectedFile) {
-      this.uploadFile(); //this should be triggered only when clicking on the submit button
-    }
-  }
 
-  uploadFile(): void {
-    const formData = new FormData();
-    formData.append(`dtos[0].id`, this.formSectionField.contentFile.id.toString());
-    formData.append(`dtos[0].content`, this.selectedFile!);
-
-    this.httpService.uploadFiles(formData).subscribe();
+    // if (this.selectedFile) {
+    //   this.uploadFile(this.formSectionField.contentFile.id, this.selectedFile); //this should be triggered only when clicking on the submit button
+    // }
   }
 
   downloadFile() {

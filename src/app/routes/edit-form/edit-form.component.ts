@@ -54,6 +54,8 @@ export class EditFormComponent implements OnInit, OnDestroy {
   formId: number;
   submitted = false;
 
+  filesChanged: { file: File | null, contentFileId: number }[] = [];
+
   constructor(private readonly route: ActivatedRoute,
               private readonly fb: FormBuilder,
               private readonly httpService: HttpService,
@@ -125,7 +127,17 @@ export class EditFormComponent implements OnInit, OnDestroy {
           const errorMessage = err.error.message;
           this.notificationService.displayNotificationError(errorMessage);
         }
-      })
+      });
+
+    for (let x of this.filesChanged) {
+      this.uploadFile(x.contentFileId, x.file).subscribe({
+        next: (result) => {
+        },
+        error: (err: HttpErrorResponse) => {
+          console.error(err);
+        }
+      });
+    }
   }
 
   rejectForm(): void {
@@ -157,6 +169,20 @@ export class EditFormComponent implements OnInit, OnDestroy {
           this.notificationService.displayNotificationError(errorMessage);
         }
       })
+  }
+
+  uploadFile(contentFileId: number, file: File | null) {
+    const formData = new FormData();
+    formData.append(`dtos[0].id`, contentFileId.toString());
+
+    if (file == null) {
+      formData.append('file', new Blob([], { type: 'application/octet-stream' }));
+      formData.append(`dtos[0].isNullFile`, 'true');
+    } else {
+      formData.append(`dtos[0].content`, file);
+    }
+
+    return this.httpService.uploadFiles(formData);
   }
 
   addRequiredValidatorToEnabledControls(): void {
@@ -383,6 +409,16 @@ export class EditFormComponent implements OnInit, OnDestroy {
 
   getFormSectionField(sectionIndex: number, sectionFieldIndex: number) {
     return this.getFormSection(sectionIndex).formSectionFields[sectionFieldIndex]
+  }
+
+  newFileSelected(event: { file: File | null, contentFileId: number }) {
+    const elementInArray = this.filesChanged
+      .findIndex(x => x.contentFileId === event.contentFileId);
+    if (elementInArray === -1) {
+      this.filesChanged.push(event);
+    } else {
+      this.filesChanged[elementInArray].file = event.file;
+    }
   }
 
   ngOnDestroy() {

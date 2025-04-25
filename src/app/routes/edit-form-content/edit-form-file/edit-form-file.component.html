@@ -2,6 +2,7 @@
   <span class="me-1">{{ formSectionField.contentFile.name }}</span>
 
   <button
+    *ngIf="formSectionField.contentFile && formSectionField.contentFile.name"
     type="button"
     (click)="downloadFileFromServer()">
     Download file
@@ -11,7 +12,7 @@
 <ng-container *ngIf="!fieldControl.disabled">
   <span class="me-1">{{ getDisplayFileName() }}</span>
 
-  <ng-container *ngIf="formSectionField.contentFile || this.selectedFile">
+  <ng-container *ngIf="(formSectionField.contentFile && formSectionField.contentFile.name) || this.selectedFile">
     <button
       class="me-1"
       type="button"

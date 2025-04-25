@@ -49,6 +49,7 @@
                       *ngIf="getFormSectionField(sectionIndex, sectionFieldIndex).sectionField.contentType === ContentType.FILE"
                       [formSectionField]="getFormSectionField(sectionIndex, sectionFieldIndex)"
                       [fieldControl]="fieldControl"
+                      (newFileContent)="newFileSelected($event)"
                       class="d-inline-block"
                       style="vertical-align: top"
                     ></app-edit-form-file>
