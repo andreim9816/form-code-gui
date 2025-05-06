@@ -1,4 +1,5 @@
 import {UserType} from '../model/UserType';
+import {Address} from '../model/Address';
 
 export interface UserDto {
   id: number;
@@ -10,4 +11,5 @@ export interface UserDto {
   lastname: string;
   cnp: string;
   dateOfBirth: Date;
+  address: Address;
 }

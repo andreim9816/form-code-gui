@@ -47,8 +47,11 @@ export class EditFormTextComponent implements OnInit {
           return user.lastname + ' ' + user.firstname;
         case PersonalDataType.CNP:
           return user.cnp;
-        case PersonalDataType.ADDRESS:
-          return 'ADDRESS TODO';
+        case PersonalDataType.ADDRESS: {
+          const addr = user.address;
+          const nr = addr.no != null ? 'nr. ' + addr.no + ',' : '';
+          return `str. ${addr.street}, ${nr} bl. ${addr.block}, sc. ${addr.entrance}, ap. ${addr.apartment}, ${addr.city}, ${addr.county}`;
+        }
         default:
           return undefined;
       }

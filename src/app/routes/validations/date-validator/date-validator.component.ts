@@ -1,11 +1,12 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {SectionField} from '../../../model/SectionField';
-import {AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {TextCustomValidator} from '../../../enum/TextCustomValidator';
+import {AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatOption} from '@angular/material/core';
 import {MatSelect} from '@angular/material/select';
 import {NgIf} from '@angular/common';
 import {DateCustomValidator} from '../../../enum/DateCustomValidator';
+import {MatSlideToggle} from '@angular/material/slide-toggle';
+import {PersonalDataType} from '../text-validator/text-validator.component';
 
 @Component({
   selector: 'app-date-validator',
@@ -13,7 +14,9 @@ import {DateCustomValidator} from '../../../enum/DateCustomValidator';
     MatOption,
     MatSelect,
     NgIf,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSlideToggle,
+    FormsModule
   ],
   templateUrl: './date-validator.component.html'
 })
@@ -21,6 +24,8 @@ export class DateValidatorComponent implements OnInit, OnChanges {
   @Input()
   sectionField: SectionField;
   formGroup: FormGroup;
+
+  isBirthdayField: PersonalDataType | null;
 
   constructor(private fb: FormBuilder) {
   }
@@ -42,13 +47,14 @@ export class DateValidatorComponent implements OnInit, OnChanges {
 
   createFormGroup() {
     this.formGroup = this.fb.group({
-      isRequiredCtrl: this.sectionField.dateValidator!.isRequired ?? true,
-      startDateCtrl: this.sectionField.dateValidator!.startDate,
-      endDateCtrl: this.sectionField.dateValidator!.endDate,
-      dateTimeCtrl: this.sectionField.dateValidator!.dateTime
+      isRequiredCtrl: [{value: this.sectionField.dateValidator!.isRequired ?? true, /*disabled: this.isBirthdayField*/}],
+      startDateCtrl: [{value: this.sectionField.dateValidator!.startDate, /*disabled: this.isBirthdayField*/}],
+      endDateCtrl: [{value: this.sectionField.dateValidator!.endDate, /*disabled: this.isBirthdayField*/}],
+      dateTimeCtrl: [{value: this.sectionField.dateValidator!.dateTime, /*disabled: this.isBirthdayField*/}]
     }, {
       validators: this.maxSizeValueGoeThanMinSize
     });
+    this.isBirthdayField = this.sectionField.personalDataType;
   }
 
   onFormChanges(): void {
@@ -89,6 +95,32 @@ export class DateValidatorComponent implements OnInit, OnChanges {
     return null;
   }
 
-  readonly TextCustomValidator = TextCustomValidator;
+  onIsBirthdayFieldChanged(value: boolean): void {
+    if (value === true) {
+      this.isBirthdayField = PersonalDataType.DATE;
+    } else {
+      this.isBirthdayField = null;
+    }
+    this.sectionField.personalDataType = this.isBirthdayField;
+
+    const controls = [
+      'isRequiredCtrl',
+      'startDateCtrl',
+      'endDateCtrl',
+      'dateTimeCtrl'
+    ];
+
+    // controls.forEach(controlName => {
+    //   const control = this.formGroup.get(controlName);
+    //   if (control) {
+    //     if (value) {
+    //       control.disable();
+    //     } else {
+    //       control.enable();
+    //     }
+    //   }
+    // });
+  }
+
   protected readonly DateCustomValidator = DateCustomValidator;
 }

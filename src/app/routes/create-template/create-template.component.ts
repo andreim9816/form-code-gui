@@ -158,7 +158,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
               id: HtmlUtils.generateUUID(),
               defaultValue: null,
               contentType: ContentType.DATE,
-              personalDataType: PersonalDataType.ADDRESS,
+              personalDataType: PersonalDataType.DATE,
               dateValidator: {
                 isRequired: true,
                 startDate: new Date(1900, 0, 1),
