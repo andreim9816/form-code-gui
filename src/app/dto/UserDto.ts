@@ -1,15 +1,15 @@
-import {UserType} from '../model/UserType';
-import {Address} from '../model/Address';
+import { Company } from "../model/Company";
 
 export interface UserDto {
   id: number;
   username: string;
-  phoneNumber: string;
-  email: string;
-  userType: UserType;
-  firstname: string;
-  lastname: string;
   cnp: string;
   dateOfBirth: Date;
-  address: Address;
+  firstname: string;
+  lastname: string;
+  email: string;
+  phoneNumber: string;
+  isAdmin: boolean;
+  address: string;
+  companies: Company[];
 }

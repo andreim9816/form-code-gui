@@ -49,7 +49,7 @@ export class EditFormDateComponent implements OnInit {
       return this.transformDate(this.formSectionField.contentDate.value);
     }
     if (this.isReadonlyField()) {
-      const user = this.storageService.getUser();
+      const user = this.storageService.getUser()!;
       const dateOfBirth = user.dateOfBirth;
       if (dateOfBirth) {
         const date = new Date(dateOfBirth);

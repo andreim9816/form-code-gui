@@ -1,5 +1,7 @@
 import {Injectable} from '@angular/core';
 import {UserDto} from "../dto/UserDto";
+import {Company} from '../model/Company';
+import {CompanyRole} from '../model/CompanyRole';
 
 const USER_KEY = 'auth-user';
 
@@ -12,7 +14,8 @@ export class StorageService {
   }
 
   isLoggedIn(): boolean {
-    return window.sessionStorage.getItem(USER_KEY) != null;
+    const x = window.sessionStorage.getItem(USER_KEY);
+    return x != null;
   }
 
   clearUser(): void {
@@ -24,9 +27,23 @@ export class StorageService {
     window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
   }
 
-  getUser(): UserDto {
-    const user = JSON.parse(<string>sessionStorage.getItem(USER_KEY));
-    // console.log('user', user);
-    return user;
+  getUser(): UserDto | undefined {
+    return JSON.parse(<string>sessionStorage.getItem(USER_KEY));
+  }
+
+  canCreateTemplate() {
+    const user = this.getUser();
+    if (!user) {
+      return false;
+    }
+    let result = false;
+    user.companies.forEach((comp: Company) => {
+      comp.companyRoles.forEach((role: CompanyRole) => {
+        if (role.createTemplate) {
+          result = true;
+        }
+      });
+    });
+    return result;
   }
 }

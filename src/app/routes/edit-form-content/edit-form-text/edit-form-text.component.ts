@@ -40,7 +40,7 @@ export class EditFormTextComponent implements OnInit {
     }
 
     if (this.isReadonlyField()) {
-      const user = this.storageService.getUser();
+      const user = this.storageService.getUser()!;
       // get personal data of user
       switch (this.formSectionField.sectionField.personalDataType) {
         case PersonalDataType.NAME:
@@ -48,9 +48,10 @@ export class EditFormTextComponent implements OnInit {
         case PersonalDataType.CNP:
           return user.cnp;
         case PersonalDataType.ADDRESS: {
-          const addr = user.address;
-          const nr = addr.no != null ? 'nr. ' + addr.no + ',' : '';
-          return `str. ${addr.street}, ${nr} bl. ${addr.block}, sc. ${addr.entrance}, ap. ${addr.apartment}, ${addr.city}, ${addr.county}`;
+          return  user.address;
+          // const addr = user.address;
+          // const nr = addr.no != null ? 'nr. ' + addr.no + ',' : '';
+          // return `str. ${addr.street}, ${nr} bl. ${addr.block}, sc. ${addr.entrance}, ap. ${addr.apartment}, ${addr.city}, ${addr.county}`;
         }
         default:
           return undefined;

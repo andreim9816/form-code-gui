@@ -4,9 +4,11 @@ import {Router} from "@angular/router";
 import {AuthService} from '../../service/AuthService';
 import {StorageService} from '../../service/StorageService';
 import {UserDto} from '../../dto/UserDto';
-import {MatFormField} from '@angular/material/form-field';
+import {MatError, MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
-import {UserType} from '../../model/UserType';
+import {NgIf} from '@angular/common';
+import {MatButton} from '@angular/material/button';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -15,16 +17,16 @@ import {UserType} from '../../model/UserType';
   imports: [
     ReactiveFormsModule,
     MatFormField,
-    MatInput
-  ],
-  styleUrls: ['./login.component.scss']
+    MatLabel,
+    MatInput,
+    MatError,
+    NgIf,
+    MatButton
+  ]
 })
 export class LoginComponent implements OnInit {
 
-  userType: UserType;
   loginForm: FormGroup;
-  isLoggedIn = false;
-  isLoginFailed = false;
   errorMessage: string;
 
   constructor(private readonly fb: FormBuilder,
@@ -53,14 +55,10 @@ export class LoginComponent implements OnInit {
       this.authService.loginUser(body).subscribe({
           next: (userDto: UserDto) => {
             this.storageService.saveUser(userDto);
-            this.userType = userDto.userType;
-            this.isLoginFailed = false;
-            this.isLoggedIn = true;
-            this.router.navigateByUrl('/users')
+            this.router.navigateByUrl('/forms')
           },
-          error: (err: any) => {
+          error: (err: HttpErrorResponse) => {
             this.errorMessage = err.error.message;
-            this.isLoginFailed = true;
           }
         }
       );

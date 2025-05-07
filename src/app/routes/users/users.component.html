@@ -3,17 +3,17 @@
     <h3>Users</h3>
     <button class="btn btn-primary">+ Add new user</button>
   </div>
-  <mat-form-field>
-    <mat-select [formControl]="companiesCtrl" multiple>
-      @for (company of companies$ | async; track company) {
-        <mat-option [value]="company.id">{{ company.name }}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
+<!--  <mat-form-field>-->
+<!--    <mat-select [formControl]="companiesCtrl" multiple>-->
+<!--      @for (company of companies$ | async; track company) {-->
+<!--        <mat-option [value]="company.id">{{ company.name }}</mat-option>-->
+<!--      }-->
+<!--    </mat-select>-->
+<!--  </mat-form-field>-->
 
   <ag-grid-angular
     class="ag-theme-alpine table table-striped table-bordered w-100"
-    style="height: 800px"
+    style="height: 70vh"
     [rowData]="this.users$ | async"
     [columnDefs]="colDefs"
     [defaultColDef]="defaultColDef"

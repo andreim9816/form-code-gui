@@ -78,7 +78,7 @@ export class EditFormComponent implements OnInit, OnDestroy {
   }
 
   isDisabledField(formSection: FormSection, formSectionField?: FormSectionField | undefined): boolean {
-    const currentUserFromToken = this.storageService.getUser().id;
+    const currentUserFromToken = this.storageService.getUser()!.id;
     if (this.form.currentUser === null || this.form.currentUser === undefined) {
       return true; // if form is finished and doesn't have a currentUser, then the field should be disabled
     }

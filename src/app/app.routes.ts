@@ -8,6 +8,7 @@ import {EditFormComponent} from './routes/edit-form/edit-form.component';
 import {UsersComponent} from './routes/users/users.component';
 import {FormsComponent} from './routes/forms/forms.component';
 import {CompaniesComponent} from './routes/companies/companies.component';
+import {RegisterComponent} from './routes/register/register.component';
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -18,6 +19,7 @@ export const routes: Routes = [
   {path: 'forms/:id', component: EditFormComponent},
   {path: 'tests', component: TestingComponent},
   {path: 'users', component: UsersComponent},
+  {path: 'register', component: RegisterComponent},
   {path: 'drag-and-drop', component: DragdropComponent},
   {path: '**', redirectTo: ''}
 ];
