@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {UserDto} from "../dto/UserDto";
-import {Company} from '../model/Company';
 import {CompanyRole} from '../model/CompanyRole';
 
 const USER_KEY = 'auth-user';
@@ -37,12 +36,10 @@ export class StorageService {
       return false;
     }
     let result = false;
-    user.companies.forEach((comp: Company) => {
-      comp.companyRoles.forEach((role: CompanyRole) => {
-        if (role.createTemplate) {
-          result = true;
-        }
-      });
+    user.companyRoles.forEach((role: CompanyRole) => {
+      if (role.createTemplate) {
+        result = true;
+      }
     });
     return result;
   }

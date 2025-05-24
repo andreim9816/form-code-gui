@@ -1,4 +1,5 @@
 import { Company } from "../model/Company";
+import {CompanyRole} from '../model/CompanyRole';
 
 export interface UserDto {
   id: number;
@@ -12,4 +13,5 @@ export interface UserDto {
   isAdmin: boolean;
   address: string;
   companies: Company[];
+  companyRoles: CompanyRole[];
 }

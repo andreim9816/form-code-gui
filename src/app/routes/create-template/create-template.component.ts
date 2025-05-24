@@ -77,7 +77,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
   currentSectionIndex: number | undefined;
   currentSectionFieldIndex: number | undefined;
 
-  mockData = true;
+  mockData = false;
   viewChecked = false;
 
   destroy$ = new Subject<void>();
@@ -567,7 +567,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
     if (this.getCurrentSectionField()?.contentType === ContentType.BREAK_LINE) {
       return false;
     }
-    if (currentSectionField.defaultValue === null) {
+    if (currentSectionField.defaultValue == null || currentSectionField.defaultValue === '') {
       return true;
     }
     return false;

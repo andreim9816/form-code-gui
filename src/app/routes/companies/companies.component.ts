@@ -22,12 +22,11 @@ export class CompaniesComponent implements OnInit {
   paginationPageSizeSelector: number[] | boolean = [10, 20, 50];
 
   colDefs: ColDef[] = [
-    {headerName: 'id', field: 'id'},
     {headerName: 'Company', field: 'name', width: 75},
     {headerName: 'Admins', cellRenderer: CompanyAdminsComponent},
     {headerName: 'Roles', cellRenderer: CompanyRolesComponent, autoHeight: true},
     {
-      headerName: 'Edit',
+      headerName: 'Action',
       cellRenderer: () => {
         return `<button class="btn btn-sm btn-primary">Edit</button>`;
       },
