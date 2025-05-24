@@ -1,20 +1,74 @@
 <div class="container-fluid">
   <form [formGroup]="form" (ngSubmit)="submit()">
     <div class="row">
-      <div class="col-1 mx-0 px-0">
-        <button type="button" mat-button class="d-block" (click)="addText()">Simple text</button>
-        <button type="button" mat-button class="d-block" (click)="addNewBreakLine()">Break line</button>
-        <button type="button" mat-button class="d-block" (click)="addNumber()">Number</button>
-        <button type="button" mat-button class="d-block" (click)="addDate()">Date</button>
-        <button type="button" mat-button class="d-block" (click)="addFileAttachment()">File</button>
-        <!--        <button type="button" mat-button class="d-block" (click)="addCheckbox()">Checkbox</button>-->
-        <button type="button" mat-button class="d-block" (click)="removeElement()">Remove element</button>
-        <button type="button" mat-button class="d-block" (click)="displayInfo()">Display info</button>
-        <button disabled type="button" mat-button class="d-block">Dropdown select</button>
-        <button disabled type="button" mat-button class="d-block">Rating</button>
-        <button disabled type="button" mat-button class="d-block">Multiple choice</button>
+      <div class="px-0 ps-3 flex-wrap" style="width: 18%">
+
+        <div class="mt-3 mb-2" style="color: #2B323F">
+          <span><b>Content Elements</b></span>
+        </div>
+
+        <button mat-button class="less-rounded-button me-2 mb-2 py-4" style=" padding-right: 40px">
+          <img src="assets/icons/btn-icon-text.svg" alt="icon" class="custom-icon" style="margin-right: 8px"/>
+          Text
+        </button>
+
+        <button mat-button class="less-rounded-button me-2 mb-2 py-4" style=" padding-right: 28px">
+          <img src="assets/icons/btn-icon-number.svg" alt="icon" class="custom-icon" style="margin-right: 8px"/>
+          Number
+        </button>
+
+        <button mat-button class="less-rounded-button me-2 mb-2 py-4" style=" padding-right: 40px">
+          <img src="assets/icons/btn-icon-calendar.svg" alt="icon" class="custom-icon" style="margin-right: 8px"/>
+          Date
+        </button>
+
+        <!----------------------------------------------------->
+
+        <div class="mt-3 mb-2">
+          <span><b>Media Elements</b></span>
+        </div>
+
+        <button mat-button class="less-rounded-button me-2 mb-2 py-4" style=" padding-right: 40px">
+          <img src="assets/icons/btn-icon-attach.svg" alt="icon" class="custom-icon" style="margin-right: 8px"/>
+          File
+        </button>
+
+        <!----------------------------------------------------->
+
+        <div class="mt-3 mb-2">
+          <span><b>Actions</b></span>
+        </div>
+
+        <button mat-button class="less-rounded-button me-2 mb-2 py-4" style=" padding-right: 40px">
+          <img src="assets/icons/btn-icon-new-line.svg" alt="icon" class="custom-icon" style="margin-right: 8px"/>
+          Break line
+        </button>
+
+        <button mat-button class="less-rounded-button me-2 mb-2"
+                style="width:124px; padding-top: 30px; padding-bottom: 30px">
+          <img src="assets/icons/btn-icon-remove-element.svg" alt="icon" class="custom-icon" style="margin-right: 8px"/>
+          Remove element
+        </button>
+
+<!--        <button mat-button class="less-rounded-button me-2 mb-2">-->
+<!--          <img src="assets/icons/btn-icon-remove-element.svg" alt="icon" class="custom-icon" />-->
+<!--          <span class="button-label">Remove element</span>-->
+<!--        </button>-->
+
+        <!--        <button type="button" mat-button class="d-block" (click)="addText()">Simple text</button>-->
+        <!--        <button type="button" mat-button class="d-block" (click)="addNewBreakLine()">Break line</button>-->
+        <!--        <button type="button" mat-button class="d-block" (click)="addNumber()">Number</button>-->
+        <!--        <button type="button" mat-button class="d-block" (click)="addDate()">Date</button>-->
+        <!--        <button type="button" mat-button class="d-block" (click)="addFileAttachment()">File</button>-->
+        <!--        &lt;!&ndash;        <button type="button" mat-button class="d-block" (click)="addCheckbox()">Checkbox</button>&ndash;&gt;-->
+        <!--        <button type="button" mat-button class="d-block" (click)="removeElement()">Remove element</button>-->
+        <!--        <button type="button" mat-button class="d-block" (click)="displayInfo()">Display info</button>-->
+        <!--        <button disabled type="button" mat-button class="d-block">Dropdown select</button>-->
+        <!--        <button disabled type="button" mat-button class="d-block">Rating</button>-->
+        <!--        <button disabled type="button" mat-button class="d-block">Multiple choice</button>-->
       </div>
-      <div class="col-8 border-start border-end">
+      <div class="pt-3"
+           style="background-color: var(--my-primary-color); width: 60%">
         <div class="row">
           <div class="col">
             <mat-form-field>
@@ -125,7 +179,8 @@
         </div>
         <button mat-button type="submit">Submit</button>
       </div>
-      <div class="col-3" *ngIf="displayValidatorColumn()">
+      <div class="col-3 pt-3" style="width: 22%"
+           *ngIf="displayValidatorColumn()">
         <app-text-validator
           *ngIf="currentFieldType === ContentType.STRING"
           [sectionField]="getCurrentSectionField()!"

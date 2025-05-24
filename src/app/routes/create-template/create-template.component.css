@@ -10,3 +10,17 @@
     display: block;
   }
 }
+
+.less-rounded-button {
+  display: flex;
+  align-items: center;       /* Vertically center icon and text */
+  justify-content: center;   /* Optional: center as a group inside the button */
+  border-radius: 8px !important;
+  background-color: var(--my-primary-color) !important;
+  color: #2B323F;
+}
+
+.custom-icon {
+  width: 20px;
+  height: 20px;
+}

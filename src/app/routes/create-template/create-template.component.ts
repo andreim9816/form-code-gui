@@ -31,6 +31,7 @@ import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
 import {HttpErrorResponse} from '@angular/common/http';
 import {NotificationService} from '../../service/notification-service';
 import {FileComponent} from '../../shared/file/file.component';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'app-create-template',
@@ -43,6 +44,7 @@ import {FileComponent} from '../../shared/file/file.component';
     MatFormField,
     MatInput,
     MatFabButton,
+    MatIcon,
     TextComponent,
     NumberComponent,
     BreaklineComponent,

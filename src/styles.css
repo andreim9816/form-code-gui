@@ -1,23 +1,37 @@
 /* You can add global styles to this file, and also import other style files */
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-.example-box {
-  border: solid 1px #ccc;
-  color: rgba(0, 0, 0, 0.87);
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  background: #fff;
-  border-radius: 4px;
-  position: relative;
-  z-index: 1;
-  transition: box-shadow 200ms cubic-bezier(0, 0, 0.2, 1);
+@font-face {
+  font-family: 'CustomFont';
+  /*src: url('assets/fonts/Trap-Medium.otf') format('opentype');*/
+  /*src: url('assets/fonts/Trap-Regular.otf') format('opentype');*/
+  src: url('assets/fonts/EudoxusSans-Regular.ttf') format('truetype');
+  /*src: url('assets/fonts/EudoxusSans-Medium.ttf') format('truetype');*/
+  font-weight: normal;
+  font-style: normal;
 }
 
-.example-box:active {
-  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
-  0 8px 10px 1px rgba(0, 0, 0, 0.14),
-  0 3px 14px 2px rgba(0, 0, 0, 0.12);
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'CustomFont', sans-serif;
+}
+
+:root {
+  --my-primary-color: #F7F6FD;
+}
+
+body,
+*,
+.mat-button,
+.mat-raised-button,
+.mat-form-field,
+.mat-form-field-infix,
+.mat-input-element,
+.mat-select-value,
+.mat-option,
+.mat-label {
+  font-family: 'CustomFont', sans-serif !important;
 }
