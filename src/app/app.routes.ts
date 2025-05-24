@@ -13,7 +13,7 @@ import {RegisterComponent} from './routes/register/register.component';
 export const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'login', component: LoginComponent},
-  {path: 'templates', component: CreateTemplateComponent},
+  {path: 'add-template', component: CreateTemplateComponent},
   {path: 'companies', component: CompaniesComponent},
   {path: 'forms', component: FormsComponent},
   {path: 'forms/:id', component: EditFormComponent},

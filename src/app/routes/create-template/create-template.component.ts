@@ -239,6 +239,10 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
           ]
         }
       ] as Section[];
+    } else {
+      this.sections = [
+        this.createNewSection(undefined, false),
+        this.createNewSection('Validation section', true),];
     }
   }
 
@@ -253,7 +257,9 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
   ngAfterViewChecked() {
     if (this.viewChecked && this.getCurrentSectionField()) {
       const htmlElement = document.getElementById('' + this.getCurrentSectionField()?.id) as HTMLElement;
-      htmlElement.focus();
+      if (htmlElement) {
+        htmlElement.focus();
+      }
       this.viewChecked = false;
     }
   }

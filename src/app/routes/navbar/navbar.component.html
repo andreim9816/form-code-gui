@@ -6,7 +6,7 @@
       </a>
 
       <a *ngIf="!isLoggedIn()" mat-button routerLink="/login" routerLinkActive="active">Login</a>
-      <a *ngIf="canCreateTemplate()" mat-button routerLink="/templates" routerLinkActive="active">Create template</a>
+      <a *ngIf="canCreateTemplate()" mat-button routerLink="/add-template" routerLinkActive="active">Create template</a>
       <a *ngIf="isAdmin()" mat-button routerLink="/companies" routerLinkActive="active">Companies</a>
       <a *ngIf="isAdmin()" mat-button routerLink="/users" routerLinkActive="active">Users</a>
       <a *ngIf="isLoggedIn()" mat-button routerLink="/forms" routerLinkActive="active">Forms</a>
