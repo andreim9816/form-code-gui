@@ -7,6 +7,7 @@ import {NgIf} from '@angular/common';
 import {DateCustomValidator} from '../../../enum/DateCustomValidator';
 import {MatSlideToggle} from '@angular/material/slide-toggle';
 import {PersonalDataType} from '../text-validator/text-validator.component';
+import {MatButtonToggle} from '@angular/material/button-toggle';
 
 @Component({
   selector: 'app-date-validator',
@@ -16,9 +17,11 @@ import {PersonalDataType} from '../text-validator/text-validator.component';
     NgIf,
     ReactiveFormsModule,
     MatSlideToggle,
-    FormsModule
+    FormsModule,
+    MatButtonToggle
   ],
-  templateUrl: './date-validator.component.html'
+  templateUrl: './date-validator.component.html',
+  styleUrls: ['./date-validator.component.scss']
 })
 export class DateValidatorComponent implements OnInit, OnChanges {
   @Input()

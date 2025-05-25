@@ -83,7 +83,7 @@
           <div class="col">
             <ul class="m-0 p-0">
               <div *ngFor="let section of sections; index as sectionIndex">
-                <div class="card card-border-radius my-1 px-3"
+                <div class="card card-border-radius mb-2 px-3"
                      (contextmenu)="openContextMenu($event, sectionIndex)">
                 <span>
                   <div class="d-flex justify-content-between align-items-center" style="margin-top: 12px">
@@ -209,20 +209,31 @@
 
       <div class="px-0 my-3" style="width: 1px; background-color: #abaabb; opacity: 0.25"></div>
 
-      <div class="pt-3 pe-3" style="width: calc(22% - 1px); background-color: var(--my-primary-color)"
-           *ngIf="displayValidatorColumn()">
-        <app-text-validator
-          *ngIf="currentFieldType === ContentType.STRING"
-          [sectionField]="getCurrentSectionField()!"
-        ></app-text-validator>
-        <app-number-validator
-          *ngIf="currentFieldType === ContentType.NUMBER"
-          [sectionField]="getCurrentSectionField()!">
-        </app-number-validator>
-        <app-date-validator
-          *ngIf="currentFieldType === ContentType.DATE"
-          [sectionField]="getCurrentSectionField()!">>
-        </app-date-validator>
+      <div class="pt-3" style="width: calc(22% - 1px)">
+        <div class="mb-3">
+          <button type="button" mat-button class="bg-white card-border-radius"
+                  style="color: var(--accent-color); padding-left: 40px; padding-right: 40px">
+            <b>Dismiss</b>
+          </button>
+          <button type="submit" mat-button class="ms-2 card-border-radius"
+                  style="color: white; background-color: var(--accent-color); padding-left: 40px; padding-right: 40px">
+            Save form
+          </button>
+        </div>
+        <ng-container *ngIf="displayValidatorColumn()">
+          <app-text-validator
+            *ngIf="currentFieldType === ContentType.STRING"
+            [sectionField]="getCurrentSectionField()!"
+          ></app-text-validator>
+          <app-number-validator
+            *ngIf="currentFieldType === ContentType.NUMBER"
+            [sectionField]="getCurrentSectionField()!">
+          </app-number-validator>
+          <app-date-validator
+            *ngIf="currentFieldType === ContentType.DATE"
+            [sectionField]="getCurrentSectionField()!">>
+          </app-date-validator>
+        </ng-container>
       </div>
     </div>
 

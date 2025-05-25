@@ -1,4 +1,4 @@
-<div class="card card-border-radius mb-4 p-3 d-flex flex-row align-items-center">
+<div class="card card-border-radius mb-3 p-3 d-flex flex-row align-items-center">
   <span>
   <img src="assets/icons/btn-icon-number.svg" alt="icon" class="custom-icon " style="margin-right: 8px"/>
     </span>
@@ -6,24 +6,24 @@
 </div>
 
 <form [formGroup]="formGroup" class="needs-validation" novalidate>
-  <div class="bg-white card-border-radius p-3 mb-3">
-
+  <div class="bg-white card-border-radius p-3 mb-2">
     <div class="input-group mb-3">
       <input type="checkbox"
-             class="form-check-input me-1"
+             style="accent-color: var(--navbar-color)"
+             class="me-1"
              formControlName="isRequiredCtrl">
-      <label>Is required</label>
+      <label class="label-text">Is required</label>
     </div>
 
     <div class="mb-3">
-      <label>Minimum value</label>
-      <input type="number" class="form-control" placeholder="Enter minimum value"
+      <label class="label-text">Minimum value</label>
+      <input type="number" class="form-control input-text" placeholder="Enter minimum value"
              formControlName="minValueCtrl">
     </div>
 
     <div class="mb-3">
-      <label>Maximum value</label>
-      <input type="number" class="form-control" placeholder="Enter maximum value"
+      <label class="label-text">Maximum value</label>
+      <input type="number" class="form-control input-text" placeholder="Enter maximum value"
              formControlName="maxValueCtrl">
       <div *ngIf="formGroup.controls['maxValueCtrl'].invalid && formGroup.controls['maxValueCtrl'].touched">
       <span

@@ -1,4 +1,4 @@
-<div class="card card-border-radius mb-4 p-3 d-flex flex-row align-items-center">
+<div class="card card-border-radius mb-3 p-3 d-flex flex-row align-items-center">
   <span>
   <img src="assets/icons/btn-icon-calendar.svg" alt="icon" class="custom-icon " style="margin-right: 8px"/>
     </span>
@@ -6,13 +6,14 @@
 </div>
 
 <form [formGroup]="formGroup" class="needs-validation" novalidate>
-  <div class="bg-white card-border-radius px-3 py-2 mb-3">
+  <div class="bg-white card-border-radius px-3 py-2 mb-2">
     <mat-slide-toggle
+      class="label-text birthday-toggle"
       [(ngModel)]="isBirthdayField"
       [ngModelOptions]="{standalone: true}"
       (ngModelChange)="onIsBirthdayFieldChanged($event)"
     >
-      Is birthday?
+      Is it birthday?
     </mat-slide-toggle>
   </div>
 
@@ -20,20 +21,21 @@
     <div class="bg-white card-border-radius p-3 mb-3">
       <div class="input-group mb-3">
         <input type="checkbox"
-               class="form-check-input me-1"
+               class="me-1"
+               style="accent-color: var(--navbar-color)"
                formControlName="isRequiredCtrl">
-        <label>Is required</label>
+        <label class="label-text">Is required</label>
       </div>
 
       <div class="mb-3">
-        <label>Start date</label>
-        <input type="date" class="form-control" placeholder="Enter start date"
+        <label class="label-text">Start date</label>
+        <input type="date" class="form-control input-text" placeholder="Enter start date"
                formControlName="startDateCtrl">
       </div>
 
       <div class="mb-3">
-        <label>End date</label>
-        <input type="date" class="form-control" placeholder="Enter end date"
+        <label class="label-text">End date</label>
+        <input type="date" class="form-control input-text" placeholder="Enter end date"
                formControlName="endDateCtrl">
         <div *ngIf="formGroup.controls['endDateCtrl'].invalid && formGroup.controls['endDateCtrl'].touched">
       <span
@@ -45,9 +47,9 @@
       </div>
 
       <div class="mb-3">
-        <label>Custom validators</label>
+        <label class="label-text">Custom validators</label>
         <mat-select formControlName="dateTimeCtrl" placeholder="Add custom validators"
-                    class="form-control">
+                    class="form-control input-text">
           <mat-option [value]="null">None</mat-option>
           <mat-option [value]="DateCustomValidator.FUTURE_DATE">Future date</mat-option>
           <mat-option [value]="DateCustomValidator.PAST_DATE">Past date</mat-option>
