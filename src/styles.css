@@ -23,6 +23,16 @@ body {
   --my-primary-color: #F7F6FD;
 }
 
+.card-border-radius {
+  border-radius: 12px !important;
+  border: 2px solid #ECECEC
+}
+
+.custom-icon {
+  width: 20px;
+  height: 20px;
+}
+
 body,
 *,
 .mat-button,

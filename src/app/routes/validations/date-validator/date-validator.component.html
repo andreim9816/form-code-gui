@@ -1,50 +1,58 @@
-<h4 class="mb-4">Customize date field</h4>
-<form [formGroup]="formGroup" class="needs-validation" novalidate>
+<div class="card card-border-radius mb-4 p-3 d-flex flex-row align-items-center">
+  <span>
+  <img src="assets/icons/btn-icon-calendar.svg" alt="icon" class="custom-icon " style="margin-right: 8px"/>
+    </span>
+  <span><b>Customize date field</b></span>
+</div>
 
-  <mat-slide-toggle
-    class="mb-3"
-    [(ngModel)]="isBirthdayField"
-    [ngModelOptions]="{standalone: true}"
-    (ngModelChange)="onIsBirthdayFieldChanged($event)"
-  >
-    Is birthday?
-  </mat-slide-toggle>
+<form [formGroup]="formGroup" class="needs-validation" novalidate>
+  <div class="bg-white card-border-radius px-3 py-2 mb-3">
+    <mat-slide-toggle
+      [(ngModel)]="isBirthdayField"
+      [ngModelOptions]="{standalone: true}"
+      (ngModelChange)="onIsBirthdayFieldChanged($event)"
+    >
+      Is birthday?
+    </mat-slide-toggle>
+  </div>
 
   <div [hidden]="isBirthdayField">
-    <div class="input-group mb-3">
-      <input type="checkbox"
-             class="form-check-input me-1"
-             formControlName="isRequiredCtrl">
-      <label>Is required</label>
-    </div>
+    <div class="bg-white card-border-radius p-3 mb-3">
+      <div class="input-group mb-3">
+        <input type="checkbox"
+               class="form-check-input me-1"
+               formControlName="isRequiredCtrl">
+        <label>Is required</label>
+      </div>
 
-    <div class="mb-3">
-      <label>Start date</label>
-      <input type="date" class="form-control" placeholder="Enter start date"
-             formControlName="startDateCtrl">
-    </div>
+      <div class="mb-3">
+        <label>Start date</label>
+        <input type="date" class="form-control" placeholder="Enter start date"
+               formControlName="startDateCtrl">
+      </div>
 
-    <div class="mb-3">
-      <label>End date</label>
-      <input type="date" class="form-control" placeholder="Enter end date"
-             formControlName="endDateCtrl">
-      <div *ngIf="formGroup.controls['endDateCtrl'].invalid && formGroup.controls['endDateCtrl'].touched">
+      <div class="mb-3">
+        <label>End date</label>
+        <input type="date" class="form-control" placeholder="Enter end date"
+               formControlName="endDateCtrl">
+        <div *ngIf="formGroup.controls['endDateCtrl'].invalid && formGroup.controls['endDateCtrl'].touched">
       <span
         class="invalid-feedback d-block"
         *ngIf="formGroup.controls['endDateCtrl'].errors?.['lessThanFirst']"
       >Start date is bigger than end date
       </span>
+        </div>
       </div>
-    </div>
 
-    <div class="mb-3">
-      <label>Custom validators</label>
-      <mat-select formControlName="dateTimeCtrl" placeholder="Add custom validators"
-                  class="form-control">
-        <mat-option [value]="null">None</mat-option>
-        <mat-option [value]="DateCustomValidator.FUTURE_DATE">Future date</mat-option>
-        <mat-option [value]="DateCustomValidator.PAST_DATE">Past date</mat-option>
-      </mat-select>
+      <div class="mb-3">
+        <label>Custom validators</label>
+        <mat-select formControlName="dateTimeCtrl" placeholder="Add custom validators"
+                    class="form-control">
+          <mat-option [value]="null">None</mat-option>
+          <mat-option [value]="DateCustomValidator.FUTURE_DATE">Future date</mat-option>
+          <mat-option [value]="DateCustomValidator.PAST_DATE">Past date</mat-option>
+        </mat-select>
+      </div>
     </div>
   </div>
 </form>
