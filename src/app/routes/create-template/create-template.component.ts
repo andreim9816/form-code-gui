@@ -243,7 +243,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
       ] as Section[];
     } else {
       this.sections = [
-        this.createNewSection(undefined, false),
+        this.createNewSection('Input section', false),
         this.createNewSection('Validation section', true),];
     }
   }

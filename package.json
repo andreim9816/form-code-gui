@@ -24,6 +24,7 @@
     "@sweetalert2/ngx-sweetalert2": "^13.0.0",
     "ag-grid-angular": "^33.2.1",
     "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.13.1",
     "jwt-decode": "^4.0.0",
     "ngx-cookie-service": "^19.1.0",
     "rxjs": "~7.8.0",

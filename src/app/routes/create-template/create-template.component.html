@@ -7,17 +7,20 @@
           <span><b>Content Elements</b></span>
         </div>
 
-        <button mat-button class="less-rounded-button me-2 mb-2 py-4" style=" padding-right: 40px">
+        <button type="button" mat-button class="less-rounded-button me-2 mb-2 py-4" style="padding-right: 40px"
+                (click)="addText()">
           <img src="assets/icons/btn-icon-text.svg" alt="icon" class="custom-icon" style="margin-right: 8px"/>
           Text
         </button>
 
-        <button mat-button class="less-rounded-button me-2 mb-2 py-4" style=" padding-right: 28px">
+        <button type="button" mat-button class="less-rounded-button me-2 mb-2 py-4" style=" padding-right: 28px"
+                (click)="addNumber()">
           <img src="assets/icons/btn-icon-number.svg" alt="icon" class="custom-icon" style="margin-right: 8px"/>
           Number
         </button>
 
-        <button mat-button class="less-rounded-button me-2 mb-2 py-4" style=" padding-right: 40px">
+        <button type="button" mat-button class="less-rounded-button me-2 mb-2 py-4" style=" padding-right: 40px"
+                (click)="addDate()">
           <img src="assets/icons/btn-icon-calendar.svg" alt="icon" class="custom-icon" style="margin-right: 8px"/>
           Date
         </button>
@@ -49,23 +52,6 @@
           <img src="assets/icons/btn-icon-remove-element.svg" alt="icon" class="custom-icon" style="margin-right: 8px"/>
           Remove element
         </button>
-
-<!--        <button mat-button class="less-rounded-button me-2 mb-2">-->
-<!--          <img src="assets/icons/btn-icon-remove-element.svg" alt="icon" class="custom-icon" />-->
-<!--          <span class="button-label">Remove element</span>-->
-<!--        </button>-->
-
-        <!--        <button type="button" mat-button class="d-block" (click)="addText()">Simple text</button>-->
-        <!--        <button type="button" mat-button class="d-block" (click)="addNewBreakLine()">Break line</button>-->
-        <!--        <button type="button" mat-button class="d-block" (click)="addNumber()">Number</button>-->
-        <!--        <button type="button" mat-button class="d-block" (click)="addDate()">Date</button>-->
-        <!--        <button type="button" mat-button class="d-block" (click)="addFileAttachment()">File</button>-->
-        <!--        &lt;!&ndash;        <button type="button" mat-button class="d-block" (click)="addCheckbox()">Checkbox</button>&ndash;&gt;-->
-        <!--        <button type="button" mat-button class="d-block" (click)="removeElement()">Remove element</button>-->
-        <!--        <button type="button" mat-button class="d-block" (click)="displayInfo()">Display info</button>-->
-        <!--        <button disabled type="button" mat-button class="d-block">Dropdown select</button>-->
-        <!--        <button disabled type="button" mat-button class="d-block">Rating</button>-->
-        <!--        <button disabled type="button" mat-button class="d-block">Multiple choice</button>-->
       </div>
       <div class="pt-3"
            style="background-color: var(--my-primary-color); width: 60%">
@@ -87,18 +73,25 @@
         </div>
         <div class="row">
           <div class="col">
-            <ul>
-              <li *ngFor="let section of sections; index as sectionIndex" class="card mb-2"
+            <ul class="m-0 p-0">
+              <li *ngFor="let section of sections; index as sectionIndex" class="card mb-2 px-3"
+                  style="border-radius: 12px !important; border: 2px solid #ECECEC"
                   (contextmenu)="openContextMenu($event, sectionIndex)">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                  <span>{{ section.title }}</span>
-                  <span *ngIf="section.isValidation"
-                        class="d-flex align-items-center gap-2">
-                    <span>Validated by:</span>
+
+                <span *ngIf="section.isValidation">
+                  <div class="d-flex justify-content-between align-items-center" style="margin-top: 12px">
+                    <span>
+                      <img src="assets/icons/img-validation-2.png" alt="icon"
+                           style="; width: 30px; height: 35px"/>
+                      <span><b>{{ section.title }}</b></span>
+                    </span>
+                  <span
+                    class="d-flex align-items-center gap-2">
+                    <span style="color: #23324D"><b>Validated by:</b></span>
                     <mat-select
                       [(ngModel)]="section.companyRoles"
                       [ngModelOptions]="{standalone: true}"
-                      multiple class="form-control w-auto" style="min-width: 200px">
+                      multiple class="form-control w-auto" style="min-width: 200px; border: 2px solid #ECECEC">
 
                       <mat-select-trigger>
                         <ng-container *ngFor="let role of section.companyRoles; let i = index">
@@ -111,7 +104,14 @@
                     </mat-select>
                   </span>
                 </div>
-                <div class="card-body" (click)="onCardBodyClick($event, sectionIndex)">
+                  <div
+                    style="
+                    height:2px;
+                    color:#D4D4D4;
+                    background-color:#ECECEC;
+                    margin-top: 12px;"></div>
+                </span>
+                <div class="card-body ps-0" (click)="onCardBodyClick($event, sectionIndex)">
                   <span *ngFor="let sectionField of section.sectionFields; index as sectionFieldIndex"
                         class="my-2 mt-2 me-1">
                     <!--todo: depending on the text field type (can be input or simple <p> styling should be different)-->
@@ -206,16 +206,6 @@
       <li *ngIf="displayDeleteSectionField()"><a class="dropdown-item" (click)="onDeleteCurrentField()">Delete field</a>
       </li>
       <li><a class="dropdown-item" (click)="deleteCurrentSection()">Delete section</a></li>
-
-      <!--      &lt;!&ndash; Autocomplete with submenu &ndash;&gt;-->
-      <!--        <li class="dropdown-submenu position-relative" *ngIf="displayValidatorColumn()">-->
-      <!--          <a class="dropdown-item dropdown-toggle">Autocomplete</a>-->
-      <!--          <ul class="dropdown-menu position-absolute start-100 top-0 mt-0">-->
-      <!--            <li><a class="dropdown-item">Option 1</a></li>-->
-      <!--            <li><a class="dropdown-item">Option 2</a></li>-->
-      <!--            <li><a class="dropdown-item">Option 3</a></li>-->
-      <!--          </ul>-->
-      <!--        </li>-->
     </ul>
   </form>
 </div>
