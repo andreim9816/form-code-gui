@@ -1,72 +1,127 @@
-<div class="container-fluid" *ngIf="this.form">
-  <h3>{{ form.template.title }}</h3>
-  <h5 class="text-secondary">{{ form.template.description }}</h5>
-  <br>
-
-  <form [formGroup]="formGroup" (ngSubmit)="submit()">
-    <div class="col-8 border-start border-end">
-      <div class="row">
-        <div class="col">
-          <ng-container *ngIf="this.form">
-            <ul>
-              <li *ngFor="let sectionControl of sectionControls().controls; index as sectionIndex" class="card mb-2">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                  {{ getSection(sectionIndex).title }}
-                </div>
-                <div class="card-body">
-                  <span
-                    *ngFor="let fieldControl of sectionFieldsControls(sectionControl).controls; index as sectionFieldIndex"
-                    class="my-2 mt-2 me-1">
-                    <!--todo: depending on the text field type (can be input or simple <p> styling should be different)-->
-                    <app-edit-form-text
-                      *ngIf="getFormSectionField(sectionIndex, sectionFieldIndex).sectionField.contentType === ContentType.STRING"
-                      [formSectionField]="getFormSectionField(sectionIndex, sectionFieldIndex)"
-                      [fieldControl]="fieldControl"
-                      [submitted]="submitted"
-                      class="d-inline-block"
-                      style="vertical-align: top"
-                    ></app-edit-form-text>
-                    <br
-                      *ngIf="getFormSectionField(sectionIndex, sectionFieldIndex).sectionField.contentType === ContentType.BREAK_LINE"
-                    >
-                    <app-edit-form-number
-                      *ngIf="getFormSectionField(sectionIndex, sectionFieldIndex).sectionField.contentType === ContentType.NUMBER"
-                      [formSectionField]="getFormSectionField(sectionIndex,sectionFieldIndex)"
-                      [fieldControl]="fieldControl"
-                      [submitted]="submitted"
-                      class="d-inline-block"
-                      style="vertical-align: top"
-                    ></app-edit-form-number>
-                    <app-edit-form-date
-                      *ngIf="getFormSectionField(sectionIndex, sectionFieldIndex).sectionField.contentType === ContentType.DATE"
-                      [formSectionField]="getFormSectionField(sectionIndex,sectionFieldIndex)"
-                      [fieldControl]="fieldControl"
-                      [submitted]="submitted"
-                      class="d-inline-block"
-                      style="vertical-align: top"
-                    ></app-edit-form-date>
-                    <app-edit-form-file
-                      *ngIf="getFormSectionField(sectionIndex, sectionFieldIndex).sectionField.contentType === ContentType.FILE"
-                      [formSectionField]="getFormSectionField(sectionIndex, sectionFieldIndex)"
-                      [fieldControl]="fieldControl"
-                      (newFileContent)="newFileSelected($event)"
-                      class="d-inline-block"
-                      style="vertical-align: top"
-                    ></app-edit-form-file>
-                  </span>
-                </div>
-              </li>
-            </ul>
-          </ng-container>
+<div class="container-fluid pt-3" style="background-color: var(--my-primary-color); min-height: 630px">
+  <div class="row">
+    <div class="m-auto" style="width: 70%">
+      <div class="card px-3 mb-3"
+           style="border-radius: 12px !important; border: 2px solid #ECECEC">
+        <div class="mb-3" style="margin-top: 12px">
+          <label for="formName" class="form-label">
+            <b>Form name</b>
+          </label>
+          <input type="text" class="form-control" readonly id="formName" [value]="form.template.title">
+        </div>
+        <div class="mb-3">
+          <label for="formDescription" class="form-label">
+            <b>Form description</b>
+          </label>
+          <input type="text" class="form-control" readonly id="formDescription" [value]="form.template.description">
         </div>
       </div>
-      <ng-container *ngIf="this.form.finishedDate === null">
-        <button mat-button type="button"
-                *ngIf="this.storageService.getUser()?.id !== this.form.creatorUser.id"
-                (click)="rejectForm()">Reject
-        </button>
-        <button mat-button type="submit">Submit</button>
-      </ng-container>
+      <hr class="mx-3" style="color: #abaabb;height:2px;">
+      <form [formGroup]="formGroup" (ngSubmit)="submit()">
+        <div class="row">
+          <div class="">
+            <ng-container *ngIf="this.form">
+              <ul class="m-0 p-0">
+                <div *ngFor="let sectionControl of sectionControls().controls; index as sectionIndex">
+                  <div class="card card-border-radius mb-2 px-3">
+                     <span>
+                        <div class="d-flex justify-content-between align-items-center" style="margin-top: 12px">
+                           <span *ngIf="getSection(sectionIndex).isValidation">
+                           <img src="../../../assets/icons/img-validation.png" alt="icon"
+                                style="; width: 30px; height: 35px"/>
+                           <span><b>{{ getSection(sectionIndex).title }}</b></span>
+                           </span>
+                           <span *ngIf="!getSection(sectionIndex).isValidation">
+                           <img src="assets/icons/img-input-section.svg" alt="icon"
+                                style="; width: 20px; height: 20px; margin-right: 6px"/>
+                           <span><b>{{ getSection(sectionIndex).title }}</b></span>
+                           </span>
+                        </div>
+                        <div
+                          style="height:2px; background-color:#ECECEC; margin-top: 12px;"></div>
+                     </span>
+
+                    <div class="card-body ps-0">
+                    <span
+                      *ngFor="let fieldControl of sectionFieldsControls(sectionControl).controls; index as sectionFieldIndex"
+                      class="my-2 mt-2 me-1">
+                              <!--todo: depending on the text field type (can be input or simple <p> styling should be different)-->
+                              <app-edit-form-text
+                                *ngIf="getFormSectionField(sectionIndex, sectionFieldIndex).sectionField.contentType === ContentType.STRING"
+                                [formSectionField]="getFormSectionField(sectionIndex, sectionFieldIndex)"
+                                [fieldControl]="fieldControl"
+                                [submitted]="submitted"
+                                class="d-inline-block"
+                                style="vertical-align: top"
+                              ></app-edit-form-text>
+                              <br
+                                *ngIf="getFormSectionField(sectionIndex, sectionFieldIndex).sectionField.contentType === ContentType.BREAK_LINE"
+                              >
+                              <app-edit-form-number
+                                *ngIf="getFormSectionField(sectionIndex, sectionFieldIndex).sectionField.contentType === ContentType.NUMBER"
+                                [formSectionField]="getFormSectionField(sectionIndex,sectionFieldIndex)"
+                                [fieldControl]="fieldControl"
+                                [submitted]="submitted"
+                                class="d-inline-block"
+                                style="vertical-align: top"
+                              ></app-edit-form-number>
+                              <app-edit-form-date
+                                *ngIf="getFormSectionField(sectionIndex, sectionFieldIndex).sectionField.contentType === ContentType.DATE"
+                                [formSectionField]="getFormSectionField(sectionIndex,sectionFieldIndex)"
+                                [fieldControl]="fieldControl"
+                                [submitted]="submitted"
+                                class="d-inline-block"
+                                style="vertical-align: top"
+                              ></app-edit-form-date>
+                              <app-edit-form-file
+                                *ngIf="getFormSectionField(sectionIndex, sectionFieldIndex).sectionField.contentType === ContentType.FILE"
+                                [formSectionField]="getFormSectionField(sectionIndex, sectionFieldIndex)"
+                                [fieldControl]="fieldControl"
+                                (newFileContent)="newFileSelected($event)"
+                                class="d-inline-block"
+                                style="vertical-align: top"
+                              ></app-edit-form-file>
+                           </span>
+                    </div>
+                  </div>
+                </div>
+              </ul>
+            </ng-container>
+          </div>
+        </div>
+        <ng-container *ngIf="this.form.finishedDate == null">
+
+          <ng-container
+            *ngIf="FormsComponent.isValidationState(form) && this.storageService.getUser()?.id !== this.form.creatorUser.id">
+            <button
+              (click)="rejectForm()"
+              type="button" mat-button class="ms-2 card-border-radius"
+              style="color: white; background-color: var(--accent-color); padding-left: 40px; padding-right: 40px">
+              Reject
+            </button>
+
+            <button type="submit" mat-button class="ms-2 card-border-radius"
+                    style="color: white; background-color: var(--accent-color); padding-left: 40px; padding-right: 40px">
+              Validate
+            </button>
+          </ng-container>
+
+          <ng-container
+            *ngIf="FormsComponent.isUsersTurnState(form) && this.storageService.getUser()?.id == this.form.creatorUser.id">
+            <button
+              (click)="navigateToForms()"
+              type="button" mat-button class="bg-white card-border-radius"
+              style="color: var(--accent-color); padding-left: 40px; padding-right: 40px">
+              <b>Dismiss</b>
+            </button>
+
+            <button type="submit" mat-button class="ms-2 card-border-radius"
+                    style="color: white; background-color: var(--accent-color); padding-left: 40px; padding-right: 40px">
+              Save form
+            </button>
+          </ng-container>
+        </ng-container>
+      </form>
     </div>
-  </form>
+  </div>
 </div>

@@ -108,30 +108,30 @@ export class FormsComponent implements OnInit {
   }
 
   getStatus(form: Form): SafeHtml {
-    if (this.isValidationState(form)) {
+    if (FormsComponent.isValidationState(form)) {
       return this.sanitizer.bypassSecurityTrustHtml(`<span class="p-2 badge bg-primary">Pending validation</span>`);
     }
-    if (this.isUsersTurnState(form)) {
+    if (FormsComponent.isUsersTurnState(form)) {
       return this.sanitizer.bypassSecurityTrustHtml(`<span class="p-2 badge bg-secondary">Waiting for user input</span>`);
     }
-    if (this.isFinished(form)) {
+    if (FormsComponent.isFinished(form)) {
       return this.sanitizer.bypassSecurityTrustHtml(`<span class="p-2 badge bg-success">Finished</span>`);
     }
     return '';
   }
 
-  isValidationState(form: Form): boolean {
+  public static isValidationState(form: Form): boolean {
     return form.currentValidationSectionId === form.currentSectionId
       && form.currentValidationSectionId !== null
       && form.currentValidationSectionId !== undefined;
   }
 
-  isFinished(form: Form) {
+  public static isFinished(form: Form) {
     return form.finishedDate !== null && form.finishedDate !== undefined;
   }
 
-  isUsersTurnState(form: Form): boolean {
-    return !this.isValidationState(form) && !this.isFinished(form);
+  public static isUsersTurnState(form: Form): boolean {
+    return !FormsComponent.isValidationState(form) && !FormsComponent.isFinished(form);
   }
 
   openForm(form: Form) {

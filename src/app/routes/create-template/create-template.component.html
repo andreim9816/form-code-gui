@@ -77,66 +77,64 @@
             color: #abaabb;
             height:2px;"
         >
-
         <div class="row">
           <div class="col">
             <ul class="m-0 p-0">
               <div *ngFor="let section of sections; index as sectionIndex">
                 <div class="card card-border-radius mb-2 px-3"
-                     (contextmenu)="openContextMenu($event, sectionIndex)">
-                <span>
-                  <div class="d-flex justify-content-between align-items-center" style="margin-top: 12px">
-                    <span *ngIf="section.isValidation">
-                      <img src="../../../assets/icons/img-validation.png" alt="icon"
-                           style="; width: 30px; height: 35px"/>
-                      <span><b>{{ section.title }}</b></span>
-                    </span>
+                     (contextmenu)="openContextMenu($event, sectionIndex)"
+                >
+                  <span>
+                    <div class="d-flex justify-content-between align-items-center" style="margin-top: 12px">
+                      <span *ngIf="section.isValidation">
+                        <img src="../../../assets/icons/img-validation.png" alt="icon"
+                             style="; width: 30px; height: 35px"/>
+                        <span><b>{{ section.title }}</b></span>
+                      </span>
 
-                    <span *ngIf="!section.isValidation">
-                      <img src="assets/icons/img-input-section.svg" alt="icon"
-                           style="; width: 20px; height: 20px; margin-right: 6px"/>
-                      <span><b>{{ section.title }}</b></span>
-                    </span>
+                      <span *ngIf="!section.isValidation">
+                        <img src="assets/icons/img-input-section.svg" alt="icon"
+                             style="; width: 20px; height: 20px; margin-right: 6px"/>
+                        <span><b>{{ section.title }}</b></span>
+                      </span>
 
-                    <span
-                      *ngIf="section.isValidation"
-                      class="d-flex align-items-center gap-2">
-                      <span style="color: #23324D"><b>Validated by:</b></span>
-                      <mat-select
-                        [(ngModel)]="section.companyRoles"
-                        [ngModelOptions]="{standalone: true}"
-                        multiple class="form-control w-auto" style="min-width: 200px; border: 2px solid #ECECEC">
+                      <span
+                        *ngIf="section.isValidation"
+                        class="d-flex align-items-center gap-2">
+                        <span style="color: #23324D"><b>Validated by:</b></span>
+                        <mat-select
+                          [(ngModel)]="section.companyRoles"
+                          [ngModelOptions]="{standalone: true}"
+                          multiple class="form-control w-auto" style="min-width: 200px; border: 2px solid #ECECEC">
 
-                      <mat-select-trigger>
-                        <ng-container *ngFor="let role of section.companyRoles; let i = index">
-                          <span class="badge bg-secondary me-1">{{ role.name }}</span>
-                        </ng-container>
-                      </mat-select-trigger>
+                        <mat-select-trigger>
+                          <ng-container *ngFor="let role of section.companyRoles; let i = index">
+                            <span class="badge bg-secondary me-1">{{ role.name }}</span>
+                          </ng-container>
+                        </mat-select-trigger>
 
-                      <mat-option *ngFor="let companyRole of rolesForCompanies"
-                                  [value]="companyRole">{{ companyRole.name }}</mat-option>
-                    </mat-select>
-                    </span>
+                        <mat-option *ngFor="let companyRole of rolesForCompanies"
+                                    [value]="companyRole">{{ companyRole.name }}</mat-option>
+                      </mat-select>
+                      </span>
 
-                    <span
-                      *ngIf="!section.isValidation">
-                      <button type="button" class="btn less-rounded-button-no-color mb-2 p-0" style="border: 0"
-                              (click)="this.deleteSectionAtIdx(sectionIndex)">
-                        <img src="assets/icons/btn-icon-delete.svg" alt="icon" style="width: 20px; height: 20px"/>
-                      </button>
-                    </span>
+                      <span
+                        *ngIf="!section.isValidation">
+                        <button type="button" class="btn less-rounded-button-no-color mb-2 p-0" style="border: 0"
+                                (click)="this.deleteSectionAtIdx(sectionIndex)">
+                          <img src="assets/icons/btn-icon-delete.svg" alt="icon" style="width: 20px; height: 20px"/>
+                        </button>
+                      </span>
 
-                </div>
-                  <div
-                    style="
-                    height:2px;
-                    background-color:#ECECEC;
-                    margin-top: 12px;"></div>
-                </span>
+                  </div>
+                    <div
+                      style="height:2px; background-color:#ECECEC; margin-top: 12px;">
+                    </div>
+                  </span>
 
                   <div class="card-body ps-0" (click)="onCardBodyClick($event, sectionIndex)">
-                  <span *ngFor="let sectionField of section.sectionFields; index as sectionFieldIndex"
-                        class="my-2 mt-2 me-1">
+                    <span *ngFor="let sectionField of section.sectionFields; index as sectionFieldIndex"
+                          class="my-2 mt-2 me-1">
                     <!--todo: depending on the text field type (can be input or simple <p> styling should be different)-->
                     <app-text
                       class="d-inline-block"

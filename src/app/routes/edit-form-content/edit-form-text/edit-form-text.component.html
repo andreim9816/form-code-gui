@@ -3,7 +3,7 @@
 
 <ng-container *ngIf="isReadonlyField()">
   <input [formControl]="fieldControl" class="form-control my-readonly"
-         style="height: 30px; min-width: 50px; field-sizing: content"/>
+         style="height: 34px; min-width: 50px; field-sizing: content"/>
 </ng-container>
 
 <ng-container *ngIf="formSectionField.sectionField.defaultValue == null && !isReadonlyField()">
@@ -11,7 +11,7 @@
   [formControl]="fieldControl"
   class="form-control"
   [ngClass]="fieldControl.disabled ? 'my-readonly' : ''"
-  style="height: 30px; min-width: 50px; field-sizing: content"
+  style="min-width: 50px; field-sizing: content"
 ></textarea>
 
   <div *ngIf="fieldControl.invalid" class="text-danger d-flex flex-column">

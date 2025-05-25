@@ -31,6 +31,9 @@ import {StorageService} from '../../service/StorageService';
 import {HttpErrorResponse} from '@angular/common/http';
 import {NotificationService} from '../../service/notification-service';
 import {EditFormFileComponent} from '../edit-form-content/edit-form-file/edit-form-file.component';
+import {MatOption} from '@angular/material/core';
+import {MatSelect, MatSelectTrigger} from '@angular/material/select';
+import {FormsComponent} from '../forms/forms.component';
 
 @Component({
   selector: 'app-edit-form',
@@ -43,7 +46,10 @@ import {EditFormFileComponent} from '../edit-form-content/edit-form-file/edit-fo
     EditFormTextComponent,
     EditFormNumberComponent,
     EditFormDateComponent,
-    EditFormFileComponent
+    EditFormFileComponent,
+    MatOption,
+    MatSelect,
+    MatSelectTrigger
   ],
   templateUrl: './edit-form.component.html'
 })
@@ -421,10 +427,15 @@ export class EditFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  navigateToForms(): void {
+    this.router.navigate(['/forms']);
+  }
+
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
   }
 
   readonly ContentType = ContentType;
+  protected readonly FormsComponent = FormsComponent;
 }
