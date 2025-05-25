@@ -1,0 +1,8 @@
+::ng-deep mat-button-toggle-group.mat-button-toggle-group-appearance-standard .mat-button-toggle {
+  border: none !important;
+  margin-right: 2px; /* space between buttons */
+}
+
+::ng-deep .mat-button-toggle + .mat-button-toggle {
+  border-left: none !important; /* removes the line between toggles */
+}

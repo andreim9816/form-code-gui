@@ -19,7 +19,8 @@ import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-to
     MatButtonToggle,
     MatLabel
   ],
-  templateUrl: './text-validator.component.html'
+  templateUrl: './text-validator.component.html',
+  styleUrls: ['./text-validator.component.scss']
 })
 export class TextValidatorComponent implements OnInit, OnChanges {
   @Input()

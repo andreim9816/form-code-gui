@@ -82,8 +82,9 @@
         <div class="row">
           <div class="col">
             <ul class="m-0 p-0">
-              <li *ngFor="let section of sections; index as sectionIndex" class="card card-border-radius mb-2 px-3"
-                  (contextmenu)="openContextMenu($event, sectionIndex)">
+              <div *ngFor="let section of sections; index as sectionIndex">
+                <div class="card card-border-radius my-1 px-3"
+                     (contextmenu)="openContextMenu($event, sectionIndex)">
                 <span>
                   <div class="d-flex justify-content-between align-items-center" style="margin-top: 12px">
                     <span *ngIf="section.isValidation">
@@ -130,11 +131,11 @@
                   <div
                     style="
                     height:2px;
-                    color:#D4D4D4;
                     background-color:#ECECEC;
                     margin-top: 12px;"></div>
                 </span>
-                <div class="card-body ps-0" (click)="onCardBodyClick($event, sectionIndex)">
+
+                  <div class="card-body ps-0" (click)="onCardBodyClick($event, sectionIndex)">
                   <span *ngFor="let sectionField of section.sectionFields; index as sectionFieldIndex"
                         class="my-2 mt-2 me-1">
                     <!--todo: depending on the text field type (can be input or simple <p> styling should be different)-->
@@ -188,20 +189,22 @@
                       (contextmenu)="setCurrentIndexesAndOpenContextMenu(sectionIndex, sectionFieldIndex, $event)"
                     </app-checkbox>
                   </span>
+                  </div>
                 </div>
-              </li>
+              </div>
             </ul>
           </div>
         </div>
-        <div class="row">
-          <div class="col">
-            <button type="button" mat-fab class="w-100" (click)="addNewSectionAtTheEnd('Input section',false)">+ Add a
-              new
-              section
+        <div class="row mt-1">
+          <div class="line-with-button mx-0 px-0">
+            <div class="line"></div>
+            <button class="round-button w-100"
+                    (click)="addNewSectionAtTheEnd('Input section',false)"
+            >+ Add new section
             </button>
+            <div class="line"></div>
           </div>
         </div>
-        <button mat-button type="submit">Submit</button>
       </div>
 
       <div class="px-0 my-3" style="width: 1px; background-color: #abaabb; opacity: 0.25"></div>

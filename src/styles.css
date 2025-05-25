@@ -21,6 +21,7 @@ body {
 
 :root {
   --my-primary-color: #F7F6FD;
+  --navbar-color: #051367;
 }
 
 .card-border-radius {
@@ -44,4 +45,15 @@ body,
 .mat-option,
 .mat-label {
   font-family: 'CustomFont', sans-serif !important;
+}
+
+.label-text {
+  font-size: 14px !important;
+  font-weight: bold;
+  color: #686b76 !important;
+}
+
+.input-text {
+  font-size: 14px !important;
+  color: #686b76 !important;
 }
