@@ -1,7 +1,7 @@
-<div class="container-fluid">
+<div class="container-fluid" style="background-color: var(--my-primary-color);">
   <form [formGroup]="form" (ngSubmit)="submit()">
     <div class="row">
-      <div class="px-0 ps-3 flex-wrap" style="width: 18%">
+      <div class="px-0 ps-3 flex-wrap" style="width: 18%; background-color: white">
 
         <div class="mt-3 mb-2" style="color: #2B323F">
           <span><b>Content Elements</b></span>
@@ -53,24 +53,32 @@
           Remove element
         </button>
       </div>
-      <div class="pt-3"
-           style="background-color: var(--my-primary-color); width: 60%">
-        <div class="row">
-          <div class="col">
-            <mat-form-field>
-              <mat-label>Template name</mat-label>
-              <input matInput formControlName="templateNameCtrl">
-            </mat-form-field>
+      <div class="pt-3" style="width: 60%">
+
+        <div class="card px-3 mb-2"
+             style="border-radius: 12px !important; border: 2px solid #ECECEC">
+          <div class="mb-3" style="margin-top: 12px">
+            <label for="exampleFormControlInput1" class="form-label">
+              <b>Template name</b>
+            </label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" formControlName="templateNameCtrl">
+          </div>
+
+          <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">
+              <b>Template description</b>
+            </label>
+            <input type="text" class="form-control" id="exampleFormControlTextarea1"
+                   formControlName="templateDescriptionCtrl">
           </div>
         </div>
-        <div class="row">
-          <div class="col">
-            <mat-form-field>
-              <mat-label>Template description</mat-label>
-              <input matInput formControlName="templateDescriptionCtrl">
-            </mat-form-field>
-          </div>
-        </div>
+
+        <hr class="mx-3"
+            style="
+            color: #abaabb;
+            height:2px;"
+        >
+
         <div class="row">
           <div class="col">
             <ul class="m-0 p-0">
@@ -78,20 +86,28 @@
                   style="border-radius: 12px !important; border: 2px solid #ECECEC"
                   (contextmenu)="openContextMenu($event, sectionIndex)">
 
-                <span *ngIf="section.isValidation">
+                <span>
                   <div class="d-flex justify-content-between align-items-center" style="margin-top: 12px">
-                    <span>
-                      <img src="assets/icons/img-validation-2.png" alt="icon"
+                    <span *ngIf="section.isValidation">
+                      <img src="../../../assets/icons/img-validation.png" alt="icon"
                            style="; width: 30px; height: 35px"/>
                       <span><b>{{ section.title }}</b></span>
                     </span>
-                  <span
-                    class="d-flex align-items-center gap-2">
-                    <span style="color: #23324D"><b>Validated by:</b></span>
-                    <mat-select
-                      [(ngModel)]="section.companyRoles"
-                      [ngModelOptions]="{standalone: true}"
-                      multiple class="form-control w-auto" style="min-width: 200px; border: 2px solid #ECECEC">
+
+                    <span *ngIf="!section.isValidation">
+                      <img src="assets/icons/img-input-section.svg" alt="icon"
+                           style="; width: 20px; height: 20px; margin-right: 6px"/>
+                      <span><b>{{ section.title }}</b></span>
+                    </span>
+
+                    <span
+                      *ngIf="section.isValidation"
+                      class="d-flex align-items-center gap-2">
+                      <span style="color: #23324D"><b>Validated by:</b></span>
+                      <mat-select
+                        [(ngModel)]="section.companyRoles"
+                        [ngModelOptions]="{standalone: true}"
+                        multiple class="form-control w-auto" style="min-width: 200px; border: 2px solid #ECECEC">
 
                       <mat-select-trigger>
                         <ng-container *ngFor="let role of section.companyRoles; let i = index">
@@ -102,7 +118,16 @@
                       <mat-option *ngFor="let companyRole of rolesForCompanies"
                                   [value]="companyRole">{{ companyRole.name }}</mat-option>
                     </mat-select>
-                  </span>
+                    </span>
+
+                    <span
+                      *ngIf="!section.isValidation">
+                      <button type="button" class="btn less-rounded-button-no-color mb-2 p-0" style="border: 0"
+                              (click)="this.deleteSectionAtIdx(sectionIndex)">
+                        <img src="assets/icons/btn-icon-delete.svg" alt="icon" style="width: 20px; height: 20px"/>
+                      </button>
+                    </span>
+
                 </div>
                   <div
                     style="
@@ -172,14 +197,18 @@
         </div>
         <div class="row">
           <div class="col">
-            <button type="button" mat-fab class="w-100" (click)="addNewSectionAtTheEnd(undefined,false)">+ Add a new
+            <button type="button" mat-fab class="w-100" (click)="addNewSectionAtTheEnd('Input section',false)">+ Add a
+              new
               section
             </button>
           </div>
         </div>
         <button mat-button type="submit">Submit</button>
       </div>
-      <div class="col-3 pt-3" style="width: 22%"
+
+      <div class="px-0 my-3" style="width: 1px; background-color: #abaabb; opacity: 0.25"></div>
+
+      <div class="pt-3" style="width: calc(22% - 20px); background-color: var(--my-primary-color)"
            *ngIf="displayValidatorColumn()">
         <app-text-validator
           *ngIf="currentFieldType === ContentType.STRING"

@@ -31,7 +31,6 @@ import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
 import {HttpErrorResponse} from '@angular/common/http';
 import {NotificationService} from '../../service/notification-service';
 import {FileComponent} from '../../shared/file/file.component';
-import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'app-create-template',
@@ -44,7 +43,6 @@ import {MatIcon} from '@angular/material/icon';
     MatFormField,
     MatInput,
     MatFabButton,
-    MatIcon,
     TextComponent,
     NumberComponent,
     BreaklineComponent,
@@ -643,6 +641,11 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
       }
       this.closeContextMenu();
     }
+  }
+
+  deleteSectionAtIdx(idx: number): void {
+    this.currentSectionIndex = idx;
+    this.deleteCurrentSection();
   }
 
   ////////////////////////////////////////// contextual menu //////////////////////////////////////////
