@@ -1,7 +1,7 @@
-<div class="container-fluid" style="background-color: var(--my-primary-color);">
+<div class="container-fluid" style="background-color: var(--my-primary-color); min-height: 630px">
   <form [formGroup]="form" (ngSubmit)="submit()">
     <div class="row">
-      <div class="px-0 ps-3 flex-wrap" style="width: 18%; background-color: white">
+      <div class="px-0 ps-3 flex-wrap" style="width: 18%; background-color: white; min-height: 630px">
 
         <div class="mt-3 mb-2" style="color: #2B323F">
           <span><b>Content Elements</b></span>
@@ -39,18 +39,17 @@
         <!----------------------------------------------------->
 
         <div class="mt-3 mb-2">
-          <span><b>Actions</b></span>
+          <span><b>Actions on Elements</b></span>
         </div>
 
-        <button mat-button class="less-rounded-button me-2 mb-2 py-4" style=" padding-right: 40px">
+        <button mat-button class="less-rounded-button me-2 mb-2 py-4" style=" padding-right: 16px">
           <img src="assets/icons/btn-icon-new-line.svg" alt="icon" class="custom-icon" style="margin-right: 8px"/>
-          Break line
+          Breakline
         </button>
 
-        <button mat-button class="less-rounded-button me-2 mb-2"
-                style="width:124px; padding-top: 30px; padding-bottom: 30px">
+        <button mat-button class="less-rounded-button me-2 mb-2 py-4" style="width:120px;">
           <img src="assets/icons/btn-icon-remove-element.svg" alt="icon" class="custom-icon" style="margin-right: 8px"/>
-          Remove element
+          Remove
         </button>
       </div>
       <div class="pt-3" style="width: 60%">

@@ -59,3 +59,7 @@ body,
   font-size: 14px !important;
   color: #686b76 !important;
 }
+
+.my-readonly {
+  background-color: var(--my-primary-color) !important;
+}

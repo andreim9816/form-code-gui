@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormSectionField} from '../../../model/FormSectionField';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {NgIf} from '@angular/common';
+import {NgClass, NgIf} from '@angular/common';
 import {PersonalDataType} from '../../validations/text-validator/text-validator.component';
 import {StorageService} from '../../../service/StorageService';
 
@@ -10,7 +10,8 @@ import {StorageService} from '../../../service/StorageService';
   imports: [
     FormsModule,
     NgIf,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgClass
   ],
   templateUrl: './edit-form-text.component.html'
 })

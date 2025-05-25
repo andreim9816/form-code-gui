@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {MatAnchor} from "@angular/material/button";
+import {MatAnchor, MatButton} from "@angular/material/button";
 import {MatToolbar, MatToolbarRow} from "@angular/material/toolbar";
 import {NgIf} from "@angular/common";
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
@@ -14,7 +14,8 @@ import {AuthService} from '../../service/AuthService';
     MatToolbarRow,
     NgIf,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    MatButton
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'

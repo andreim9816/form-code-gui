@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormSectionField} from '../../../model/FormSectionField';
-import {DatePipe, NgIf} from '@angular/common';
+import {DatePipe, NgClass, NgIf} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DateCustomValidator} from '../../../enum/DateCustomValidator';
 import {StorageService} from '../../../service/StorageService';
@@ -12,7 +12,8 @@ import {StorageService} from '../../../service/StorageService';
     NgIf,
     FormsModule,
     ReactiveFormsModule,
-    DatePipe
+    DatePipe,
+    NgClass
   ],
   templateUrl: './edit-form-date.component.html'
 })

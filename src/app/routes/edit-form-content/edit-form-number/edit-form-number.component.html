@@ -5,6 +5,7 @@
     [formControl]="fieldControl"
     type="number"
     class="form-control"
+    [ngClass]="fieldControl.disabled ? 'my-readonly' : ''"
     style="height: 38px; min-width: 60px; field-sizing: content"
   >
 

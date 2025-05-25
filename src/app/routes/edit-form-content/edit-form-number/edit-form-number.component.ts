@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {NgIf} from '@angular/common';
+import {NgClass, NgIf} from '@angular/common';
 import {FormSectionField} from '../../../model/FormSectionField';
 
 @Component({
@@ -8,7 +8,8 @@ import {FormSectionField} from '../../../model/FormSectionField';
   imports: [
     FormsModule,
     NgIf,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgClass
   ],
   templateUrl: './edit-form-number.component.html'
 })

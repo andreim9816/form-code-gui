@@ -5,16 +5,22 @@
         <img alt="Logo" src="favicon.ico">
       </a>
 
-      <a *ngIf="!isLoggedIn()" mat-button routerLink="/login" routerLinkActive="active">Login</a>
-      <a *ngIf="canCreateTemplate()" mat-button routerLink="/add-template" routerLinkActive="active">Create template</a>
-      <a *ngIf="isAdmin()" mat-button routerLink="/companies" routerLinkActive="active">Companies</a>
-      <a *ngIf="isAdmin()" mat-button routerLink="/users" routerLinkActive="active">Users</a>
-      <a *ngIf="isLoggedIn()" mat-button routerLink="/forms" routerLinkActive="active">Forms</a>
-      <a *ngIf="isLoggedIn()" (click)="logout()" mat-button>Logout</a>
+      <a *ngIf="!isLoggedIn()" mat-button routerLink="/login" routerLinkActive="my-active-route" style="color:white">Login</a>
+      <button type="button" *ngIf="canCreateTemplate()" mat-button routerLink="/add-template"
+              routerLinkActive="my-active-route"
+              style="color: white; border-top-left-radius: 1px">Create template
+      </button>
+      <a *ngIf="isAdmin()" mat-button routerLink="/companies" routerLinkActive="my-active-route"
+         style="color:white; border-top-left-radius: 1px">Companies</a>
+      <a *ngIf="isAdmin()" mat-button routerLink="/users" routerLinkActive="my-active-route"
+         style="color:white; border-top-left-radius: 1px">Users</a>
+      <a *ngIf="isLoggedIn()" mat-button routerLink="/forms" routerLinkActive="my-active-route"
+         style="color:white; border-top-left-radius: 1px">Forms</a>
+      <a *ngIf="isLoggedIn()" style="color: white" (click)="logout()" mat-button>Logout</a>
     </div>
 
     <div *ngIf="isLoggedIn()" style="position:absolute; right: 24px">
-      <a disabled mat-button>Hello, {{ this.computeName() }}!</a>
+      <a mat-button disabled style="color: white">Hello, {{ this.computeName() }}!</a>
     </div>
 
   </mat-toolbar-row>

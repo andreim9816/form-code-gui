@@ -1,13 +1,18 @@
 <p *ngIf="formSectionField.sectionField.defaultValue !== null">{{ formSectionField.sectionField.defaultValue }}</p>
 
-<ng-container *ngIf="formSectionField.sectionField.defaultValue === null">
+<ng-container *ngIf="formSectionField.sectionField.defaultValue == null && isReadonlyField()">
+  <input [formControl]="fieldControl" class="form-control my-readonly"
+         style="height: 38px; min-width: 60px; field-sizing: content"/>
+</ng-container>
+
+<ng-container *ngIf="formSectionField.sectionField.defaultValue == null && !isReadonlyField()">
   <input
     [formControl]="fieldControl"
-    [readonly]="isReadonlyField()"
     [value]="fieldControl.value"
     (input)="onDateInput($event)"
     type="date"
     class="form-control"
+    [ngClass]="fieldControl.disabled ? 'my-readonly' : ''"
     style="height: 38px; min-width: 60px; field-sizing: content"
   >
 
