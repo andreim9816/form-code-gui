@@ -38,6 +38,11 @@ body {
   height: 20px;
 }
 
+.custom-icon-form-details {
+  width: 16px;
+  height: 16px;
+}
+
 body,
 *,
 .mat-button,

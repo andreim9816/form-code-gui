@@ -1,65 +1,86 @@
-<div class="container">
-  <mat-expansion-panel class="mt-3"
-                       style="background-color: var(--accent-color); border-radius: 12px; overflow:hidden">
-    <mat-expansion-panel-header style="height: 40px">
-      <mat-panel-title style="color: white !important; font-size: 15px">Start a new form</mat-panel-title>
-    </mat-expansion-panel-header>
+<div class="container-fluid" style="min-height: 630px">
+  <div class="row px-0">
+    <div class="py-0" style="width: 2%"></div>
 
-    <form [formGroup]="formGroup" (ngSubmit)="onSubmitStartNewForm()">
-      <mat-form-field class="w-100">
-        <mat-label>Select a form</mat-label>
-        <mat-select formControlName="templateIdCtrl">
-          @for (template of templates; track template.id) {
-            <mat-option [value]="template.id">{{ template.title }} - {{ template.description }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+    <div class="pt-3" style="width: 75%;">
+      <mat-expansion-panel style="background-color: var(--accent-color); border-radius: 12px; overflow:hidden">
+        <mat-expansion-panel-header style="height: 40px">
+          <mat-panel-title style="color: white !important; font-size: 15px">Start a new form</mat-panel-title>
+        </mat-expansion-panel-header>
 
-      <button mat-flat-button color="primary" type="submit" [disabled]="formGroup.invalid">
-        Start Form
-      </button>
+        <form [formGroup]="formGroup" (ngSubmit)="onSubmitStartNewForm()">
+          <mat-form-field class="w-100">
+            <mat-label>Select a form</mat-label>
+            <mat-select formControlName="templateIdCtrl">
+              @for (template of templates; track template.id) {
+                <mat-option [value]="template.id">{{ template.title }} - {{ template.description }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
 
-    </form>
-  </mat-expansion-panel>
+          <button mat-flat-button color="primary" type="submit" [disabled]="formGroup.invalid">
+            Start Form
+          </button>
 
-  <div class="row mx-3 my-3">
-    <div class="line-with-button">
-      <div class="line"></div>
-      <span>or</span>
-      <div class="line"></div>
+        </form>
+      </mat-expansion-panel>
+
+      <div class="row mx-3 my-3">
+        <div class="line-with-button">
+          <div class="line"></div>
+          <span>or</span>
+          <div class="line"></div>
+        </div>
+      </div>
+
+      <div class="toggle-wrapper">
+        <div class="toggle-container">
+          <button
+            class="toggle-btn"
+            [class.active]="selectedTab === 'my-forms'"
+            (click)="selectedTab = 'my-forms'">
+            My forms
+          </button>
+          <button
+            class="toggle-btn"
+            [class.active]="selectedTab === 'assigned-forms'"
+            (click)="selectedTab = 'assigned-forms'">
+            Assigned forms
+          </button>
+        </div>
+      </div>
+
+      <ng-container
+        *ngIf="selectedTab === 'my-forms'">
+        <ng-container
+          *ngTemplateOutlet="formList; context: { forms: myForms, isMyForms: true, isAssigned: false }">
+        </ng-container>
+      </ng-container>
+
+      <ng-container
+        *ngIf="selectedTab === 'assigned-forms'">
+        <ng-container
+          *ngTemplateOutlet="formList; context: { forms: assignedForms, isMyForms: false, isAssigned: true  }">
+        </ng-container>
+      </ng-container>
+    </div>
+
+    <div class="px-0 my-3" style="width: 1px; background-color: #abaabb; opacity: 0.25"></div>
+
+    <div class="pt-3" style="width: calc(23% - 1px)">
+      <div class="bg-white card-border-radius p-3 mb-2" style="height: 300px">
+
+      </div>
+
+      <div class="bg-white card-border-radius p-3 mb-2">
+
+      </div>
+
+      <div class="bg-white card-border-radius p-3 mb-2">
+
+      </div>
     </div>
   </div>
-
-  <div class="toggle-wrapper">
-    <div class="toggle-container">
-      <button
-        class="toggle-btn"
-        [class.active]="selectedTab === 'my-forms'"
-        (click)="selectedTab = 'my-forms'">
-        My forms
-      </button>
-      <button
-        class="toggle-btn"
-        [class.active]="selectedTab === 'assigned-forms'"
-        (click)="selectedTab = 'assigned-forms'">
-        Assigned forms
-      </button>
-    </div>
-  </div>
-
-  <ng-container
-    *ngIf="selectedTab === 'my-forms'">
-    <ng-container
-      *ngTemplateOutlet="formList; context: { forms: myForms, isMyForms: true, isAssigned: false }">
-    </ng-container>
-  </ng-container>
-
-  <ng-container
-    *ngIf="selectedTab === 'assigned-forms'">
-    <ng-container
-      *ngTemplateOutlet="formList; context: { forms: assignedForms, isMyForms: false, isAssigned: true  }">
-    </ng-container>
-  </ng-container>
 </div>
 
 
@@ -68,22 +89,48 @@
   <div *ngFor="let form of forms; index as sectionIndex">
     <div class="card-border-radius bg-white mt-3 px-3 py-2">
       <div class="d-flex flex-column">
-        <span style="font-size: 22px"><b>{{ form.template.title }}</b></span>
+        <span class="d-flex flex-row align-items-center">
+        <span style="font-size: 22px; margin-right: 12px">
+          <b>
+            {{ form.template.title }}
+          </b>
+        </span>
+          <span [innerHTML]="getStatus(form)" style="margin-top:3px"></span>
+        </span>
         <label style="font-size: 15px; color: var(--label-color)">{{ form.template.description }}</label>
       </div>
       <div class="my-2" style="height:2px; background-color:var(--border-color)">
       </div>
       <div>
-        <div><span>Company: {{ form.template.companyName }}</span></div>
-        <div><span>Status:</span><span [innerHTML]="getStatus(form)"></span></div>
-        <div><span>Last modified date: {{ form.lastModifiedDate }}</span></div>
-        <div><span>Created date: {{ form.createdDate }}</span></div>
-        <div><span>Created by: {{ form.creatorUser.lastname }} {{ form.creatorUser.firstname }}</span></div>
+        <div class="mb-1">
+          <span>
+            <img src="assets/icons/img-calendar-updated-2.png" alt="icon" class="custom-icon-form-details"
+                 style="margin-right: 2px; opacity: 0.4"/>
+          </span>
+          <span style="font-size: 14px;">Last updated: <b>{{ form.lastModifiedDate }}</b></span>
+        </div>
+
+        <div class="mb-1">
+          <span>
+            <img src="assets/icons/img-calendar-updated.png" alt="icon" class="custom-icon-form-details"
+                 style="margin-right: 2px; opacity: 0.4"/>
+          </span>
+          <span style="font-size: 14px;">Created: <b>{{ form.createdDate }}</b></span>
+        </div>
+
+        <div>
+          <span>
+            <img src="assets/icons/img-user-created.png" alt="icon" class="custom-icon-form-details"
+                 style="margin-right: 2px; opacity: 0.4"/>
+          </span>
+          <span
+            style="font-size: 14px;">Created by: <b>{{ form.creatorUser.lastname }} {{ form.creatorUser.firstname }}</b></span>
+        </div>
       </div>
 
       <button type="button" mat-button class="mt-3"
               style="color: white; background-color: var(--accent-color); padding-left: 20px; padding-right: 20px;
-border-radius: 12px; height: 40px !important;"
+              border-radius: 12px; height: 40px !important"
               (click)="openForm(form)">
         Open
       </button>

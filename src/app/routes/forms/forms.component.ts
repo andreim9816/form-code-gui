@@ -14,8 +14,6 @@ import {MatButton} from '@angular/material/button';
 import {HttpErrorResponse} from '@angular/common/http';
 import {NotificationService} from '../../service/notification-service';
 import {ContentType} from '../../model/ContentType';
-import {BaseChartDirective} from 'ng2-charts';
-import {ChartConfiguration, ChartType} from 'chart.js';
 
 @Component({
   selector: 'app-forms',
@@ -32,8 +30,7 @@ import {ChartConfiguration, ChartType} from 'chart.js';
     MatSelect,
     ReactiveFormsModule,
     MatButton,
-    MatLabel,
-    BaseChartDirective
+    MatLabel
   ],
   templateUrl: './forms.component.html',
   styleUrls: ['./forms.component.css']
@@ -97,13 +94,13 @@ export class FormsComponent implements OnInit {
 
   getStatus(form: Form): SafeHtml {
     if (FormsComponent.isValidationState(form)) {
-      return this.sanitizer.bypassSecurityTrustHtml(`<span class="p-2 badge bg-primary">Pending validation</span>`);
+      return this.sanitizer.bypassSecurityTrustHtml(`<span class="p-2 badge" style="background-color: #FFF7E9; color:#FCAC29; font-size: 13px">Pending validation</span>`);
     }
     if (FormsComponent.isUsersTurnState(form)) {
-      return this.sanitizer.bypassSecurityTrustHtml(`<span class="p-2 badge bg-secondary">Waiting for user input</span>`);
+      return this.sanitizer.bypassSecurityTrustHtml(`<span class="p-2 badge" style="background-color: #F0EEFC; color:#6C68F6; font-size: 13px">Waiting for user input</span>`);
     }
     if (FormsComponent.isFinished(form)) {
-      return this.sanitizer.bypassSecurityTrustHtml(`<span class="p-2 badge bg-success">Finished</span>`);
+      return this.sanitizer.bypassSecurityTrustHtml(`<span class="p-2 badge" style="background-color: #F5FCEA; color:#72D331; font-size: 13px">Finished</span>`);
     }
     return '';
   }
