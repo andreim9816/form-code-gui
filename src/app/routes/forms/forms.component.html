@@ -1,5 +1,5 @@
-<div class="container-fluid" style="min-height: 630px">
-  <div class="row px-0">
+<div class="container-fluid h-100" style="min-height: 630px">
+  <div class="row px-0 h-100">
     <div class="py-0" style="width: 2%"></div>
 
     <div class="pt-3" style="width: 75%;">
@@ -67,16 +67,59 @@
 
     <div class="px-0 my-3" style="width: 1px; background-color: #abaabb; opacity: 0.25"></div>
 
-    <div class="pt-3" style="width: calc(23% - 1px)">
-      <div class="bg-white card-border-radius p-3 mb-2" style="height: 300px">
-
-      </div>
-
+    <div class="pt-3 h-100" style="width: calc(23% - 1px)">
       <div class="bg-white card-border-radius p-3 mb-2">
 
-      </div>
+        <div class="row">
+          <div class=" col-4">
+            <img src="assets/icons/img-new.png" alt="icon" style="margin-right: 8px; width: 80px; height: 80px"/>
+          </div>
+          <div class="col-8 ps-2">
+            <h3 class="text-center w-100" style="color: var(--accent-color)">
+              <b>{{ selectedTab === 'my-forms' ? getFinishedNumber() : getAssignedFormsNumber() }}</b>
+            </h3>
+            <div class="text-center w-100">
+              {{ selectedTab === 'my-forms' ? 'Forms finished this month' : 'Forms assigned this month' }}
+            </div>
+          </div>
+        </div>
 
-      <div class="bg-white card-border-radius p-3 mb-2">
+        <div class="row my-3">
+          <div class="col">
+            <div style="margin-left: 40px; height: 80px; width: 1px; background-color: #abaabb; opacity: 0.25;"></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class=" col-4">
+            <img src="assets/icons/img-waiting.png" alt="icon" style="margin-right: 8px; width: 80px; height: 80px"/>
+          </div>
+          <div class="col-8 ps-2">
+            <h3 class="text-center w-100" style="color: var(--accent-color)">
+              <b>{{ selectedTab === 'my-forms' ? getWaitingForUserInputNumber() : getValidatedFormsNumber() }}</b>
+            </h3>
+            <div class="text-center w-100">
+              {{ selectedTab === 'my-forms' ? 'Forms waiting for user input' : 'Forms validated this month' }}
+            </div>
+          </div>
+        </div>
+
+        <div class="row my-3">
+          <div class="col">
+            <div style="margin-left: 40px; height: 80px; width: 1px; background-color: #abaabb; opacity: 0.25;"></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class=" col-4">
+            <img src="assets/icons/img-completed.png" alt="icon" style="margin-right: 8px; width: 80px; height: 80px"/>
+          </div>
+          <div class="col-8 ps-2">
+            <h3 class="text-center w-100" style="color: var(--accent-color)">
+              <b>{{ getWaitingForValidationNumber() }}</b></h3>
+            <div class="text-center w-100">Forms waiting for validation</div>
+          </div>
+        </div>
 
       </div>
     </div>
@@ -135,7 +178,7 @@
         </div>
 
         <div>
-          <b>{{getPercent(form)}} %</b>
+          <b>{{ getPercent(form) }} %</b>
           <mat-progress-bar
             mode="determinate"
             [value]="getPercent(form)">

@@ -45,7 +45,7 @@ export class FormsComponent implements OnInit {
 
   formGroup: FormGroup;
 
-  selectedTab = 'my-forms';
+  selectedTab: 'my-forms' | 'assigned-forms' = 'my-forms';
 
   // destroy$ = new Subject<void>();
 
@@ -151,4 +151,34 @@ export class FormsComponent implements OnInit {
     // console.log(res);
     return res;
   }
+
+  /*********************************************************************************************************
+   *                                            My forms                                                   *
+   /********************************************************************************************************/
+
+  getWaitingForUserInputNumber(): number {
+    return this.forms.filter(x => FormsComponent.isUsersTurnState(x)).length
+  }
+
+  getWaitingForValidationNumber(): number {
+    return this.forms.filter(x => FormsComponent.isValidationState(x)).length
+  }
+
+  getFinishedNumber(): number {
+    return this.forms.filter(x => FormsComponent.isFinished(x)).length
+  }
+
+  /*********************************************************************************************************
+   *                                            Assigned forms                                             *
+   /*******************************************************************************************************/
+
+  getAssignedFormsNumber(): number {
+    return this.assignedForms.length;
+  }
+
+  getValidatedFormsNumber(): number {
+    return 7;
+  }
+
+
 }
