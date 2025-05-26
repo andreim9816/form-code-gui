@@ -3,17 +3,11 @@
     <div class="m-auto" style="width: 70%">
       <div class="card px-3 mb-3"
            style="border-radius: 12px !important; border: 2px solid #ECECEC">
-        <div class="mb-3" style="margin-top: 12px">
-          <label for="formName" class="form-label">
-            <b>Form name</b>
-          </label>
-          <input type="text" class="form-control" readonly id="formName" [value]="form.template.title">
-        </div>
         <div class="mb-3">
-          <label for="formDescription" class="form-label">
-            <b>Form description</b>
+          <h3 style="margin-top: 12px"><b>{{form.template.title}} <!--Declaratia nr 320--></b></h3>
+          <label style="color: #686b76 !important;">{{form.template.description}}
+<!--            Declaratia nr 320 cu privire la rezidenta fiscala a utilizatorilor. Se completeaza o data pe an, in functie de pragurile de venit-->
           </label>
-          <input type="text" class="form-control" readonly id="formDescription" [value]="form.template.description">
         </div>
       </div>
       <hr class="mx-3" style="color: #abaabb;height:2px;">

@@ -23,12 +23,13 @@ body {
   --my-primary-color: #F7F6FD;
   --navbar-color: #051367;
   --accent-color: #6439ff;
-  --border-color: #ECECEC
+  --border-color: #ECECEC;
+  --label-color: #686b76;
 }
 
 .card-border-radius {
   border-radius: 12px !important;
-  border: 2px solid var(--border-color)!important;
+  border: 2px solid var(--border-color) !important;
 }
 
 .custom-icon {
@@ -52,12 +53,12 @@ body,
 .label-text {
   font-size: 14px !important;
   font-weight: bold;
-  color: #686b76 !important;
+  color: var(--label-color) !important;
 }
 
 .input-text {
   font-size: 14px !important;
-  color: #686b76 !important;
+  color: var(--label-color) !important;
 }
 
 .my-readonly {
