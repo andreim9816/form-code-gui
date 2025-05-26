@@ -58,25 +58,11 @@
 
 /*******************************************/
 
-.mini-chart-wrapper {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    display: inline-block;
-}
-
-canvas {
-    width: 100% !important;
-    height: 100% !important;
-}
-
-.chart-center-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 16px;
-    font-weight: 600;
-    color: #1a237e;
-    pointer-events: none; /* Let clicks go to canvas */
+mat-progress-bar {
+    --mdc-linear-progress-active-indicator-color: var(--accent-color) !important; /*normal bar*/
+    --mdc-linear-progress-track-color: var(--my-primary-color) !important; /*buffer */
+    --mdc-linear-progress-active-indicator-height: 8px !important;
+    --mdc-linear-progress-track-shape: circle !important;
+    border-radius: 4px !important;
+    /*--mdc-linear-progress-track-height: 30px !important; not working*/
 }

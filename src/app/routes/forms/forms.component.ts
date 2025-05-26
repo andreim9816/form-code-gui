@@ -13,7 +13,8 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {MatButton} from '@angular/material/button';
 import {HttpErrorResponse} from '@angular/common/http';
 import {NotificationService} from '../../service/notification-service';
-import {ContentType} from '../../model/ContentType';
+import {MatProgressBar} from '@angular/material/progress-bar';
+import {FormSectionStatus} from '../../enum/FormSectionStatus';
 
 @Component({
   selector: 'app-forms',
@@ -30,7 +31,8 @@ import {ContentType} from '../../model/ContentType';
     MatSelect,
     ReactiveFormsModule,
     MatButton,
-    MatLabel
+    MatLabel,
+    MatProgressBar
   ],
   templateUrl: './forms.component.html',
   styleUrls: ['./forms.component.css']
@@ -137,5 +139,16 @@ export class FormsComponent implements OnInit {
       });
   }
 
-  protected readonly ContentType = ContentType;
+  getPercent(form: Form) {
+    if (FormsComponent.isFinished(form)) {
+      return 100;
+    }
+    const total = form.formSections
+      .filter(formSection => formSection.status !== FormSectionStatus.IS_VALIDATION_SECTION).length;
+    const validatedYetNr = form.formSections.filter(x => x.status === FormSectionStatus.VALIDATED).length;
+
+    const res = validatedYetNr / total * 100.0;
+    // console.log(res);
+    return res;
+  }
 }
