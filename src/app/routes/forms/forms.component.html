@@ -1,8 +1,8 @@
 <div class="container">
-
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>Start a new Form</mat-panel-title>
+  <mat-expansion-panel class="mt-3"
+                       style="background-color: var(--accent-color); border-radius: 12px; overflow:hidden">
+    <mat-expansion-panel-header style="height: 40px">
+      <mat-panel-title style="color: white !important; font-size: 15px">Start a new form</mat-panel-title>
     </mat-expansion-panel-header>
 
     <form [formGroup]="formGroup" (ngSubmit)="onSubmitStartNewForm()">
@@ -20,106 +20,73 @@
       </button>
 
     </form>
-
   </mat-expansion-panel>
 
-  <br>
-  <br>
+  <div class="row mx-3 my-3">
+    <div class="line-with-button">
+      <div class="line"></div>
+      <span>or</span>
+      <div class="line"></div>
+    </div>
+  </div>
 
-  <mat-tab-group>
-    <mat-tab label="My Forms">
+  <div class="toggle-wrapper">
+    <div class="toggle-container">
+      <button
+        class="toggle-btn"
+        [class.active]="selectedTab === 'my-forms'"
+        (click)="selectedTab = 'my-forms'">
+        My forms
+      </button>
+      <button
+        class="toggle-btn"
+        [class.active]="selectedTab === 'assigned-forms'"
+        (click)="selectedTab = 'assigned-forms'">
+        Assigned forms
+      </button>
+    </div>
+  </div>
 
-      <ng-container
-        *ngTemplateOutlet="formList; context: { forms: myForms, isMyForms: true, isAssigned: false }">
-      </ng-container>
+  <ng-container
+    *ngIf="selectedTab === 'my-forms'">
+    <ng-container
+      *ngTemplateOutlet="formList; context: { forms: myForms, isMyForms: true, isAssigned: false }">
+    </ng-container>
+  </ng-container>
 
-      <!--      <mat-card-->
-      <!--        *ngFor="let form of forms"-->
-      <!--        class="mt-3"-->
-      <!--        appearance="outlined"-->
-      <!--      >-->
-      <!--        <mat-card-header>-->
-      <!--          <mat-card-title>{{ form.template.title }}</mat-card-title>-->
-      <!--          <mat-card-subtitle>{{ form.template.description }}</mat-card-subtitle>-->
-      <!--        </mat-card-header>-->
-      <!--        <br>-->
-      <!--        <mat-card-content>-->
-      <!--          <div><span>Company: {{ form.template.companyName }}</span></div>-->
-      <!--          <div><span>Status:</span><span [innerHTML]="getStatus(form)"></span></div>-->
-      <!--          <div><span>Created date: {{ form.createdDate }}</span></div>-->
-      <!--          <div><span>Created by: {{ form.creatorUser.lastname }} {{ form.creatorUser.firstname }}</span></div>-->
-      <!--        </mat-card-content>-->
-      <!--      </mat-card>-->
-
-    </mat-tab>
-    <mat-tab label="Assigned Forms">
-
-      <ng-container
-        *ngTemplateOutlet="formList; context: { forms: assignedForms, isMyForms: false, isAssigned: true  }"></ng-container>
-
-      <!--      <mat-card-->
-      <!--        *ngFor="let form of forms"-->
-      <!--        class="mt-3"-->
-      <!--        appearance="outlined"-->
-      <!--      >-->
-      <!--        <mat-card-header>-->
-      <!--          <mat-card-title>{{ form.template.title }}</mat-card-title>-->
-      <!--          <mat-card-subtitle>{{ form.template.description }}</mat-card-subtitle>-->
-      <!--        </mat-card-header>-->
-      <!--        <br>-->
-      <!--        <mat-card-content>-->
-      <!--          <div><span>Company: {{ form.template.companyName }}</span></div>-->
-      <!--          <div><span>Status:</span><span [innerHTML]="getStatus(form)"></span></div>-->
-      <!--          <div><span>Created date: {{ form.createdDate }}</span></div>-->
-      <!--          <div><span>Created by: {{ form.creatorUser.lastname }} {{ form.creatorUser.firstname }}</span></div>-->
-      <!--        </mat-card-content>-->
-      <!--      </mat-card>-->
-
-    </mat-tab>
-  </mat-tab-group>
-
-  <!--  <ag-grid-angular-->
-  <!--    class="ag-theme-alpine table table-striped table-bordered w-100"-->
-  <!--    style="height: 700px"-->
-  <!--    [rowData]="forms"-->
-  <!--    [columnDefs]="colDefs"-->
-  <!--    [autoSizeStrategy]="{type: 'fitGridWidth'}"-->
-
-  <!--    [pagination]="true"-->
-  <!--    [paginationPageSize]="paginationPageSize"-->
-  <!--    [paginationPageSizeSelector]="paginationPageSizeSelector"-->
-
-  <!--  >-->
-  <!--  </ag-grid-angular>-->
+  <ng-container
+    *ngIf="selectedTab === 'assigned-forms'">
+    <ng-container
+      *ngTemplateOutlet="formList; context: { forms: assignedForms, isMyForms: false, isAssigned: true  }">
+    </ng-container>
+  </ng-container>
 </div>
 
 
 <ng-template #formList let-forms="forms" let-isMyForms="isMyForms" let-isAssigned="isAssigned">
-  <mat-card
-    *ngFor="let form of forms"
-    class="mt-3"
-    appearance="outlined"
-  >
-    <mat-card-header>
-      <mat-card-title>{{ form.template.title }}</mat-card-title>
-      <mat-card-subtitle>{{ form.template.description }}</mat-card-subtitle>
-    </mat-card-header>
 
-    <br>
+  <div *ngFor="let form of forms; index as sectionIndex">
+    <div class="card-border-radius bg-white mt-3 px-3 py-2">
+      <div class="d-flex flex-column">
+        <span style="font-size: 22px"><b>{{ form.template.title }}</b></span>
+        <label style="font-size: 15px; color: var(--label-color)">{{ form.template.description }}</label>
+      </div>
+      <div class="my-2" style="height:2px; background-color:var(--border-color)">
+      </div>
+      <div>
+        <div><span>Company: {{ form.template.companyName }}</span></div>
+        <div><span>Status:</span><span [innerHTML]="getStatus(form)"></span></div>
+        <div><span>Last modified date: {{ form.lastModifiedDate }}</span></div>
+        <div><span>Created date: {{ form.createdDate }}</span></div>
+        <div><span>Created by: {{ form.creatorUser.lastname }} {{ form.creatorUser.firstname }}</span></div>
+      </div>
 
-    <mat-card-content>
-      <div><span>Id: {{ form.id }}</span></div>
-      <div><span>Company: {{ form.template.companyName }}</span></div>
-      <div><span>Status:</span><span [innerHTML]="getStatus(form)"></span></div>
-      <div><span>Last modified date: {{ form.lastModifiedDate }}</span></div>
-      <div><span>Created date: {{ form.createdDate }}</span></div>
-      <div><span>Created by: {{ form.creatorUser.lastname }} {{ form.creatorUser.firstname }}</span></div>
-    </mat-card-content>
-
-    <mat-card-actions>
-      <button mat-button type="button" (click)="openForm(form)">
+      <button type="button" mat-button class="mt-3"
+              style="color: white; background-color: var(--accent-color); padding-left: 20px; padding-right: 20px;
+border-radius: 12px; height: 40px !important;"
+              (click)="openForm(form)">
         Open
       </button>
-    </mat-card-actions>
-  </mat-card>
+    </div>
+  </div>
 </ng-template>

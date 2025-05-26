@@ -1,0 +1,82 @@
+.line-with-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 16px;
+    opacity: 0.25;
+}
+
+.line {
+    width: 80px;
+    height: 2px;
+    background-color: var(--label-color);
+}
+
+/********************************/
+
+::ng-deep .mat-expansion-indicator svg {
+    fill: white !important;
+}
+
+.toggle-wrapper {
+    display: flex;
+    background-color: white;
+    padding: 8px;
+    border-radius: 999px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    width: 100%;
+}
+
+.toggle-container {
+    display: flex;
+    background-color: white;
+    border-radius: 999px;
+    width: 100%;
+}
+
+.toggle-btn {
+    border: none;
+    background: white;
+    padding: 12px;
+    border-radius: 999px;
+    font-weight: bold;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: all 0.4s ease;
+    font-size: 14px;
+    width: 50%;
+    text-align: center;
+}
+
+.toggle-btn.active {
+    background-color: var(--accent-color);
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+/*******************************************/
+
+.mini-chart-wrapper {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+}
+
+canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.chart-center-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a237e;
+    pointer-events: none; /* Let clicks go to canvas */
+}

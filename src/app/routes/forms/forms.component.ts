@@ -1,17 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Form} from '../../model/Form';
 import {HttpService} from '../../service/HttpService';
-import type {ColDef} from 'ag-grid-community';
-import {FormActionsComponent} from '../ag-grid/form-actions/form-actions.component';
-import {MatTab, MatTabGroup} from '@angular/material/tabs';
-import {
-  MatCard,
-  MatCardActions,
-  MatCardContent,
-  MatCardHeader,
-  MatCardSubtitle,
-  MatCardTitle
-} from '@angular/material/card';
 import {CommonModule, NgForOf, NgTemplateOutlet} from '@angular/common';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 import {Router} from '@angular/router';
@@ -24,22 +13,17 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {MatButton} from '@angular/material/button';
 import {HttpErrorResponse} from '@angular/common/http';
 import {NotificationService} from '../../service/notification-service';
+import {ContentType} from '../../model/ContentType';
+import {BaseChartDirective} from 'ng2-charts';
+import {ChartConfiguration, ChartType} from 'chart.js';
 
 @Component({
   selector: 'app-forms',
   standalone: true,
   imports: [
     CommonModule,
-    MatTabGroup,
-    MatTab,
-    MatCard,
     NgForOf,
-    MatCardSubtitle,
-    MatCardTitle,
-    MatCardActions,
     NgTemplateOutlet,
-    MatCardHeader,
-    MatCardContent,
     MatExpansionPanelTitle,
     MatExpansionPanel,
     MatExpansionPanelHeader,
@@ -48,9 +32,11 @@ import {NotificationService} from '../../service/notification-service';
     MatSelect,
     ReactiveFormsModule,
     MatButton,
-    MatLabel
+    MatLabel,
+    BaseChartDirective
   ],
-  templateUrl: './forms.component.html'
+  templateUrl: './forms.component.html',
+  styleUrls: ['./forms.component.css']
 })
 export class FormsComponent implements OnInit {
   forms: Form[];
@@ -59,6 +45,8 @@ export class FormsComponent implements OnInit {
   templates: Template[];
 
   formGroup: FormGroup;
+
+  selectedTab = 'my-forms';
 
   // destroy$ = new Subject<void>();
 
@@ -151,4 +139,6 @@ export class FormsComponent implements OnInit {
         }
       });
   }
+
+  protected readonly ContentType = ContentType;
 }
