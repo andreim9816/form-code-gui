@@ -9,19 +9,17 @@
         </mat-expansion-panel-header>
 
         <form [formGroup]="formGroup" (ngSubmit)="onSubmitStartNewForm()">
-          <mat-form-field class="w-100">
-            <mat-label>Select a form</mat-label>
-            <mat-select formControlName="templateIdCtrl">
-              @for (template of templates; track template.id) {
-                <mat-option [value]="template.id">{{ template.title }} - {{ template.description }}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-
-          <button mat-flat-button color="primary" type="submit" [disabled]="formGroup.invalid">
+          <mat-select
+            class="mb-3 bg-white form-control" formControlName="templateIdCtrl" placeholder="Select a form">
+            @for (template of templates; track template.id) {
+              <mat-option [value]="template.id">{{ template.title }} - {{ template.description }}</mat-option>
+            }
+          </mat-select>
+          <button type="submit" mat-button class="card-border-radius"
+                  style="color: var(--navbar-color); background-color: white; padding-left: 40px; padding-right: 40px"
+                  [disabled]="formGroup.invalid">
             Start Form
           </button>
-
         </form>
       </mat-expansion-panel>
 

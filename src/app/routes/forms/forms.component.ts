@@ -99,7 +99,7 @@ export class FormsComponent implements OnInit {
       return this.sanitizer.bypassSecurityTrustHtml(`<span class="p-2 badge" style="background-color: #FFF7E9; color:#FCAC29; font-size: 13px">Pending validation</span>`);
     }
     if (FormsComponent.isUsersTurnState(form)) {
-      return this.sanitizer.bypassSecurityTrustHtml(`<span class="p-2 badge" style="background-color: #F0EEFC; color:#6C68F6; font-size: 13px">Waiting for user input</span>`);
+      return this.sanitizer.bypassSecurityTrustHtml(`<span class="p-2 badge my-badge">Waiting for user input</span>`);
     }
     if (FormsComponent.isFinished(form)) {
       return this.sanitizer.bypassSecurityTrustHtml(`<span class="p-2 badge" style="background-color: #F5FCEA; color:#72D331; font-size: 13px">Finished</span>`);
