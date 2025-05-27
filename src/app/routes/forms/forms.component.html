@@ -155,7 +155,7 @@
             <img src="assets/icons/img-calendar-updated-2.png" alt="icon" class="custom-icon-form-details"
                  style="margin-right: 2px; opacity: 0.4"/>
           </span>
-          <span style="font-size: 14px;">Last updated: <b>{{ form.lastModifiedDate }}</b></span>
+          <span style="font-size: 14px;">Last updated: <b>{{ this.formatDate(form.lastModifiedDate) }}</b></span>
         </div>
 
         <div class="mb-1">
@@ -163,7 +163,7 @@
             <img src="assets/icons/img-calendar-updated.png" alt="icon" class="custom-icon-form-details"
                  style="margin-right: 2px; opacity: 0.4"/>
           </span>
-          <span style="font-size: 14px;">Created: <b>{{ form.createdDate }}</b></span>
+          <span style="font-size: 14px;">Created: <b>{{ this.formatDate(form.createdDate) }}</b></span>
         </div>
 
         <div class="mb-2">

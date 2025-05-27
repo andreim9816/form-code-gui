@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, LOCALE_ID, OnInit} from '@angular/core';
 import {Form} from '../../model/Form';
 import {HttpService} from '../../service/HttpService';
-import {CommonModule, NgForOf, NgTemplateOutlet} from '@angular/common';
+import {CommonModule, formatDate, NgForOf, NgTemplateOutlet, registerLocaleData} from '@angular/common';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 import {Router} from '@angular/router';
 import {MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle} from '@angular/material/expansion';
@@ -14,10 +14,16 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {NotificationService} from '../../service/notification-service';
 import {MatProgressBar} from '@angular/material/progress-bar';
 import {FormSectionStatus} from '../../enum/FormSectionStatus';
+import localeRo from '@angular/common/locales/ro';
+
+registerLocaleData(localeRo);
 
 @Component({
   selector: 'app-forms',
   standalone: true,
+  providers: [
+    {provide: LOCALE_ID, useValue: 'ro-RO'}
+  ],
   imports: [
     CommonModule,
     NgForOf,
@@ -147,19 +153,32 @@ export class FormsComponent implements OnInit {
     return parseFloat(String(validatedYetNr / total * 100)).toFixed(0);
   }
 
+  formatDate(date: Date) {
+    return formatDate(date, 'dd MMMM yyyy', 'ro-RO');
+  }
+
   /*********************************************************************************************************
    *                                            My forms                                                   *
    /********************************************************************************************************/
 
   getWaitingForUserInputNumber(): number {
+    if (!this.forms) {
+      return 0;
+    }
     return this.forms.filter(x => FormsComponent.isUsersTurnState(x)).length
   }
 
   getWaitingForValidationNumber(): number {
+    if (!this.forms) {
+      return 0;
+    }
     return this.forms.filter(x => FormsComponent.isValidationState(x)).length
   }
 
   getFinishedNumber(): number {
+    if (!this.forms) {
+      return 0;
+    }
     return this.forms.filter(x => FormsComponent.isFinished(x)).length
   }
 

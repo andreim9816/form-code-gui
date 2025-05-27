@@ -4,7 +4,7 @@ import type {ColDef} from 'ag-grid-community';
 import {CompanyAndRolesComponent} from '../ag-grid/company-and-roles/company-and-roles.component';
 import {HttpService} from '../../service/HttpService';
 import {User} from '../../model/User';
-import {async, Observable, Subject} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {UserActionsComponent} from '../ag-grid/user-actions/user-actions.component';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {Company} from '../../model/Company';
