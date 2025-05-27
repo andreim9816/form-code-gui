@@ -65,8 +65,8 @@
 
     <div class="px-0 my-3" style="width: 1px; background-color: #abaabb; opacity: 0.25"></div>
 
-    <div class="pt-3 h-100" style="width: calc(23% - 1px)">
-      <div class="bg-white card-border-radius p-3 mb-2">
+    <div class="pt-3" style="width: calc(23% - 1px)">
+      <div class="bg-white card-border-radius pt-4 pb-4 px-3">
 
         <div class="row">
           <div class=" col-4">
@@ -74,17 +74,17 @@
           </div>
           <div class="col-8 ps-2">
             <h3 class="text-center w-100" style="color: var(--accent-color)">
-              <b>{{ selectedTab === 'my-forms' ? getFinishedNumber() : getAssignedFormsNumber() }}</b>
+              <b>{{ selectedTab === 'my-forms' ? getFinishedNumber() : getValidatedFormsNumber() }}</b>
             </h3>
             <div class="text-center w-100">
-              {{ selectedTab === 'my-forms' ? 'Forms finished this month' : 'Forms assigned this month' }}
+              {{ selectedTab === 'my-forms' ? 'Forms finished this month' : 'Forms validated this month' }}
             </div>
           </div>
         </div>
 
         <div class="row my-3">
           <div class="col">
-            <div style="margin-left: 40px; height: 80px; width: 1px; background-color: #abaabb; opacity: 0.25;"></div>
+            <div style="margin-left: 40px; height: 110px; width: 1px; background-color: #abaabb; opacity: 0.25;"></div>
           </div>
         </div>
 
@@ -104,7 +104,7 @@
 
         <div class="row my-3">
           <div class="col">
-            <div style="margin-left: 40px; height: 80px; width: 1px; background-color: #abaabb; opacity: 0.25;"></div>
+            <div style="margin-left: 40px; height: 110px; width: 1px; background-color: #abaabb; opacity: 0.25;"></div>
           </div>
         </div>
 
@@ -175,9 +175,10 @@
             style="font-size: 14px;">Created by: <b>{{ form.creatorUser.lastname }} {{ form.creatorUser.firstname }}</b></span>
         </div>
 
-        <div>
-          <b>{{ getPercent(form) }} %</b>
+        <div class="mx-2 my-2">
+          <span class="label-text"><b>{{ getPercent(form) }} %</b></span>
           <mat-progress-bar
+            class="mt-1"
             mode="determinate"
             [value]="getPercent(form)">
           </mat-progress-bar>

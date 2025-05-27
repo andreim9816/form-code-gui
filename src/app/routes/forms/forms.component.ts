@@ -173,11 +173,20 @@ export class FormsComponent implements OnInit {
    /*******************************************************************************************************/
 
   getAssignedFormsNumber(): number {
-    return this.assignedForms.length;
+    return this.getWaitingForValidation() + 3;
   }
 
   getValidatedFormsNumber(): number {
-    return 7;
+    const assignedFormsNr =  this.getAssignedFormsNumber();
+    if (assignedFormsNr > 3) {
+      return assignedFormsNr - 2;
+    } else {
+      return Math.max(0, assignedFormsNr - 1);
+    }
+  }
+
+  getWaitingForValidation(): number {
+    return this.assignedForms.length;
   }
 
 
