@@ -5,7 +5,6 @@ import {CommonModule, NgForOf, NgTemplateOutlet} from '@angular/common';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 import {Router} from '@angular/router';
 import {MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle} from '@angular/material/expansion';
-import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatOption} from '@angular/material/core';
 import {MatSelect} from '@angular/material/select';
 import {Template} from '../../model/Template';
@@ -26,12 +25,10 @@ import {FormSectionStatus} from '../../enum/FormSectionStatus';
     MatExpansionPanelTitle,
     MatExpansionPanel,
     MatExpansionPanelHeader,
-    MatFormField,
     MatOption,
     MatSelect,
     ReactiveFormsModule,
     MatButton,
-    MatLabel,
     MatProgressBar
   ],
   templateUrl: './forms.component.html',
@@ -147,9 +144,7 @@ export class FormsComponent implements OnInit {
       .filter(formSection => formSection.status !== FormSectionStatus.IS_VALIDATION_SECTION).length;
     const validatedYetNr = form.formSections.filter(x => x.status === FormSectionStatus.VALIDATED).length;
 
-    const res = validatedYetNr / total * 100.0;
-    // console.log(res);
-    return res;
+    return parseFloat(String(validatedYetNr / total * 100)).toFixed(0);
   }
 
   /*********************************************************************************************************
@@ -177,7 +172,7 @@ export class FormsComponent implements OnInit {
   }
 
   getValidatedFormsNumber(): number {
-    const assignedFormsNr =  this.getAssignedFormsNumber();
+    const assignedFormsNr = this.getAssignedFormsNumber();
     if (assignedFormsNr > 3) {
       return assignedFormsNr - 2;
     } else {
