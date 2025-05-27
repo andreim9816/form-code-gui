@@ -27,7 +27,6 @@ export class UsersComponent implements OnInit, OnDestroy {
       'display': 'flex ',
       'justify-content': 'center',
       'align-items': 'center ',
-      'height': '55px'
     },
   }
 
@@ -57,8 +56,13 @@ export class UsersComponent implements OnInit, OnDestroy {
   };
 
   colDefs: ColDef[] = [
-    {headerName: 'User', valueGetter: (params: any) => `${params.data.firstname} ${params.data.lastname}`},
-    {headerName: 'Email', field: 'email'},
+    {
+      headerName: 'User',
+      valueGetter: (params: any) => `${params.data.firstname} ${params.data.lastname}`,
+      flex: 3
+    },
+
+    {headerName: 'Email', field: 'email', flex: 3},
     {
       headerName: 'Companies & Roles',
       cellRenderer: CompanyAndRolesComponent,
@@ -70,6 +74,7 @@ export class UsersComponent implements OnInit, OnDestroy {
         return (rolesPerCompany ?? [])
           .map((company: any) => `${company.name}: ${company.roles.map((r: any) => r.name).join(' ')}`);
       },
+      flex: 5,
       filter: 'agTextColumnFilter',
       autoHeight: true
     },
@@ -81,7 +86,7 @@ export class UsersComponent implements OnInit, OnDestroy {
         onRefresh: () => this.refreshData()
       }),
       filter: false,
-      width: 60
+      width: 140
     }
   ];
 
