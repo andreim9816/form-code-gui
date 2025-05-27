@@ -31,6 +31,7 @@ import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
 import {HttpErrorResponse} from '@angular/common/http';
 import {NotificationService} from '../../service/notification-service';
 import {FileComponent} from '../../shared/file/file.component';
+import {createMayBeForwardRefExpression} from '@angular/compiler';
 
 @Component({
   selector: 'app-create-template',
