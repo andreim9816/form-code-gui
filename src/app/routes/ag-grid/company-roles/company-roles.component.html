@@ -1,5 +1,5 @@
 <ul class="list-unstyled d-flex flex-wrap m-0">
-  <li *ngFor="let companyRole of this.company.companyRoles" class="badge bg-primary mx-1 my-1">
-    {{ companyRole.name }}
+  <li *ngFor="let companyRole of this.company.companyRoles">
+    <span class="badge my-badge me-2">{{ companyRole.name }}</span>
   </li>
 </ul>

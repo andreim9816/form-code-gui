@@ -7,12 +7,15 @@ import {CompanyAdminsComponent} from '../ag-grid/company-admins/company-admins.c
 import {CompanyRolesComponent} from '../ag-grid/company-roles/company-roles.component';
 import {MatDialog} from '@angular/material/dialog';
 import {CreateCompanyComponent} from './create-company/create-company.component';
+import {MatButton} from '@angular/material/button';
+import {EditBtnComponent} from '../../shared/edit-btn/edit-btn.component';
 
 @Component({
   selector: 'app-companies',
   standalone: true,
   imports: [
-    AgGridAngular
+    AgGridAngular,
+    MatButton
   ],
   templateUrl: './companies.component.html'
 })
@@ -21,19 +24,29 @@ export class CompaniesComponent implements OnInit {
   paginationPageSize = 20;
   paginationPageSizeSelector: number[] | boolean = [10, 20, 50];
 
+  gridOptions = {
+    rowStyle: {
+      'display': 'flex ',
+      'justify-content': 'center',
+      'align-items': 'center ',
+      'height': '47px'
+    },
+    headerStyle: {
+      'font-weight': 'bold'
+    }
+  }
+
   colDefs: ColDef[] = [
     {headerName: 'Company', field: 'name', width: 75},
     {headerName: 'Admins', cellRenderer: CompanyAdminsComponent},
     {headerName: 'Roles', cellRenderer: CompanyRolesComponent, autoHeight: true},
     {
       headerName: 'Action',
-      cellRenderer: () => {
-        return `<button class="btn btn-sm btn-primary">Edit</button>`;
-      },
+      cellRenderer: EditBtnComponent,
       onCellClicked: (params) => {
         this.openAddEditCompanyModal(params.data);
       },
-      width: 30
+      width: 53
     }
   ];
 

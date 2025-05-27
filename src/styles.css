@@ -88,3 +88,7 @@ body,
   color: #6C68F6;
   font-size: 13px
 }
+
+.ag-header-cell-label {
+  font-weight: bold;
+}
