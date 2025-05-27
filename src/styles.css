@@ -92,3 +92,17 @@ body,
 .ag-header-cell-label {
   font-weight: bold;
 }
+
+.mat-mdc-dialog-container {
+  --mdc-dialog-container-shape: 14px;
+}
+
+.mat-mdc-table {
+  background-color: white !important;
+}
+
+.mat-mdc-checkbox.mat-mdc-checkbox-checked .mdc-checkbox__background, .mdc-checkbox__ripple {
+  border-color: var(--accent-color) !important;
+  background-color: var(--accent-color) !important;
+}
+

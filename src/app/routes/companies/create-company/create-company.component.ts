@@ -9,10 +9,10 @@ import {
 } from '@angular/material/dialog';
 import {CommonModule} from '@angular/common';
 import {
-  MatCell,
-  MatCellDef,
+  MatCell, MatCellDef,
   MatColumnDef,
-  MatHeaderCell, MatHeaderCellDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
   MatHeaderRow, MatHeaderRowDef,
   MatRow, MatRowDef,
   MatTable
@@ -20,7 +20,7 @@ import {
 import {Subject, takeUntil} from 'rxjs';
 import {User} from '../../../model/User';
 import {Company} from '../../../model/Company';
-import {MatError, MatFormField, MatLabel} from '@angular/material/form-field';
+import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle} from '@angular/material/expansion';
 import {MatDivider} from '@angular/material/divider';
 import {MatInput} from '@angular/material/input';
@@ -57,14 +57,15 @@ import {HttpErrorResponse} from '@angular/common/http';
     MatDialogTitle,
     MatHeaderRow,
     MatRow,
+    ReactiveFormsModule,
+    FormsModule,
     MatHeaderCellDef,
     MatCellDef,
     MatHeaderRowDef,
-    MatRowDef,
-    ReactiveFormsModule,
-    FormsModule
+    MatRowDef
   ],
-  templateUrl: './create-company.component.html'
+  templateUrl: './create-company.component.html',
+  styleUrls: ['./create-company.component.css']
 })
 export class CreateCompanyComponent implements OnInit, OnDestroy {
   company: Company;
@@ -76,7 +77,7 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
 
   formGroup: FormGroup;
 
-  displayedColumns: string[] = ['name', 'createTemplate', 'delete'];
+  displayedColumns: string[] = ['name', 'createTemplate', 'validateForm', 'delete'];
   roles: RoleRow[] = [];
 
   destroy$ = new Subject<void>();
@@ -93,7 +94,8 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
         {
           companyRoleId: x.id,
           name: x.name,
-          createTemplate: x.createTemplate
+          createTemplate: x.createTemplate,
+          validateForm: x.validateForm
         }))
     } else {
       this.company = {
@@ -125,7 +127,7 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
   }
 
   addRole(): void {
-    this.roles.push({companyRoleId: undefined, name: '', createTemplate: false} as RoleRow);
+    this.roles.push({companyRoleId: undefined, name: '', createTemplate: false, validateForm: false} as RoleRow);
     this.table?.renderRows();
   }
 
@@ -141,7 +143,7 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
 
   submit(): void {
     const body = {
-      name:  this.formGroup.controls['nameCtrl'].value,
+      name: this.formGroup.controls['nameCtrl'].value,
       companyRoles: this.roles,
       adminUserIds: this.company.adminUsers.map(x => x.id)
     };
@@ -201,4 +203,5 @@ interface RoleRow {
   companyRoleId: number | undefined;
   name: string;
   createTemplate: boolean;
+  validateForm: boolean;
 }

@@ -36,7 +36,7 @@ export class CompaniesComponent implements OnInit {
   colDefs: ColDef[] = [
     {headerName: 'Company', field: 'name', width: 75},
     {headerName: 'Admins', cellRenderer: CompanyAdminsComponent},
-    {headerName: 'Roles', cellRenderer: CompanyRolesComponent, autoHeight: true},
+    {headerName: 'Roles', cellRenderer: CompanyRolesComponent},
     {
       headerName: 'Action',
       cellRenderer: EditBtnComponent,
@@ -68,7 +68,7 @@ export class CompaniesComponent implements OnInit {
       data: {
         company
       },
-      width: '600px',
+      width: '800px',
       maxWidth: '90vw',
     });
 
