@@ -1,23 +1,28 @@
-<div class="container">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3>Users</h3>
-    <button class="btn btn-primary">+ Add new user</button>
+<div class="container-fluid" style="min-height: 630px">
+  <div class="row px-0 h-100">
+    <div class="py-0" style="width: 2%"></div>
+    <div class="pt-4" style="width: 96%">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3><b>Companies</b></h3>
+        <button type="button" mat-button class="ms-2 card-border-radius"
+                style="color: white; background-color: var(--accent-color); padding-left: 30px; padding-right: 30px">
+          + Add new user
+        </button>
+      </div>
+      <ag-grid-angular
+        class="ag-theme-alpine table table-striped table-bordered w-100"
+        style="height: 75vh"
+        [gridOptions]="gridOptions"
+        [rowData]="this.users$ | async"
+        [columnDefs]="colDefs"
+        [defaultColDef]="defaultColDef"
+        [autoSizeStrategy]="{type: 'fitGridWidth'}"
+        [pagination]="true"
+        [paginationPageSize]="paginationPageSize"
+        [paginationPageSizeSelector]="paginationPageSizeSelector"
+      >
+      </ag-grid-angular>
+    </div>
+    <div class="py-0" style="width: 2%"></div>
   </div>
-<!--  <mat-form-field>-->
-<!--    <mat-select [formControl]="companiesCtrl" multiple>-->
-<!--      @for (company of companies$ | async; track company) {-->
-<!--        <mat-option [value]="company.id">{{ company.name }}</mat-option>-->
-<!--      }-->
-<!--    </mat-select>-->
-<!--  </mat-form-field>-->
-
-  <ag-grid-angular
-    class="ag-theme-alpine table table-striped table-bordered w-100"
-    style="height: 70vh"
-    [rowData]="this.users$ | async"
-    [columnDefs]="colDefs"
-    [defaultColDef]="defaultColDef"
-    [autoSizeStrategy]="{type: 'fitGridWidth'}"
-  >
-  </ag-grid-angular>
 </div>

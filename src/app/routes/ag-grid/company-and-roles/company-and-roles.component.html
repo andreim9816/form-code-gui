@@ -1,9 +1,9 @@
 <em *ngIf="rolesPerCompany.length === 0">No roles assigned</em>
-<ul class="m-0 p-0">
+<ul class="d-inline list-unstyled">
   <li *ngFor="let company of rolesPerCompany">
-    <strong>{{ company.name }}:</strong>
-    <span class="d-flex flex-wrap m-0">
-      <span *ngFor="let role of company.roles" class="badge bg-primary mx-1 my-1">{{ role.name }}</span>
-    </span>
+    <span class="me-2">{{ company.name }}:</span>
+    <span *ngFor="let role of company.roles" class="badge my-badge me-2">{{ role.name }}</span>
   </li>
 </ul>
+
+

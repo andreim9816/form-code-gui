@@ -31,9 +31,6 @@ export class CompaniesComponent implements OnInit {
       'align-items': 'center ',
       'height': '47px'
     },
-    headerStyle: {
-      'font-weight': 'bold'
-    }
   }
 
   colDefs: ColDef[] = [

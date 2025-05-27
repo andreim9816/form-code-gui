@@ -4,22 +4,33 @@ import type {ColDef} from 'ag-grid-community';
 import {CompanyAndRolesComponent} from '../ag-grid/company-and-roles/company-and-roles.component';
 import {HttpService} from '../../service/HttpService';
 import {User} from '../../model/User';
-import {Observable, Subject} from 'rxjs';
-import {AsyncPipe} from '@angular/common';
+import {async, Observable, Subject} from 'rxjs';
 import {UserActionsComponent} from '../ag-grid/user-actions/user-actions.component';
-import {MatFormField} from '@angular/material/form-field';
-import {MatOption, MatSelect} from '@angular/material/select';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {Company} from '../../model/Company';
 import {CompanyRole} from '../../model/CompanyRole';
+import {MatButton} from '@angular/material/button';
+import {AsyncPipe} from '@angular/common';
 
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [AgGridAngular, AsyncPipe, MatFormField, MatSelect, ReactiveFormsModule, MatOption],
+  imports: [AgGridAngular, ReactiveFormsModule, MatButton, AsyncPipe],
   templateUrl: './users.component.html'
 })
 export class UsersComponent implements OnInit, OnDestroy {
+  paginationPageSize = 20;
+  paginationPageSizeSelector: number[] | boolean = [10, 20, 50];
+
+  gridOptions = {
+    rowStyle: {
+      'display': 'flex ',
+      'justify-content': 'center',
+      'align-items': 'center ',
+      'height': '55px'
+    },
+  }
+
   users$: Observable<User[]>;
   companies$: Observable<Company[]>;
 
@@ -46,7 +57,6 @@ export class UsersComponent implements OnInit, OnDestroy {
   };
 
   colDefs: ColDef[] = [
-    {headerName: 'Id', field: 'id', width: 60},
     {headerName: 'User', valueGetter: (params: any) => `${params.data.firstname} ${params.data.lastname}`},
     {headerName: 'Email', field: 'email'},
     {

@@ -8,12 +8,14 @@ import {UserEditRolesComponent} from '../../users/user-edit-roles/user-edit-role
 import {Company} from '../../../model/Company';
 import {RolesPerCompany} from '../../users/users.component';
 import {Observable} from 'rxjs';
+import {MatButton} from '@angular/material/button';
 
 @Component({
   selector: 'app-user-actions',
   standalone: true,
   imports: [
     CommonModule,
+    MatButton,
   ],
   templateUrl: './user-actions.component.html',
 })
