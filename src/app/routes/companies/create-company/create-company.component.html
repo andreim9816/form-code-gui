@@ -101,17 +101,17 @@
     </mat-expansion-panel>
   </div>
 
-  <div class="d-flex flex-row-reverse">
-    <button type="button" mat-button class="ms-2 card-border-radius"
+  <div style="margin-left: auto">
+    <button type="button" mat-button class="me-2 card-border-radius"
+            style="background-color: var(--my-primary-color); color: var(--accent-color); padding-left: 40px; padding-right: 40px"
+            (click)="close()">
+      <b>Dismiss</b>
+    </button>
+
+    <button type="button" mat-button class="card-border-radius"
             style="color: white; background-color: var(--accent-color); padding-left: 40px; padding-right: 40px"
             (click)="submit()">
       Submit
-    </button>
-
-    <button type="button" mat-button class="bg-white card-border-radius"
-            style="color: var(--accent-color); padding-left: 40px; padding-right: 40px"
-            (click)="close()">
-      <b>Dismiss</b>
     </button>
   </div>
 </div>
