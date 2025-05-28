@@ -8,8 +8,10 @@
       <a *ngIf="!isLoggedIn()" mat-button routerLink="/login" routerLinkActive="my-active-route" style="color:white">Login</a>
       <button type="button" *ngIf="canCreateTemplate()" mat-button routerLink="/create-template"
               routerLinkActive="my-active-route"
-              style="color: white; border-top-left-radius: 1px">Create template
+              style="color: white; border-top-left-radius: 1px">+ Create template
       </button>
+      <a mat-button routerLink="/templates" routerLinkActive="my-active-route"
+         style="color:white; border-top-left-radius: 1px">Templates</a>
       <a *ngIf="isAdmin()" mat-button routerLink="/companies" routerLinkActive="my-active-route"
          style="color:white; border-top-left-radius: 1px">Companies</a>
       <a *ngIf="isAdmin()" mat-button routerLink="/users" routerLinkActive="my-active-route"

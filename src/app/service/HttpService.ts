@@ -52,6 +52,10 @@ export class HttpService {
     return this.http.post<Section[]>(`${URL.COMPANIES_URL}/templates`, body);
   }
 
+  getTemplates(): Observable<Template[]> {
+    return this.http.get<Template[]>(`${URL.TEMPLATE_URL}`);
+  }
+
   getTemplate(id: number): Observable<Template> {
     return this.http.get<Template>(`${URL.TEMPLATE_URL}/${id}`);
   }

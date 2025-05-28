@@ -10,11 +10,13 @@ import {FormsComponent} from './routes/forms/forms.component';
 import {CompaniesComponent} from './routes/companies/companies.component';
 import {AuthGuard} from './guards/auth.guard';
 import {NotLoggedInGuard} from './guards/not-logged-in.guard';
+import {TemplatesComponent} from './routes/templates/templates.component';
 
 export const routes: Routes = [
   {path: '', component: LoginComponent, canActivate: [NotLoggedInGuard]},
   {path: 'register', component: RegisterComponent, canActivate: [NotLoggedInGuard]},
   {path: 'create-template', component: CreateTemplateComponent, canActivate: [AuthGuard]},
+  {path: 'templates', component: TemplatesComponent, canActivate: [AuthGuard]},
   {path: 'companies', component: CompaniesComponent, canActivate: [AuthGuard]},
   {path: 'forms', component: FormsComponent, canActivate: [AuthGuard]},
   {path: 'forms/:id', component: EditFormComponent, canActivate: [AuthGuard]},
