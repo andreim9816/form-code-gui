@@ -1,8 +1,11 @@
-<div class="form-control">
+<div class="form-control py-0">
   <button
+    mat-button
     type="button"
-    (click)="fileInput.click()">
-    Choose File
+    class="card-border-radius opacity-75"
+    (click)="fileInput.click()"
+    style="background-color: var(--accent-color); color: white; height: 36px !important;">
+    Upload file
   </button>
 
   <input
@@ -11,5 +14,5 @@
     hidden
     (change)="onFileSelected($event)"
   >
-  <span>{{ selectedFile?.name }}</span>
+  <span class="ms-2">{{ selectedFile?.name }}</span>
 </div>

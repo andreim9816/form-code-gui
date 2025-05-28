@@ -1,4 +1,9 @@
-<div class="container-fluid px-0">
+<div class="container-fluid px-0 position-relative">
+
+  <!-- Overlapping Image -->
+  <img src="assets/icons/img-register.png" alt="icon"
+       class="position-absolute overlap-image d-none d-md-block"/>
+
   <div class="row g-0 min-vh-100">
 
     <!-- Left Panel -->
@@ -6,11 +11,20 @@
          style="padding: 110px 110px 110px 110px">
       <img src="assets/logo.svg" alt="Logo" class="mb-4" style="width: 110px;"/>
       <h1 class="fw-bold">Let’s get you started!</h1>
-      <p class="mt-3" style="opacity: 0.5">
-        Please fill in a few details so we can get back to you.
-        You’ll have a full email ready to send. Contact us at
-        <a href="mailto:hello@3cket.com" class="text-info">hello.com</a>.
+      <p class="mt-2 opacity-50">
+        Please fill in a few details so you can use our platform.
       </p>
+
+      <h2 class="fw-bold mt-5">Why join us?</h2>
+      <p class="mt-2 opacity-50">
+        Create, customize, and manage professional templates, all in one platform.
+      </p>
+
+      <ul class="list-unstyled mt-2 small">
+        <li class="mb-2">✅ Unlimited form creation</li>
+        <li class="mb-2">✅ Multiple possibilities of customization</li>
+        <li class="mb-2">✅ Collaborate with your team</li>
+      </ul>
 
       <div class="mt-auto">
         <p class="small">
@@ -33,45 +47,63 @@
           <label for="username" class="form-label">
             <b class="" style="font-size: 16px !important">Username</b>
           </label>
-          <input type="text" class="form-control" id="username">
+          <input type="text" class="form-control my-readonly" id="username">
         </div>
 
         <div class="mb-2">
           <label for="password" class="form-label">
             <b class="" style="font-size: 16px !important">Password</b>
           </label>
-          <input type="password" class="form-control" id="password">
+          <input type="password" class="form-control my-readonly" id="password">
         </div>
 
         <div class="mb-2">
           <label for="confirm-password" class="form-label">
             <b class="" style="font-size: 16px !important">Confirm password</b>
           </label>
-          <input type="password" class="form-control" id="confirm-password">
+          <input type="password" class="form-control my-readonly" id="confirm-password">
         </div>
 
         <div class="mb-2">
           <label for="email" class="form-label">
             <b class="" style="font-size: 16px !important">Email</b>
           </label>
-          <input type="email" class="form-control" id="email">
+          <input type="email" class="form-control my-readonly" id="email">
         </div>
 
         <div class="mb-2">
           <label for="phone" class="form-label">
             <b class="" style="font-size: 16px !important">Phone number</b>
           </label>
-          <input type="tel" class="form-control" id="phone">
+          <input type="tel" class="form-control my-readonly" id="phone">
+        </div>
+
+        <div class="mb-2">
+          <label for="id-photo" class="form-label">
+            <b class="" style="font-size: 16px !important">ID card</b>
+          </label>
+          <div class="form-control my-readonly py-0">
+            <button
+              mat-button
+              type="button"
+              class="card-border-radius"
+              (click)="fileInput.click()"
+              style="background-color: var(--accent-color); color: white; height: 36px !important; opacity: 0.45">
+              Upload file
+            </button>
+
+            <input
+              id="id-photo"
+              type="file"
+              #fileInput
+              hidden
+              (change)="onFileSelected($event)"
+            >
+            <span class="ms-2">{{ selectedFile?.name }}</span>
+          </div>
         </div>
 
         <div class="d-flex justify-content-between my-4">
-          <!--          <button type="button" mat-button class="card-border-radius py-4"-->
-          <!--                  style="color: var(&#45;&#45;navbar-color);-->
-          <!--                  border-color: var(&#45;&#45;navbar-color);-->
-          <!--                  border: 2px solid var(&#45;&#45;navbar-color) !important;-->
-          <!--                  padding-left: 60px; padding-right: 60px">-->
-          <!--            Save form-->
-          <!--          </button>-->
           <button type="button" mat-button class="card-border-radius fw-bold py-4 w-100"
                   style="color: white;
                   background-color: var(--navbar-color);">

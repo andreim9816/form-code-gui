@@ -1,11 +1,13 @@
 import {Component, Input} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {SectionField} from '../../model/SectionField';
+import {MatButton} from '@angular/material/button';
 
 @Component({
   selector: 'app-file',
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatButton
   ],
   templateUrl: './file.component.html'
 })
