@@ -98,7 +98,7 @@ body,
 }
 
 .mat-mdc-table {
-  background-color: white !important;
+  background-color: var(--my-primary-color) !important;
 }
 
 .mat-mdc-checkbox.mat-mdc-checkbox-checked .mdc-checkbox__background, .mdc-checkbox__ripple {

@@ -4,9 +4,9 @@
       <div class="card px-3 mb-3"
            style="border-radius: 12px !important; border: 2px solid #ECECEC">
         <div class="mb-3">
-          <h3 style="margin-top: 12px"><b>{{form.template.title}} <!--Declaratia nr 320--></b></h3>
-          <label style="color: var(--label-color);">{{form.template.description}}
-<!--            Declaratia nr 320 cu privire la rezidenta fiscala a utilizatorilor. Se completeaza o data pe an, in functie de pragurile de venit-->
+          <h3 style="margin-top: 12px"><b>{{ form.template.title }} <!--Declaratia nr 320--></b></h3>
+          <label style="color: var(--label-color);">{{ form.template.description }}
+            <!--            Declaratia nr 320 cu privire la rezidenta fiscala a utilizatorilor. Se completeaza o data pe an, in functie de pragurile de venit-->
           </label>
         </div>
       </div>
@@ -21,61 +21,66 @@
                      <span>
                         <div class="d-flex justify-content-between align-items-center" style="margin-top: 12px">
                            <span *ngIf="getSection(sectionIndex).isValidation">
-                           <img src="../../../assets/icons/img-validation.png" alt="icon"
-                                style="; width: 30px; height: 35px"/>
-                           <span><b>{{ getSection(sectionIndex).title }}</b></span>
+                             <img src="assets/icons/img-validation.png" alt="icon"
+                                  style="width: 30px; height: 35px"/>
+                             <span>
+                               <b>{{ getSection(sectionIndex).title }}</b>
+                             </span>
                            </span>
                            <span *ngIf="!getSection(sectionIndex).isValidation">
-                           <img src="assets/icons/img-input-section.svg" alt="icon"
-                                style="; width: 20px; height: 20px; margin-right: 6px"/>
-                           <span><b>{{ getSection(sectionIndex).title }}</b></span>
+                             <img src="assets/icons/img-input-section.svg" alt="icon"
+                                  style="width: 20px; height: 20px; margin-right: 6px"/>
+                             <span>
+                               <b>{{ getSection(sectionIndex).title }}</b>
+                             </span>
                            </span>
                         </div>
                         <div
-                          style="height:2px; background-color:#ECECEC; margin-top: 12px;"></div>
+                          style="height:2px; background-color:#ECECEC; margin-top: 12px;">
+                        </div>
                      </span>
 
                     <div class="card-body ps-0">
-                    <span
-                      *ngFor="let fieldControl of sectionFieldsControls(sectionControl).controls; index as sectionFieldIndex"
-                      class="my-2 mt-2 me-1">
-                              <!--todo: depending on the text field type (can be input or simple <p> styling should be different)-->
-                              <app-edit-form-text
-                                *ngIf="getFormSectionField(sectionIndex, sectionFieldIndex).sectionField.contentType === ContentType.STRING"
-                                [formSectionField]="getFormSectionField(sectionIndex, sectionFieldIndex)"
-                                [fieldControl]="fieldControl"
-                                [submitted]="submitted"
-                                class="d-inline-block"
-                                style="vertical-align: top"
-                              ></app-edit-form-text>
-                              <br
-                                *ngIf="getFormSectionField(sectionIndex, sectionFieldIndex).sectionField.contentType === ContentType.BREAK_LINE"
-                              >
-                              <app-edit-form-number
-                                *ngIf="getFormSectionField(sectionIndex, sectionFieldIndex).sectionField.contentType === ContentType.NUMBER"
-                                [formSectionField]="getFormSectionField(sectionIndex,sectionFieldIndex)"
-                                [fieldControl]="fieldControl"
-                                [submitted]="submitted"
-                                class="d-inline-block"
-                                style="vertical-align: top"
-                              ></app-edit-form-number>
-                              <app-edit-form-date
-                                *ngIf="getFormSectionField(sectionIndex, sectionFieldIndex).sectionField.contentType === ContentType.DATE"
-                                [formSectionField]="getFormSectionField(sectionIndex,sectionFieldIndex)"
-                                [fieldControl]="fieldControl"
-                                [submitted]="submitted"
-                                class="d-inline-block"
-                                style="vertical-align: top"
-                              ></app-edit-form-date>
-                              <app-edit-form-file
-                                *ngIf="getFormSectionField(sectionIndex, sectionFieldIndex).sectionField.contentType === ContentType.FILE"
-                                [formSectionField]="getFormSectionField(sectionIndex, sectionFieldIndex)"
-                                [fieldControl]="fieldControl"
-                                (newFileContent)="newFileSelected($event)"
-                                class="d-inline-block"
-                                style="vertical-align: top"
-                              ></app-edit-form-file>
-                           </span>
+                      <span
+                        *ngFor="let fieldControl of sectionFieldsControls(sectionControl).controls; index as sectionFieldIndex"
+                        class="my-2 mt-2 me-1">
+                        <!--todo: depending on the text field type (can be input or simple <p> styling should be different)-->
+                        <app-edit-form-text
+                          *ngIf="getFormSectionField(sectionIndex, sectionFieldIndex).sectionField.contentType === ContentType.STRING"
+                          [formSectionField]="getFormSectionField(sectionIndex, sectionFieldIndex)"
+                          [fieldControl]="fieldControl"
+                          [submitted]="submitted"
+                          class="d-inline-block"
+                          style="vertical-align: top"
+                        ></app-edit-form-text>
+                        <br
+                          *ngIf="getFormSectionField(sectionIndex, sectionFieldIndex).sectionField.contentType === ContentType.BREAK_LINE"
+                        >
+                        <app-edit-form-number
+                          *ngIf="getFormSectionField(sectionIndex, sectionFieldIndex).sectionField.contentType === ContentType.NUMBER"
+                          [formSectionField]="getFormSectionField(sectionIndex,sectionFieldIndex)"
+                          [fieldControl]="fieldControl"
+                          [submitted]="submitted"
+                          class="d-inline-block"
+                          style="vertical-align: top"
+                        ></app-edit-form-number>
+                        <app-edit-form-date
+                          *ngIf="getFormSectionField(sectionIndex, sectionFieldIndex).sectionField.contentType === ContentType.DATE"
+                          [formSectionField]="getFormSectionField(sectionIndex,sectionFieldIndex)"
+                          [fieldControl]="fieldControl"
+                          [submitted]="submitted"
+                          class="d-inline-block"
+                          style="vertical-align: top"
+                        ></app-edit-form-date>
+                        <app-edit-form-file
+                          *ngIf="getFormSectionField(sectionIndex, sectionFieldIndex).sectionField.contentType === ContentType.FILE"
+                          [formSectionField]="getFormSectionField(sectionIndex, sectionFieldIndex)"
+                          [fieldControl]="fieldControl"
+                          (newFileContent)="newFileSelected($event)"
+                          class="d-inline-block"
+                          style="vertical-align: top"
+                        ></app-edit-form-file>
+                     </span>
                     </div>
                   </div>
                 </div>
@@ -84,7 +89,6 @@
           </div>
         </div>
         <ng-container *ngIf="this.form.finishedDate == null">
-
           <ng-container
             *ngIf="FormsComponent.isValidationState(form) && this.storageService.getUser()?.id !== this.form.creatorUser.id">
             <button

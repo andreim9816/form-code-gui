@@ -45,7 +45,7 @@ export class UserActionsComponent implements ICellRendererAngularComp {
         rolesPerCompany: this.rolesPerCompany,
         allCompanies: this.allCompanies
       },
-      width: '600px',
+      width: '800px',
       maxWidth: '90vw',
     });
 
