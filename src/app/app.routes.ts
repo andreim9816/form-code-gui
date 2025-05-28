@@ -9,11 +9,12 @@ import {UsersComponent} from './routes/users/users.component';
 import {FormsComponent} from './routes/forms/forms.component';
 import {CompaniesComponent} from './routes/companies/companies.component';
 import {AuthGuard} from './guards/auth.guard';
+import {NotLoggedInGuard} from './guards/not-logged-in.guard';
 
 export const routes: Routes = [
-  {path: '', component: LoginComponent},
-  {path: 'register', component: RegisterComponent},
-  {path: 'add-template', component: CreateTemplateComponent, canActivate: [AuthGuard]},
+  {path: '', component: LoginComponent, canActivate: [NotLoggedInGuard]},
+  {path: 'register', component: RegisterComponent, canActivate: [NotLoggedInGuard]},
+  {path: 'create-template', component: CreateTemplateComponent, canActivate: [AuthGuard]},
   {path: 'companies', component: CompaniesComponent, canActivate: [AuthGuard]},
   {path: 'forms', component: FormsComponent, canActivate: [AuthGuard]},
   {path: 'forms/:id', component: EditFormComponent, canActivate: [AuthGuard]},

@@ -5,7 +5,6 @@ import {NavbarComponent} from './routes/navbar/navbar.component';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {LoadingService} from './http/LoadingService';
 import {filter, Observable} from 'rxjs';
-import {StorageService} from './service/StorageService';
 
 @Component({
   selector: 'app-root',
@@ -20,13 +19,7 @@ export class AppComponent {
   hiddenRoutes = ['/', '/register'];
 
   constructor(public loader: LoadingService,
-              private storageService: StorageService,
               private router: Router) {
-
-    if (this.storageService.isLoggedIn()) {
-      this.router.navigate(['/forms']);
-    }
-
     this.loading$ = this.loader.loading$;
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
