@@ -1,12 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {AuthService} from '../../service/AuthService';
 import {StorageService} from '../../service/StorageService';
 import {UserDto} from '../../dto/UserDto';
-import {MatError, MatFormField, MatLabel} from '@angular/material/form-field';
-import {MatInput} from '@angular/material/input';
-import {NgIf} from '@angular/common';
 import {MatButton} from '@angular/material/button';
 import {HttpErrorResponse} from '@angular/common/http';
 
@@ -16,18 +13,17 @@ import {HttpErrorResponse} from '@angular/common/http';
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    MatFormField,
-    MatLabel,
-    MatInput,
-    MatError,
-    NgIf,
-    MatButton
-  ]
+    MatButton,
+    RouterLink
+  ],
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
   errorMessage: string;
+
+  selectedFile: File;
 
   constructor(private readonly fb: FormBuilder,
               private readonly authService: AuthService,
@@ -47,6 +43,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
+    console.log(this.loginForm);
     if (this.loginForm.valid) {
       const body = {
         username: this.loginForm.controls['usernameCtrl'].value,

@@ -1,50 +1,68 @@
-<!--<div class="container default-padding outline-box">-->
-<!--  <h2>Welcome!</h2>-->
-<!--  <br>-->
-<!--  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()"-->
-<!--        class="container">-->
-<!--    <div class="row">-->
-<!--      <div class="col">-->
-<!--        <mat-form-field>-->
-<!--          <input formControlName="usernameCtrl" matInput placeholder="Username">-->
-<!--        </mat-form-field>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="row">-->
-<!--      <div class="col">-->
-<!--        <mat-form-field>-->
-<!--          <input formControlName="passwordCtrl" matInput placeholder="Passowrd" type="password">-->
-<!--        </mat-form-field>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <button class="btn btn-primary" type="submit">Login</button>-->
-<!--  </form>-->
-<!--</div>-->
+<div class="container-fluid px-0 position-relative">
 
-<div class="container mt-5">
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="card p-4 shadow-lg col-md-6 offset-md-3">
-    <h2 class="mb-4 text-center">Login</h2>
+  <!-- Overlapping Image -->
+  <img src="assets/icons/img-register.png" alt="icon"
+       class="position-absolute overlap-image d-none d-md-block"/>
 
-    <mat-form-field appearance="outline" class="w-100 mb-3">
-      <mat-label>Username</mat-label>
-      <input matInput formControlName="usernameCtrl" placeholder="Enter username">
-      <mat-error *ngIf="loginForm.get('usernameCtrl')?.hasError('required')">
-        Username is required
-      </mat-error>
-    </mat-form-field>
+  <div class="row g-0 min-vh-100">
 
-    <mat-form-field appearance="outline" class="w-100 mb-3">
-      <mat-label>Password</mat-label>
-      <input matInput type="password" formControlName="passwordCtrl" placeholder="Enter password">
-      <mat-error *ngIf="loginForm.get('passwordCtrl')?.hasError('required')">
-        Password is required
-      </mat-error>
-    </mat-form-field>
+    <!-- Left Panel -->
+    <div class="col-5 d-flex flex-column justify-content-center align-items-start text-white left-panel"
+         style="padding: 110px 110px 110px 110px">
+      <img src="assets/logo.svg" alt="Logo" class="mb-4" style="width: 110px;"/>
+      <h1 class="fw-bold">Let’s get you started!</h1>
+      <p class="mt-2 opacity-50">
+        Please fill in a few details so you can use our platform.
+      </p>
 
-    <div class="text-center mt-4">
-      <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">
-        Login
-      </button>
+      <div class="mt-auto">
+        <p class="small">
+          Don't have an account? <a routerLink="/register" class="text-info">Sign up</a>
+        </p>
+      </div>
     </div>
-  </form>
+
+    <!-- Right Panel -->
+    <div class="col-7 d-flex align-items-center justify-content-center right-panel p-5">
+      <div class="w-100" style="max-width: 500px;">
+
+        <div class="d-flex align-items-center mb-4">
+          <img src="assets/icons/img-edit.png" alt="icon" class="custom-icon"
+               style="width: 26px !important; height: 26px !important; margin-right: 8px; margin-bottom: 4px"/>
+          <h2><b>Login</b></h2>
+        </div>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div class="mb-2">
+            <label for="username" class="form-label">
+              <b class="" style="font-size: 16px !important">Username</b>
+            </label>
+            <input type="text" class="form-control my-readonly" id="username"
+                   formControlName="usernameCtrl">
+          </div>
+
+          <div class="mb-2">
+            <label for="password" class="form-label">
+              <b class="" style="font-size: 16px !important">Password</b>
+            </label>
+            <input type="password" class="form-control my-readonly" id="password"
+                   formControlName="passwordCtrl">
+          </div>
+
+          <div class="d-flex justify-content-between my-4">
+            <button type="submit" mat-button class="card-border-radius fw-bold py-4 w-100"
+                    style="color: white;
+                  background-color: var(--navbar-color);">
+              Login
+            </button>
+          </div>
+        </form>
+
+        <p class="text-muted mt-3 small">
+          By clicking the button, you agree to our <a href="#" class="text-decoration-underline">Terms</a> and
+          <a href="#" class="text-decoration-underline">Privacy Policy</a>.
+        </p>
+      </div>
+    </div>
+  </div>
 </div>

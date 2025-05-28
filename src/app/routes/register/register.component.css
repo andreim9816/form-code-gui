@@ -1,0 +1,18 @@
+.left-panel {
+  background-color: var(--navbar-color);
+  color: white;
+}
+
+.right-panel {
+  background-color: white /*var(--my-primary-color)*/ !important;
+}
+
+.overlap-image {
+  top: 78%;
+  left: 39%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 505px;
+  max-height: 505px;
+  pointer-events: none; /* Prevent blocking interaction */
+}
