@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {RouterOutlet} from '@angular/router';
+import {NavigationEnd, Router, RouterOutlet} from '@angular/router';
 import {NavbarComponent} from './routes/navbar/navbar.component';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {LoadingService} from './http/LoadingService';
-import {Observable} from 'rxjs';
+import {filter, Observable} from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -15,8 +15,15 @@ import {Observable} from 'rxjs';
 export class AppComponent {
   loading$: Observable<boolean>;
 
-  constructor(public loader: LoadingService) {
-    this.loading$ = this.loader.loading$;
-  }
+  showNavbar = true;
+  hiddenRoutes = ['/', '/login'];
 
+  constructor(public loader: LoadingService, private router: Router) {
+    this.loading$ = this.loader.loading$;
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        this.showNavbar = !this.hiddenRoutes.includes(event.urlAfterRedirects);
+      });
+  }
 }
