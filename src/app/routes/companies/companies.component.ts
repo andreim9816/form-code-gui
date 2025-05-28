@@ -9,6 +9,8 @@ import {MatDialog} from '@angular/material/dialog';
 import {CreateCompanyComponent} from './create-company/create-company.component';
 import {MatButton} from '@angular/material/button';
 import {EditBtnComponent} from '../../shared/edit-btn/edit-btn.component';
+import {User} from '../../model/User';
+import {CompanyRole} from '../../model/CompanyRole';
 
 @Component({
   selector: 'app-companies',
@@ -31,21 +33,42 @@ export class CompaniesComponent implements OnInit {
       'align-items': 'center ',
       'height': '47px'
     },
-  }
+  };
+
+  defaultColDef = {
+    sortable: true,
+    filter: true,
+    floatingFilter: true, // small filter box under headers
+    resizable: true
+  };
 
   colDefs: ColDef[] = [
     {headerName: 'Company', field: 'name', width: 75},
-    {headerName: 'Admins', cellRenderer: CompanyAdminsComponent},
-    {headerName: 'Roles', cellRenderer: CompanyRolesComponent},
+    {
+      headerName: 'Admins',
+      cellRenderer: CompanyAdminsComponent,
+      valueGetter: (params) => {
+        const adminUsers = params.data.adminUsers ?? [];
+        return adminUsers.map((user: User) => `${user.lastname} ${user.firstname}`).join(', ');
+      }
+    },
+    {
+      headerName: 'Roles',
+      cellRenderer: CompanyRolesComponent,
+      valueGetter: (params) => {
+        const companyRoles = params.data.companyRoles ?? [];
+        return companyRoles.map((companyRole: CompanyRole) => companyRole.name).join(', ');
+      }
+    },
     {
       headerName: 'Action',
       cellRenderer: EditBtnComponent,
       onCellClicked: (params) => {
         this.openAddEditCompanyModal(params.data);
       },
+      filter: false,
       width: 53
-    }
-  ];
+    }];
 
   constructor(
     private readonly httpService: HttpService,
