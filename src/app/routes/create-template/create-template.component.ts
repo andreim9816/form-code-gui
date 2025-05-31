@@ -651,6 +651,10 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
 
   ////////////////////////////////////////// contextual menu //////////////////////////////////////////
 
+  onDismiss(): void {
+    this.router.navigate(['']);
+  }
+
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
