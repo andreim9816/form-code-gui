@@ -20,8 +20,6 @@ export const routes: Routes = [
   {path: 'companies', component: CompaniesComponent, canActivate: [AuthGuard]},
   {path: 'forms', component: FormsComponent, canActivate: [AuthGuard]},
   {path: 'forms/:id', component: EditFormComponent, canActivate: [AuthGuard]},
-  {path: 'tests', component: TestingComponent, canActivate: [AuthGuard]},
   {path: 'users', component: UsersComponent, canActivate: [AuthGuard]},
-  {path: 'drag-and-drop', component: DragdropComponent, canActivate: [AuthGuard]},
   {path: '**', redirectTo: ''}
 ];
