@@ -2,13 +2,13 @@
   <mat-toolbar-row>
     <div style="position:absolute; left: 0">
       <a mat-button routerLink="/">
-        <img alt="Logo" src="favicon.ico">
+        <img alt="Logo" src="assets/icons/logo.svg" style="width: 35px; height: 35px">
       </a>
 
       <a *ngIf="!isLoggedIn()" mat-button routerLink="/login" routerLinkActive="my-active-route" style="color:white">Login</a>
       <button type="button" *ngIf="canCreateTemplate()" mat-button routerLink="/create-template"
               routerLinkActive="my-active-route"
-              style="color: white; border-top-left-radius: 1px">+ Create template
+              style="color: white; border-top-left-radius: 1px">Create template
       </button>
       <a mat-button routerLink="/templates" routerLinkActive="my-active-route"
          style="color:white; border-top-left-radius: 1px">Templates</a>

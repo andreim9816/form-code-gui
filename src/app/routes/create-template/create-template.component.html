@@ -137,11 +137,10 @@
 
                   <div class="card-body ps-0" (click)="onCardBodyClick($event, sectionIndex)">
                     <span *ngFor="let sectionField of section.sectionFields; index as sectionFieldIndex"
-                          class="my-2 mt-2 me-1">
+                          class="me-1">
                     <!--todo: depending on the text field type (can be input or simple <p> styling should be different)-->
                     <app-text
                       class="d-inline-block"
-                      style="vertical-align: top"
                       *ngIf="sectionField.contentType === ContentType.STRING"
                       [sectionFieldIndex]="sectionFieldIndex"
                       [sectionIndex]="sectionIndex"
