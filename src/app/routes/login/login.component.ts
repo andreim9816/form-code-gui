@@ -6,6 +6,7 @@ import {StorageService} from '../../service/StorageService';
 import {UserDto} from '../../dto/UserDto';
 import {MatButton} from '@angular/material/button';
 import {HttpErrorResponse} from '@angular/common/http';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,8 @@ import {HttpErrorResponse} from '@angular/common/http';
   imports: [
     ReactiveFormsModule,
     MatButton,
-    RouterLink
+    RouterLink,
+    NgIf
   ],
   styleUrls: ['./login.component.css']
 })
