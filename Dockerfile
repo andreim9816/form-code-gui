@@ -1,28 +1,19 @@
-# Stage 1: Build Angular App
-FROM node:alpine AS form-gate-gui-build
+# stage 1
+
+FROM node:alpine AS gui-build
 WORKDIR /app
 
-# Copy package files and install dependencies
-COPY package*.json ./
+COPY package*.json /app/
 RUN npm install
-
-# Copy the rest of the application code
-COPY . .
-
-# Build the Angular application
+COPY ./ /app/
 ARG configuration=production
-RUN npm run build -- --configuration=$configuration --output-path=./dist/form-gui
+RUN npm run build -- --output-path=./dist/out
 
-# Stage 2: Serve with Nginx
+
+# stage 2
+
 FROM nginx:alpine
-
-# Copy build artifacts to Nginx's html directory
-COPY --from=form-gate-gui-build /app/dist/form-gui/ /usr/share/nginx/html
-
-# Copy custom Nginx configuration and entrypoint script
-COPY nginx.conf.template /etc/nginx/templates/nginx.conf.template
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
-# Set the entrypoint
-ENTRYPOINT ["/entrypoint.sh"]
+#Copy ci-dashboard-dist
+COPY --from=gui-build /app/dist/out/ /usr/share/nginx/html
+#Copy default nginx configuration
+COPY ./nginx.conf.template /etc/nginx/conf.d/default.conf
