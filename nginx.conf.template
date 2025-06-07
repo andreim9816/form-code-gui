@@ -13,7 +13,7 @@ server {
 
   location /api/ {
   # kubectl get nodes -o wide;
-    proxy_pass http://anaf-api.italynorth.cloudapp.azure.com;
+    proxy_pass ${PROXY_URL};
   }
 
   location / {

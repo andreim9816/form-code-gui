@@ -1,4 +1,4 @@
-# stage 1
+# Stage 1: Build Angular app
 FROM node:alpine AS gui-build
 WORKDIR /app
 
@@ -8,7 +8,13 @@ COPY ./ /app/
 ARG configuration=production
 RUN npm run build -- --output-path=./dist/out
 
-# stage 2
+# Stage 2: Serve with NGINX
 FROM nginx:alpine
+
 COPY --from=gui-build /app/dist/out/browser/ /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf.template /etc/nginx/nginx.conf.template
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["nginx", "-g", "daemon off;"]
