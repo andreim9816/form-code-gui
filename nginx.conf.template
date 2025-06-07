@@ -1,0 +1,26 @@
+# Expires map
+map $sent_http_content_type $expires {
+    default                    off;
+    text/html                  epoch;
+    text/css                   max;
+    application/json           max;
+    application/javascript     max;
+    ~image/                    max;
+}
+
+server {
+  listen 80;
+
+  location /api/ {
+  # kubectl get nodes -o wide;
+    proxy_pass ${PROXY_URL};
+  }
+
+  location / {
+      root /usr/share/nginx/html;
+      index index.html index.htm;
+      try_files $uri $uri/ /index.html =404;
+    }
+  expires $expires;
+  gzip  on;
+}
