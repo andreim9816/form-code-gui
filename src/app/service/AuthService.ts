@@ -23,6 +23,10 @@ export class AuthService {
     return this.http.post<UserDto>(URL.AUTH_URL + '/login', body, httpOptions);
   }
 
+  extractData(body: any): Observable<any> {
+    return this.http.post(URL.AUTH_URL + '/extract-data', body, httpOptions);
+  }
+
   register(body: any): Observable<any> {
     return this.http.post(URL.AUTH_URL + '/register', body, httpOptions);
   }

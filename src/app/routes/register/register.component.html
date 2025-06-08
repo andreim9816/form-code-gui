@@ -32,106 +32,139 @@
 
     <!-- Right Panel -->
     <div class="col-7 d-flex justify-content-center right-panel px-5" style="padding-top: 70px">
-      <form [formGroup]="formGroup" (ngSubmit)="submit()" class="w-100" style="max-width: 500px;">
 
-        <div class="d-flex align-items-center mb-4">
-          <img src="assets/icons/img-register.png" alt="icon" class="custom-icon"
-               style="width: 30px !important; height: 30px !important; margin-right: 8px; margin-bottom: 1px"/>
-          <h2><b>Register</b></h2>
-        </div>
+      <div class="w-100" style="max-width: 500px;">
+        <ng-container *ngIf="step === 1">
+          <form [formGroup]="formGroup" (ngSubmit)="submit()">
+            <div class="d-flex align-items-center mb-4">
+              <img src="assets/icons/img-register.png" alt="icon" class="custom-icon"
+                   style="width: 30px !important; height: 30px !important; margin-right: 8px; margin-bottom: 1px"/>
+              <h2><b>Register</b></h2>
+            </div>
+            <div class="mb-2">
+              <label for="username" class="form-label">
+                <b class="" style="font-size: 16px !important">Username</b>
+              </label>
+              <input type="text" class="form-control my-readonly" id="username" formControlName="usernameCtrl">
+              <div *ngIf="formGroup.get('usernameCtrl')!.touched && formGroup.get('usernameCtrl')!.invalid"
+                   class="invalid-feedback d-block">
+                <small *ngIf="formGroup.get('usernameCtrl')!.errors?.['required']">Username is required</small>
+                <small *ngIf="formGroup.get('usernameCtrl')!.errors?.['minlength']">Username should be at least 3
+                  characters
+                  long</small>
+              </div>
+            </div>
 
-        <div class="mb-2">
-          <label for="username" class="form-label">
-            <b class="" style="font-size: 16px !important">Username</b>
-          </label>
-          <input type="text" class="form-control my-readonly" id="username" formControlName="usernameCtrl">
-          <div *ngIf="formGroup.get('usernameCtrl')!.touched && formGroup.get('usernameCtrl')!.invalid"
-               class="invalid-feedback d-block">
-            <small *ngIf="formGroup.get('usernameCtrl')!.errors?.['required']">Username is required</small>
-            <small *ngIf="formGroup.get('usernameCtrl')!.errors?.['minlength']">Username should be at least 3 characters
-              long</small>
-          </div>
-        </div>
+            <div class="mb-2">
+              <label for="password" class="form-label">
+                <b class="" style="font-size: 16px !important">Password</b>
+              </label>
+              <input type="password" class="form-control my-readonly" id="password"
+                     formControlName="passwordCtrl">
+              <div *ngIf="formGroup.get('passwordCtrl')!.touched && formGroup.get('passwordCtrl')!.invalid"
+                   class="invalid-feedback d-block">
+                <small *ngIf="formGroup.get('passwordCtrl')!.errors?.['required']">Password is required</small>
+                <small *ngIf="formGroup.get('passwordCtrl')!.errors?.['minlength']">Password should be at least 3
+                  characters
+                  long</small>
+              </div>
+            </div>
 
-        <div class="mb-2">
-          <label for="password" class="form-label">
-            <b class="" style="font-size: 16px !important">Password</b>
-          </label>
-          <input type="password" class="form-control my-readonly" id="password"
-                 formControlName="passwordCtrl">
-          <div *ngIf="formGroup.get('passwordCtrl')!.touched && formGroup.get('passwordCtrl')!.invalid"
-               class="invalid-feedback d-block">
-            <small *ngIf="formGroup.get('passwordCtrl')!.errors?.['required']">Password is required</small>
-            <small *ngIf="formGroup.get('passwordCtrl')!.errors?.['minlength']">Password should be at least 3 characters
-              long</small>
-          </div>
-        </div>
+            <div class="mb-2">
+              <label for="confirm-password" class="form-label">
+                <b class="" style="font-size: 16px !important">Confirm password</b>
+              </label>
+              <input type="password" class="form-control my-readonly" id="confirm-password"
+                     formControlName="confirmPasswordCtrl">
+              <div
+                *ngIf="formGroup.get('confirmPasswordCtrl')!.touched && (formGroup.get('confirmPasswordCtrl')!.invalid || formGroup.errors?.['mismatch'])"
+                class="invalid-feedback d-block">
+                <small *ngIf="formGroup.errors?.['mismatch']" class="d-block">Passwords do not match</small>
+                <small *ngIf="formGroup.get('confirmPasswordCtrl')!.errors?.['required']" class="d-block">Please confirm
+                  password</small>
+              </div>
+            </div>
 
-        <div class="mb-2">
-          <label for="confirm-password" class="form-label">
-            <b class="" style="font-size: 16px !important">Confirm password</b>
-          </label>
-          <input type="password" class="form-control my-readonly" id="confirm-password"
-                 formControlName="confirmPasswordCtrl">
-          <div
-            *ngIf="formGroup.get('confirmPasswordCtrl')!.touched && (formGroup.get('confirmPasswordCtrl')!.invalid || formGroup.errors?.['mismatch'])"
-            class="invalid-feedback d-block">
-            <small *ngIf="formGroup.errors?.['mismatch']" class="d-block">Passwords do not match</small>
-            <small *ngIf="formGroup.get('confirmPasswordCtrl')!.errors?.['required']" class="d-block">Please confirm
-              password</small>
-          </div>
-        </div>
+            <div class="mb-2">
+              <label for="email" class="form-label">
+                <b class="" style="font-size: 16px !important">Email</b>
+              </label>
+              <input type="email" class="form-control my-readonly" id="email"
+                     formControlName="emailCtrl">
+              <div *ngIf="formGroup.get('emailCtrl')!.touched && formGroup.get('emailCtrl')!.invalid"
+                   class="invalid-feedback d-block">
+                <small *ngIf="formGroup.get('emailCtrl')!.errors?.['required']">Email is required</small>
+                <small *ngIf="formGroup.get('emailCtrl')!.errors?.['email']">Please enter a valid email</small>
+              </div>
+            </div>
 
-        <div class="mb-2">
-          <label for="email" class="form-label">
-            <b class="" style="font-size: 16px !important">Email</b>
-          </label>
-          <input type="email" class="form-control my-readonly" id="email"
-                 formControlName="emailCtrl">
-          <div *ngIf="formGroup.get('emailCtrl')!.touched && formGroup.get('emailCtrl')!.invalid"
-               class="invalid-feedback d-block">
-            <small *ngIf="formGroup.get('emailCtrl')!.errors?.['required']">Email is required</small>
-            <small *ngIf="formGroup.get('emailCtrl')!.errors?.['email']">Please enter a valid email</small>
-          </div>
-        </div>
+            <div class="mb-2">
+              <label for="phone" class="form-label">
+                <b class="" style="font-size: 16px !important">Phone number</b>
+              </label>
+              <input type="tel" class="form-control my-readonly" id="phone"
+                     formControlName="phoneCtrl">
+              <div *ngIf="formGroup.get('phoneCtrl')!.touched && formGroup.get('phoneCtrl')!.invalid"
+                   class="invalid-feedback d-block">
+                <small *ngIf="formGroup.get('phoneCtrl')!.errors?.['required']">Phone number is required</small>
+                <small *ngIf="formGroup.get('phoneCtrl')!.errors?.['pattern']">Please enter a valid phone number</small>
+              </div>
+            </div>
 
-        <div class="mb-2">
-          <label for="phone" class="form-label">
-            <b class="" style="font-size: 16px !important">Phone number</b>
-          </label>
-          <input type="tel" class="form-control my-readonly" id="phone"
-                 formControlName="phoneCtrl">
-          <div *ngIf="formGroup.get('phoneCtrl')!.touched && formGroup.get('phoneCtrl')!.invalid"
-               class="invalid-feedback d-block">
-            <small *ngIf="formGroup.get('phoneCtrl')!.errors?.['required']">Phone number is required</small>
-            <small *ngIf="formGroup.get('phoneCtrl')!.errors?.['pattern']">Please enter a valid phone number</small>
-          </div>
-        </div>
+            <div class="mb-2">
+              <label for="file" class="form-label">
+                <b class="" style="font-size: 16px !important">ID card</b>
+              </label>
+              <input type="file" class="form-control my-readonly" id="file" (change)="onFileSelected($event)">
+              <div *ngIf="formGroup.get('fileCtrl')?.touched && formGroup.get('fileCtrl')?.invalid"
+                   class="invalid-feedback d-block">
+                <small *ngIf="formGroup.get('fileCtrl')?.errors?.['required']">ID is required</small>
+              </div>
+            </div>
 
-        <div class="mb-2">
-          <label for="file" class="form-label">
-            <b class="" style="font-size: 16px !important">ID card</b>
-          </label>
-          <input type="file" class="form-control my-readonly" id="file" (change)="onFileSelected($event)">
-          <div *ngIf="formGroup.get('fileCtrl')?.touched && formGroup.get('fileCtrl')?.invalid"
-               class="invalid-feedback d-block">
-            <small *ngIf="formGroup.get('fileCtrl')?.errors?.['required']">ID is required</small>
-          </div>
-        </div>
+            <div class="mb-2">
+              <label for="id" class="form-label">
+                <b class="" style="font-size: 16px !important">Country</b>
+              </label>
 
-        <div class="d-flex justify-content-between my-4">
-          <button type="submit" mat-button class="card-border-radius fw-bold py-4 w-100"
-                  style="color: white;
+              <mat-select class="form-control my-readonly" formControlName="countryIdCtrl">
+                <mat-select-trigger>
+                  <span
+                    *ngIf="selectedCountry"
+                    class="fi fi-{{ selectedCountry.code }}"
+                    style="margin-right: 8px;"
+                  ></span>
+                  {{ selectedCountry?.name }}
+                </mat-select-trigger>
+
+                <mat-option *ngFor="let country of countries" [value]="country.id">
+                  <span class="fi fi-{{ country.code }}" style="margin-right: 8px;"></span>
+                  {{ country.name }}
+                </mat-option>
+              </mat-select>
+            </div>
+
+            <div class="d-flex justify-content-between my-4">
+              <button type="submit" mat-button class="card-border-radius fw-bold py-4 w-100"
+                      style="color: white;
                   background-color: var(--navbar-color);">
-            Register
-          </button>
-        </div>
+                Register
+              </button>
+            </div>
 
-        <p class="text-muted mt-3 small">
-          By clicking the button, you agree to our <a href="#" class="text-decoration-underline">Terms</a> and
-          <a href="#" class="text-decoration-underline">Privacy Policy</a>.
-        </p>
-      </form>
+            <p class="text-muted mt-3 small">
+              By clicking the button, you agree to our <a href="#" class="text-decoration-underline">Terms</a> and
+              <a href="#" class="text-decoration-underline">Privacy Policy</a>.
+            </p>
+          </form>
+        </ng-container>
+        <ng-container *ngIf="step === 2">
+          <app-register-2
+            [personalData]="personalData"
+            [body]="body"
+          ></app-register-2>
+        </ng-container>
+      </div>
     </div>
   </div>
 </div>
