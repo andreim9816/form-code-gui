@@ -8,7 +8,7 @@
 
     <!-- Left Panel -->
     <div class="col-5 d-flex flex-column justify-content-center text-white left-panel"
-         style="padding: 70px 110px 110px 110px">
+         style="padding: 20px 110px 110px 110px">
       <img src="assets/icons/img-logo-register.jpg" alt="Logo" class="mb-4" style="width: 150px;"/>
       <h1 class="fw-bold">Let’s get you started!</h1>
       <p class="mt-2 opacity-50">
@@ -31,12 +31,12 @@
     </div>
 
     <!-- Right Panel -->
-    <div class="col-7 d-flex justify-content-center right-panel px-5" style="padding-top: 70px">
+    <div class="col-7 d-flex justify-content-center right-panel px-5" style="padding-top: 20px">
 
       <div class="w-100" style="max-width: 500px;">
         <ng-container *ngIf="step === 1">
           <form [formGroup]="formGroup" (ngSubmit)="submit()">
-            <div class="d-flex align-items-center mb-4">
+            <div class="d-flex align-items-center mb-3">
               <img src="assets/icons/img-register.png" alt="icon" class="custom-icon"
                    style="width: 30px !important; height: 30px !important; margin-right: 8px; margin-bottom: 1px"/>
               <h2><b>Register</b></h2>
@@ -162,6 +162,7 @@
           <app-register-2
             [personalData]="personalData"
             [body]="body"
+            [(step)]="step"
           ></app-register-2>
         </ng-container>
       </div>

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {MatButton} from '@angular/material/button';
@@ -6,7 +6,7 @@ import {PersonalData} from '../../../dto/PersonalData';
 import {AuthService} from '../../../service/AuthService';
 import {NotificationService} from '../../../service/notification-service';
 import {HttpErrorResponse} from '@angular/common/http';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-register-2',
@@ -14,7 +14,8 @@ import {Router} from '@angular/router';
     FormsModule,
     CommonModule,
     ReactiveFormsModule,
-    MatButton
+    MatButton,
+    RouterLink,
   ],
   templateUrl: './register-2.component.html'
 })
@@ -23,6 +24,10 @@ export class Register2Component {
   personalData: PersonalData;
   @Input()
   body: any;
+  @Input()
+  step: 1 | 2;
+  @Output()
+  stepChange = new EventEmitter<1 | 2>();
 
   constructor(private readonly authService: AuthService,
               private readonly notificationService: NotificationService,
@@ -43,5 +48,9 @@ export class Register2Component {
         }
       }
     );
+  }
+
+  returnToPrevious(): void {
+    this.stepChange.emit(1);
   }
 }

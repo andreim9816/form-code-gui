@@ -39,11 +39,16 @@
            [value]="personalData.address">
   </div>
 
-  <div class="d-flex justify-content-between my-4">
+  <div class="d-flex justify-content-between mt-4 mb-2">
     <button type="button" mat-button class="card-border-radius fw-bold py-4 w-100"
             style="color: white; background-color: var(--navbar-color);"
             (click)="register()">
       Register
     </button>
   </div>
+  <p class="small">
+     Data incorrect? <a routerLink="/register" class="text-info"
+  (click)="returnToPrevious()">Go back and try again.</a>
+  </p>
+
 </div>
