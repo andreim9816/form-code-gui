@@ -45,7 +45,6 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.loginForm);
     if (this.loginForm.valid) {
       const body = {
         username: this.loginForm.controls['usernameCtrl'].value,

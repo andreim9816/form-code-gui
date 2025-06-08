@@ -50,7 +50,6 @@ export class NumberValidatorComponent implements OnInit, OnChanges {
         this.sectionField.numberValidator!.isRequired = formValues.isRequiredCtrl;
         this.sectionField.numberValidator!.minValue = formValues.minValueCtrl;
         this.sectionField.numberValidator!.maxValue = formValues.maxValueCtrl;
-        console.log(this.sectionField);
       }
     })
   }

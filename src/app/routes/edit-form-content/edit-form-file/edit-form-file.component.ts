@@ -35,8 +35,6 @@ export class EditFormFileComponent {
       contentFileId: this.formSectionField.contentFile.id
     });
 
-    console.log(this.selectedFile);
-
     // if (this.selectedFile) {
     //   this.uploadFile(this.formSectionField.contentFile.id, this.selectedFile); //this should be triggered only when clicking on the submit button
     // }
@@ -55,7 +53,6 @@ export class EditFormFileComponent {
       .downloadFile(this.formSectionField.contentFile.id)
       .subscribe(response => {
         const contentDisposition = response.headers.get('content-disposition');
-        console.log(contentDisposition);
         const matches = /filename="([^"]+)"/.exec(contentDisposition || '');
         const filename = matches?.[1] || 'file';
 

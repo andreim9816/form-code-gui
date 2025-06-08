@@ -106,7 +106,7 @@ export class EditFormComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
-    this.displayAllControlError();
+    // this.displayAllControlError();
     // this.removeRequiredValidatorToEnabledControls();
     this.submitted = true;
 
@@ -120,7 +120,6 @@ export class EditFormComponent implements OnInit, OnDestroy {
       .filter(formSection => !this.isDisabledField(formSection));
 
     const body = {formSections: currentFormSections} as FormSectionUpdate;
-    console.log(body);
 
     this.httpService.updateForm(body)
       .pipe(takeUntil(this.destroy$))
@@ -148,11 +147,10 @@ export class EditFormComponent implements OnInit, OnDestroy {
 
   rejectForm(): void {
     this.addRequiredValidatorToEnabledControls();
-    this.displayAllControlError();
+    // this.displayAllControlError();
     this.submitted = true;
 
     if (!this.formGroup.valid) {
-      console.log('invalid formGroup');
       return;
     }
     this.updateFormSectionFieldsWithFormControlValues(); // used for sending data to backend
@@ -161,7 +159,6 @@ export class EditFormComponent implements OnInit, OnDestroy {
       .filter(formSection => !this.isDisabledField(formSection));
 
     const body = {formSections: currentFormSections} as FormSectionUpdate;
-    console.log(body);
 
     this.httpService.rejectForm(body)
       .pipe(takeUntil(this.destroy$))
@@ -197,7 +194,6 @@ export class EditFormComponent implements OnInit, OnDestroy {
 
       formSectionFields.controls.forEach((fieldControl) => {
         if (!fieldControl.disabled) {
-          console.log(fieldControl)
           fieldControl.setValidators(Validators.required);
           fieldControl.updateValueAndValidity()
         }
@@ -235,8 +231,8 @@ export class EditFormComponent implements OnInit, OnDestroy {
           }
         }
 
-        console.log(`Errors for Section ${formSectionIdx}, Field ${fieldIndex}:`, fieldControl.errors);
-        console.log(`Values for Section ${formSectionIdx}, Field ${fieldIndex}:`, fieldControl.value);
+        // console.log(`Errors for Section ${formSectionIdx}, Field ${fieldIndex}:`, fieldControl.errors);
+        // console.log(`Values for Section ${formSectionIdx}, Field ${fieldIndex}:`, fieldControl.value);
       });
     });
   }
@@ -269,7 +265,6 @@ export class EditFormComponent implements OnInit, OnDestroy {
 
       formSectionsArray.push(sectionGroup);
     });
-    // console.log(this.formGroup);
   }
 
   displayAllControlError(): void {

@@ -401,7 +401,6 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
     this.httpService.saveTemplate(body)
       .subscribe({
         next: result => {
-          console.log('success result:', result);
           this.router.navigateByUrl('/forms');
         },
         error: (err: HttpErrorResponse) => {

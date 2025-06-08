@@ -48,9 +48,7 @@ export class RegisterComponent implements OnInit {
 
   submit(): void {
     if (this.formGroup.valid) {
-      console.log(this.formGroup.value);
     } else {
-      console.error(this.formGroup.controls);
       this.formGroup.markAllAsTouched();
     }
   }
