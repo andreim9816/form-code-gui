@@ -1,9 +1,11 @@
 <div class="w-100">
   <div class="mb-4">
     <div class="d-flex align-items-center">
-      <img src="assets/icons/img-register.png" alt="icon" class="custom-icon"
-           style="width: 30px !important; height: 30px !important; margin-right: 8px; margin-bottom: 1px"/>
-      <h2><b>Personal data</b></h2>
+      <img src="assets/icons/img-checked.png" alt="icon" class="custom-icon"
+           style="width: 30px !important; height: 30px !important; margin-right: 8px; margin-bottom: 6px"/>
+      <h2><b>Successfully verified</b></h2>
+<!--      <img src="assets/icons/img-checked.png" alt="icon"-->
+<!--           style="margin-left: 8px; width: 30px; height: 30px"/>-->
     </div>
     <h5 class="opacity-50">Please check that the extracted data is correct</h5>
   </div>
@@ -47,8 +49,8 @@
     </button>
   </div>
   <p class="small">
-     Data incorrect? <a routerLink="/register" class="text-info"
-  (click)="returnToPrevious()">Go back and try again.</a>
+    Incorrect data? <a routerLink="/register" class="text-info"
+                       (click)="returnToPrevious()">Go back and try again.</a>
   </p>
 
 </div>

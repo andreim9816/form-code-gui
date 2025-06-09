@@ -13,6 +13,7 @@ import {StorageService} from '../../../service/StorageService';
     ReactiveFormsModule,
     NgClass
   ],
+  standalone: true,
   templateUrl: './edit-form-text.component.html'
 })
 export class EditFormTextComponent implements OnInit {

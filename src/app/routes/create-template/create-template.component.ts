@@ -1,8 +1,6 @@
 import {AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {MatButton, MatFabButton} from '@angular/material/button';
-import {MatFormField, MatLabel} from '@angular/material/form-field';
-import {MatInput} from '@angular/material/input';
+import {MatButton} from '@angular/material/button';
 import {Section} from '../../model/Section';
 import {CommonModule} from '@angular/common';
 import {SectionField} from '../../model/SectionField';
@@ -31,19 +29,15 @@ import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
 import {HttpErrorResponse} from '@angular/common/http';
 import {NotificationService} from '../../service/notification-service';
 import {FileComponent} from '../../shared/file/file.component';
-import {createMayBeForwardRefExpression} from '@angular/compiler';
 
 @Component({
   selector: 'app-create-template',
+  standalone: true,
   imports: [
     SweetAlert2Module,
     CommonModule,
     ReactiveFormsModule,
     MatButton,
-    MatLabel,
-    MatFormField,
-    MatInput,
-    MatFabButton,
     TextComponent,
     NumberComponent,
     BreaklineComponent,

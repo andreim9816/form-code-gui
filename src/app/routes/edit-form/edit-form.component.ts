@@ -31,8 +31,6 @@ import {StorageService} from '../../service/StorageService';
 import {HttpErrorResponse} from '@angular/common/http';
 import {NotificationService} from '../../service/notification-service';
 import {EditFormFileComponent} from '../edit-form-content/edit-form-file/edit-form-file.component';
-import {MatOption} from '@angular/material/core';
-import {MatSelect, MatSelectTrigger} from '@angular/material/select';
 import {FormsComponent} from '../forms/forms.component';
 
 @Component({
@@ -47,10 +45,8 @@ import {FormsComponent} from '../forms/forms.component';
     EditFormNumberComponent,
     EditFormDateComponent,
     EditFormFileComponent,
-    MatOption,
-    MatSelect,
-    MatSelectTrigger
   ],
+  standalone: true,
   templateUrl: './edit-form.component.html'
 })
 export class EditFormComponent implements OnInit, OnDestroy {
@@ -179,7 +175,7 @@ export class EditFormComponent implements OnInit, OnDestroy {
     formData.append(`dtos[0].id`, contentFileId.toString());
 
     if (file == null) {
-      formData.append('file', new Blob([], { type: 'application/octet-stream' }));
+      formData.append('file', new Blob([], {type: 'application/octet-stream'}));
       formData.append(`dtos[0].isNullFile`, 'true');
     } else {
       formData.append(`dtos[0].content`, file);

@@ -1,29 +1,12 @@
 import {Component, Inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {HttpService} from '../../../service/HttpService';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogActions,
-  MatDialogContent,
-  MatDialogRef,
-  MatDialogTitle
-} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogContent, MatDialogRef} from '@angular/material/dialog';
 import {CommonModule} from '@angular/common';
-import {
-  MatCell, MatCellDef,
-  MatColumnDef,
-  MatHeaderCell,
-  MatHeaderCellDef,
-  MatHeaderRow, MatHeaderRowDef,
-  MatRow, MatRowDef,
-  MatTable
-} from '@angular/material/table';
+import {MatCell, MatColumnDef, MatHeaderCell, MatHeaderRow, MatRow, MatTable} from '@angular/material/table';
 import {Subject, takeUntil} from 'rxjs';
 import {User} from '../../../model/User';
 import {Company} from '../../../model/Company';
-import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle} from '@angular/material/expansion';
-import {MatDivider} from '@angular/material/divider';
-import {MatInput} from '@angular/material/input';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatCheckbox} from '@angular/material/checkbox';
 import {MatOption, MatSelect, MatSelectTrigger} from '@angular/material/select';
@@ -38,32 +21,23 @@ import {HttpErrorResponse} from '@angular/common/http';
     MatTable,
     MatCell,
     MatHeaderCell,
-    MatLabel,
     MatSelectTrigger,
     MatColumnDef,
-    MatFormField,
     MatExpansionPanel,
     MatExpansionPanelHeader,
     MatExpansionPanelTitle,
-    MatDivider,
     MatDialogContent,
-    MatInput,
     FormsModule,
     MatCheckbox,
     MatSelect,
     MatOption,
-    MatDialogActions,
     MatButton,
-    MatDialogTitle,
     MatHeaderRow,
     MatRow,
     ReactiveFormsModule,
-    FormsModule,
-    MatHeaderCellDef,
-    MatCellDef,
-    MatHeaderRowDef,
-    MatRowDef
+    FormsModule
   ],
+  standalone: true,
   templateUrl: './create-company.component.html',
   styleUrls: ['./create-company.component.css']
 })

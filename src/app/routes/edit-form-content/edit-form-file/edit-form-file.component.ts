@@ -10,6 +10,7 @@ import {HttpService} from '../../../service/HttpService';
     ReactiveFormsModule,
     NgIf
   ],
+  standalone: true,
   templateUrl: './edit-form-file.component.html'
 })
 export class EditFormFileComponent {

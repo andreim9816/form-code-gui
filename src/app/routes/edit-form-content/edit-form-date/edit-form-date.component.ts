@@ -15,6 +15,7 @@ import {StorageService} from '../../../service/StorageService';
     DatePipe,
     NgClass
   ],
+  standalone: true,
   templateUrl: './edit-form-date.component.html'
 })
 export class EditFormDateComponent implements OnInit {

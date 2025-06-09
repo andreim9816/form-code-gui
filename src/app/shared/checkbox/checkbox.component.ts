@@ -4,6 +4,7 @@ import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-checkbox',
+  standalone: true,
   imports: [
     FormsModule
   ],

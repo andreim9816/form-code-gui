@@ -1,35 +1,17 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogActions,
-  MatDialogContent,
-  MatDialogRef,
-  MatDialogTitle
-} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogContent, MatDialogRef} from '@angular/material/dialog';
 import {User} from '../../../model/User';
 import {MatButton} from '@angular/material/button';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatFormField, MatLabel, MatOption, MatSelect, MatSelectTrigger} from '@angular/material/select';
+import {MatOption, MatSelect, MatSelectTrigger} from '@angular/material/select';
 import {Company} from '../../../model/Company';
 import {HttpService} from '../../../service/HttpService';
-import {MatDivider} from '@angular/material/divider';
 import {Role, RolesPerCompany} from '../users.component';
-import {
-    MatCell,
-    MatCellDef,
-    MatColumnDef,
-    MatHeaderCell,
-    MatHeaderRow,
-    MatHeaderRowDef,
-    MatRow, MatRowDef, MatTable
-} from "@angular/material/table";
-import {MatCheckbox} from "@angular/material/checkbox";
-import {MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle} from "@angular/material/expansion";
 
 @Component({
   selector: 'app-user-edit-roles',
-    imports: [CommonModule, MatDialogActions, MatButton, FormsModule, MatSelect, MatSelectTrigger, MatOption, MatDivider, MatLabel, MatFormField, MatDialogTitle, MatDialogContent, MatCell, MatCellDef, MatCheckbox, MatColumnDef, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle, MatHeaderCell, MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef, MatTable, ReactiveFormsModule],
+  imports: [CommonModule, MatButton, FormsModule, MatSelect, MatSelectTrigger, MatOption, MatDialogContent, ReactiveFormsModule],
   standalone: true,
   templateUrl: './user-edit-roles.component.html'
 })

@@ -1,6 +1,6 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {MatLabel, MatOption, MatSelect} from '@angular/material/select';
+import {MatOption, MatSelect} from '@angular/material/select';
 import {CommonModule} from '@angular/common';
 import {TextCustomValidator} from '../../../enum/TextCustomValidator';
 import {SectionField} from '../../../model/SectionField';
@@ -17,7 +17,6 @@ import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-to
     ReactiveFormsModule,
     MatButtonToggleGroup,
     MatButtonToggle,
-    MatLabel
   ],
   templateUrl: './text-validator.component.html',
   styleUrls: ['./text-validator.component.scss']

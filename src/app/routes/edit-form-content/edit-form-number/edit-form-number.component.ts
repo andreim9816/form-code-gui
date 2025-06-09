@@ -11,6 +11,7 @@ import {FormSectionField} from '../../../model/FormSectionField';
     ReactiveFormsModule,
     NgClass
   ],
+  standalone: true,
   templateUrl: './edit-form-number.component.html'
 })
 export class EditFormNumberComponent {

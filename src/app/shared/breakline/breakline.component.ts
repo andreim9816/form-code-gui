@@ -3,6 +3,7 @@ import {SectionField} from '../../model/SectionField';
 
 @Component({
   selector: 'app-breakline',
+  standalone: true,
   imports: [],
   templateUrl: './breakline.component.html'
 })

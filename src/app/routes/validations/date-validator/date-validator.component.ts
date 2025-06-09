@@ -11,6 +11,7 @@ import {MatButtonToggle} from '@angular/material/button-toggle';
 
 @Component({
   selector: 'app-date-validator',
+  standalone:true,
   imports: [
     MatOption,
     MatSelect,
@@ -18,7 +19,6 @@ import {MatButtonToggle} from '@angular/material/button-toggle';
     ReactiveFormsModule,
     MatSlideToggle,
     FormsModule,
-    MatButtonToggle
   ],
   templateUrl: './date-validator.component.html',
   styleUrls: ['./date-validator.component.scss']

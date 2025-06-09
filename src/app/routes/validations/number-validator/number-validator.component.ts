@@ -5,6 +5,7 @@ import {CommonModule} from '@angular/common';
 
 @Component({
   selector: 'app-number-validator',
+  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule

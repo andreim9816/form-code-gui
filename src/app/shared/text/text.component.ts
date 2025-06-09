@@ -7,6 +7,7 @@ import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-text',
+  standalone: true,
   imports: [
     CommonModule,
     FormsModule,
@@ -29,8 +30,8 @@ export class TextComponent {
   onKeyDown(event: Event, section: Section, sectionField: SectionField, sectionIndex: number, sectionFieldIndex: number): void {
     setTimeout(() => {
       if (sectionField.defaultValue) {
-      sectionField.defaultValue = (event.target as any).value;
-      this.setCursorPosition(event, section, sectionField, sectionIndex, sectionFieldIndex);
+        sectionField.defaultValue = (event.target as any).value;
+        this.setCursorPosition(event, section, sectionField, sectionIndex, sectionFieldIndex);
       }
     }, 0);
   }

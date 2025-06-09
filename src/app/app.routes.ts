@@ -2,8 +2,6 @@ import {Routes} from '@angular/router';
 import {LoginComponent} from './routes/login/login.component';
 import {RegisterComponent} from './routes/register/register.component';
 import {CreateTemplateComponent} from './routes/create-template/create-template.component';
-import {TestingComponent} from './routes/testing/testing.component';
-import {DragdropComponent} from './routes/dragdrop/dragdrop.component';
 import {EditFormComponent} from './routes/edit-form/edit-form.component';
 import {UsersComponent} from './routes/users/users.component';
 import {FormsComponent} from './routes/forms/forms.component';

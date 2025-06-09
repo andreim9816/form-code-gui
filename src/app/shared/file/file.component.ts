@@ -5,6 +5,7 @@ import {MatButton} from '@angular/material/button';
 
 @Component({
   selector: 'app-file',
+  standalone: true,
   imports: [
     ReactiveFormsModule,
     MatButton
