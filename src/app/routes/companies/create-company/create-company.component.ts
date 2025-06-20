@@ -2,7 +2,15 @@ import {Component, Inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {HttpService} from '../../../service/HttpService';
 import {MAT_DIALOG_DATA, MatDialogContent, MatDialogRef} from '@angular/material/dialog';
 import {CommonModule} from '@angular/common';
-import {MatCell, MatColumnDef, MatHeaderCell, MatHeaderRow, MatRow, MatTable} from '@angular/material/table';
+import {
+  MatCell, MatCellDef,
+  MatColumnDef,
+  MatHeaderCell, MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow, MatRowDef,
+  MatTable
+} from '@angular/material/table';
 import {Subject, takeUntil} from 'rxjs';
 import {User} from '../../../model/User';
 import {Company} from '../../../model/Company';
@@ -35,7 +43,11 @@ import {HttpErrorResponse} from '@angular/common/http';
     MatHeaderRow,
     MatRow,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatHeaderRowDef,
+    MatRowDef,
+    MatHeaderCellDef,
+    MatCellDef
   ],
   standalone: true,
   templateUrl: './create-company.component.html',

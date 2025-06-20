@@ -15,7 +15,7 @@ export const httpRequestInterceptor: HttpInterceptorFn = (req, next) => {
   activeRequests++;
 
   return next(req).pipe(
-    timeout(15000), // if a request takes too long, then after 15s it should throw an error
+    timeout(25000), // if a request takes too long, then after 25s it should throw an error
     finalize(() => {
       activeRequests--;
       if (activeRequests === 0) {
