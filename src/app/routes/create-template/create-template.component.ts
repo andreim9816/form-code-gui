@@ -367,17 +367,18 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
     const currentElement = this.getCurrentSectionField();
     if (currentElement) {
       // open dialog
-      const dialogRef = this.dialog.open(DialogConfirmDeleteComponent, {
-        data: currentElement,
-        width: '350px',
-        height: '350px'
-      });
-
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          this.removeSectionFieldAtIdx(this.currentSectionIndex!, this.currentSectionFieldIndex!);
-        }
-      });
+      // const dialogRef = this.dialog.open(DialogConfirmDeleteComponent, {
+      //   data: currentElement,
+      //   width: '350px',
+      //   height: '350px'
+      // });
+      //
+      // dialogRef.afterClosed().subscribe(result => {
+      //   if (result) {
+      //     this.removeSectionFieldAtIdx(this.currentSectionIndex!, this.currentSectionFieldIndex!);
+      //   }
+      // });
+      this.removeSectionFieldAtIdx(this.currentSectionIndex!, this.currentSectionFieldIndex!);
     }
   }
 
