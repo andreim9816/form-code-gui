@@ -43,9 +43,10 @@ export class CompaniesComponent implements OnInit {
   };
 
   colDefs: ColDef[] = [
-    {headerName: 'Company', field: 'name', width: 75},
+    {headerName: 'Company', field: 'name', width: 175},
     {
       headerName: 'Admins',
+      width: 175,
       cellRenderer: CompanyAdminsComponent,
       valueGetter: (params) => {
         const adminUsers = params.data.adminUsers ?? [];
@@ -67,7 +68,7 @@ export class CompaniesComponent implements OnInit {
         this.openAddEditCompanyModal(params.data);
       },
       filter: false,
-      width: 53
+      width: 57
     }];
 
   constructor(

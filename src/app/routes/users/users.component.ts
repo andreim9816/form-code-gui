@@ -59,7 +59,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     {
       headerName: 'User',
       valueGetter: (params: any) => `${params.data.firstname} ${params.data.lastname}`,
-      flex: 3
+      flex: 2
     },
 
     {headerName: 'Email', field: 'email', flex: 3},
@@ -86,7 +86,7 @@ export class UsersComponent implements OnInit, OnDestroy {
         onRefresh: () => this.refreshData()
       }),
       filter: false,
-      width: 140
+      width: 120
     }
   ];
 
