@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {URL} from '../util/URL';
-import {Section} from '../model/Section';
 import {Template} from '../model/Template';
 import {Observable} from 'rxjs';
 import {Form} from '../model/Form';
@@ -48,8 +47,12 @@ export class HttpService {
   }
 
   ///////////////////// Template /////////////////////
-  saveTemplate(body: any) {
-    return this.http.post<Section[]>(`${URL.COMPANIES_URL}/templates`, body);
+  createTemplate(body: any) {
+    return this.http.post<Template>(`${URL.COMPANIES_URL}/templates`, body);
+  }
+
+  updateTemplate(templateId: number, body: any) {
+    return this.http.put<Template>(`${URL.COMPANIES_URL}/templates/${templateId}`, body);
   }
 
   getTemplates(): Observable<Template[]> {

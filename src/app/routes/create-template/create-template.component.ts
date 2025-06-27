@@ -13,22 +13,20 @@ import {DateComponent} from '../../shared/date/date.component';
 import {CheckboxComponent} from '../../shared/checkbox/checkbox.component';
 import {HttpService} from '../../service/HttpService';
 import {MatDialog} from '@angular/material/dialog';
-import {DialogConfirmDeleteComponent} from '../dialog-confirm-delete/dialog-confirm-delete.component';
-import {PersonalDataType, TextValidatorComponent} from '../validations/text-validator/text-validator.component';
+import {TextValidatorComponent} from '../validations/text-validator/text-validator.component';
 import {NumberValidatorComponent} from '../validations/number-validator/number-validator.component';
 import {DateValidatorComponent} from '../validations/date-validator/date-validator.component';
-import {DateValidator} from '../../model/DateValidator';
-import {DateCustomValidator} from '../../enum/DateCustomValidator';
 import {MatOption} from '@angular/material/core';
 import {MatSelect, MatSelectTrigger} from '@angular/material/select';
 import {CompanyRole} from '../../model/CompanyRole';
 import {Subject, takeUntil} from 'rxjs';
 import {Company} from '../../model/Company';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
 import {HttpErrorResponse} from '@angular/common/http';
 import {NotificationService} from '../../service/notification-service';
 import {FileComponent} from '../../shared/file/file.component';
+import {Template} from '../../model/Template';
 
 @Component({
   selector: 'app-create-template',
@@ -67,12 +65,14 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
   company: Company;
   rolesForCompanies: CompanyRole[] = [];
 
+  template: Template;
+  templateId: number;
+
   cursorPositionInField: number | undefined;
 
   currentSectionIndex: number | undefined;
   currentSectionFieldIndex: number | undefined;
 
-  mockData = false;
   viewChecked = false;
 
   destroy$ = new Subject<void>();
@@ -81,164 +81,14 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
               private readonly dialog: MatDialog,
               private readonly httpService: HttpService,
               private readonly notificationService: NotificationService,
-              private readonly router: Router) {
+              private readonly router: Router,
+              protected readonly route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
     document.addEventListener('click', (event) => this.onClickOutside(event));
-
+    this.getTemplate();
     this.getCompanyRoles();
-
-    this.form = this.fb.group({
-      templateNameCtrl: [undefined, Validators.required],
-      templateDescriptionCtrl: [undefined, Validators.required]
-    });
-
-    if (this.mockData) {
-      this.sections = [
-        {
-          title: 'Sectiunea 1',
-          isValidation: false,
-          companyRoles: [] as CompanyRole[],
-          sectionFields: [
-            {
-              id: HtmlUtils.generateUUID(),
-              defaultValue: 'Subsemnatul',
-              contentType: ContentType.STRING,
-              textValidator: {}
-            },
-            {
-              id: HtmlUtils.generateUUID(),
-              defaultValue: null,
-              contentType: ContentType.STRING,
-              personalDataType: PersonalDataType.NAME,
-              textValidator: {
-                isRequired: true,
-                minSize: 5,
-                maxSize: 50,
-                isEmail: false,
-                isNoSpace: false,
-                isNoNumber: true,
-                regex: null,
-              }
-            },
-            {
-              id: HtmlUtils.generateUUID(),
-              defaultValue: 'domiciliat in',
-              contentType: ContentType.STRING,
-              textValidator: {}
-            },
-            {
-              id: HtmlUtils.generateUUID(),
-              defaultValue: null,
-              contentType: ContentType.STRING,
-              personalDataType: PersonalDataType.ADDRESS,
-              textValidator: {
-                isRequired: true,
-                minSize: 5,
-                maxSize: 100,
-                isEmail: false,
-                isNoSpace: false,
-                isNoNumber: false,
-                regex: null,
-              }
-            },
-            {
-              id: HtmlUtils.generateUUID(),
-              defaultValue: 'nascut in data de',
-              contentType: ContentType.STRING,
-              textValidator: {}
-            },
-            {
-              id: HtmlUtils.generateUUID(),
-              defaultValue: null,
-              contentType: ContentType.DATE,
-              personalDataType: PersonalDataType.DATE,
-              dateValidator: {
-                isRequired: true,
-                startDate: new Date(1900, 0, 1),
-                endDate: new Date(2000, 0, 1),
-                dateTime: DateCustomValidator.PAST_DATE
-              } as DateValidator
-            },
-            {
-              id: HtmlUtils.generateUUID(),
-              defaultValue: 'si avand CNP',
-              contentType: ContentType.STRING,
-              textValidator: {}
-            },
-            {
-              id: HtmlUtils.generateUUID(),
-              defaultValue: null,
-              contentType: ContentType.STRING,
-              personalDataType: PersonalDataType.CNP,
-              textValidator: {
-                isRequired: true,
-                minSize: 13,
-                maxSize: 13,
-                isEmail: false,
-                isNoSpace: true,
-                isNoNumber: false,
-                regex: '[1-8]\\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\\d|3[01])\\d{6}',
-              }
-            },
-            {
-              id: HtmlUtils.generateUUID(),
-              defaultValue: 'declar urmatoarele:',
-              contentType: ContentType.STRING,
-              textValidator: {
-                isRequired: true,
-                minSize: 1,
-                maxSize: 300,
-                isEmail: false,
-                isNoSpace: false,
-                isNoNumber: false,
-                regex: null,
-                personalDataType: null
-              }
-            },
-            {
-              id: HtmlUtils.generateUUID(),
-              defaultValue: null,
-              contentType: ContentType.BREAK_LINE,
-              textValidator: {}
-            },
-            {
-              id: HtmlUtils.generateUUID(),
-              defaultValue: null,
-              contentType: ContentType.STRING,
-              textValidator: {}
-            },
-            {
-              id: HtmlUtils.generateUUID(),
-              defaultValue: null,
-              contentType: ContentType.BREAK_LINE,
-              textValidator: {}
-            },
-            {
-              id: HtmlUtils.generateUUID(),
-              contentType: ContentType.STRING,
-              defaultValue: 'In momentul de fata am urmatoarele coduri fiscale:',
-              textValidator: {}
-            },
-            {
-              id: HtmlUtils.generateUUID(),
-              defaultValue: null,
-              contentType: ContentType.NUMBER,
-              numberValidator: {
-                isRequired: true,
-                minSize: 1,
-                maxValue: 10
-              }
-            }
-          ]
-        }
-      ] as Section[];
-    } else {
-      this.sections = [
-        this.createNewSection('Input section', false),
-        this.createNewSection('Validation section', true),];
-    }
   }
 
   getCompanyRoles() {
@@ -247,6 +97,39 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
       .subscribe(rolesForCompanies => {
         this.rolesForCompanies = rolesForCompanies;
       });
+  }
+
+  getTemplate() {
+    if (this.isEditTemplateView()) {
+      let templateIdd = this.route.snapshot.paramMap.get('id');
+      this.templateId = Number(templateIdd);
+
+      this.httpService.getTemplate(this.templateId)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(template => {
+          this.template = template
+
+          this.form = this.fb.group({
+            templateNameCtrl: [template.title, Validators.required],
+            templateDescriptionCtrl: [template.description, Validators.required]
+          });
+          this.sections = this.template.sections;
+        });
+    } else {
+      this.form = this.fb.group({
+        templateNameCtrl: [undefined, Validators.required],
+        templateDescriptionCtrl: [undefined, Validators.required]
+      });
+      this.sections = [
+        this.createNewSection('Input section', false),
+        this.createNewSection('Validation section', true)
+      ];
+    }
+  }
+
+  isEditTemplateView(): boolean {
+    let templateId = this.route.snapshot.paramMap.get('id');
+    return templateId != null;
   }
 
   ngAfterViewChecked() {
@@ -263,7 +146,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
     return {
       title: title,
       isValidation: isValidation,
-      sectionFields: [this.newTextField()]
+      sectionFields: [this.newTextField(null)]
     } as Section;
   }
 
@@ -291,8 +174,16 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
     const contentInFieldBefore = this.getCurrentSectionField()?.defaultValue?.slice(0, this.cursorPositionInField) ?? '';
     const contentInFieldAfter = this.getCurrentSectionField()?.defaultValue?.slice(this.cursorPositionInField) ?? '';
 
-    const fieldBefore = this.newTextField(contentInFieldBefore);
-    const fieldAfter = this.newTextField(contentInFieldAfter);
+    const fieldBefore = this.newTextField({
+        defaultValue: contentInFieldBefore,
+        personalDataType: this.getCurrentSectionField()?.personalDataType
+      } as SectionField
+    );
+    const fieldAfter = this.newTextField({
+        defaultValue: contentInFieldAfter,
+        personalDataType: this.getCurrentSectionField()?.personalDataType
+      } as SectionField
+    );
 
     this.removeSectionFieldAtIdx(this.currentSectionIndex!, this.currentSectionFieldIndex!);
 
@@ -329,7 +220,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
 
   addText(): void {
     this.setCurrentFieldType(ContentType.STRING);
-    const newField = this.newTextField();
+    const newField = this.newTextField(null);
     this.addNewFieldInCurrentSection(newField);
   }
 
@@ -366,18 +257,6 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
   removeElement(): void {
     const currentElement = this.getCurrentSectionField();
     if (currentElement) {
-      // open dialog
-      // const dialogRef = this.dialog.open(DialogConfirmDeleteComponent, {
-      //   data: currentElement,
-      //   width: '350px',
-      //   height: '350px'
-      // });
-      //
-      // dialogRef.afterClosed().subscribe(result => {
-      //   if (result) {
-      //     this.removeSectionFieldAtIdx(this.currentSectionIndex!, this.currentSectionFieldIndex!);
-      //   }
-      // });
       this.removeSectionFieldAtIdx(this.currentSectionIndex!, this.currentSectionFieldIndex!);
     }
   }
@@ -388,21 +267,37 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
     if (this.form.invalid) {
       return;
     }
-    const body = {
-      title: this.form.controls['templateNameCtrl'].value,
-      description: this.form.controls['templateDescriptionCtrl'].value,
-      sections: this.sections
+
+    if (this.isEditTemplateView()) {
+      this.httpService.updateTemplate(this.templateId, this.template)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: result => {
+            this.router.navigateByUrl('/templates');
+          },
+          error: (err: HttpErrorResponse) => {
+            const errorMessage = err.error.message;
+            this.notificationService.displayNotificationError(errorMessage);
+          }
+        });
+    } else {
+      const body = {
+        title: this.form.controls['templateNameCtrl'].value,
+        description: this.form.controls['templateDescriptionCtrl'].value,
+        sections: this.sections
+      }
+      this.httpService.createTemplate(body)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: result => {
+            this.router.navigateByUrl('/forms');
+          },
+          error: (err: HttpErrorResponse) => {
+            const errorMessage = err.error.message;
+            this.notificationService.displayNotificationError(errorMessage);
+          }
+        });
     }
-    this.httpService.saveTemplate(body)
-      .subscribe({
-        next: result => {
-          this.router.navigateByUrl('/forms');
-        },
-        error: (err: HttpErrorResponse) => {
-          const errorMessage = err.error.message;
-          this.notificationService.displayNotificationError(errorMessage);
-        }
-      })
   }
 
   onCardBodyClick(event: MouseEvent, sectionIndex: number): void {
@@ -421,22 +316,22 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
     this.currentSectionFieldIndex = undefined;
   }
 
-  newTextField(content: any = null): SectionField {
+  newTextField(sectionField: SectionField | null): SectionField {
     return {
       id: HtmlUtils.generateUUID(),
       addedDate: new Date(),
-      defaultValue: content,
+      defaultValue: sectionField?.defaultValue,
       contentType: ContentType.STRING,
+      personalDataType: sectionField?.personalDataType,
       textValidator: {
-        id: undefined,
-        isRequired: true,
-        minSize: undefined,
-        maxSize: undefined,
-        isEmail: undefined,
-        isNoSpace: undefined,
-        isNoNumber: undefined,
-        regex: undefined,
-
+        id: sectionField?.textValidator?.id,
+        isRequired: sectionField?.textValidator?.isRequired ?? true,
+        minSize: sectionField?.textValidator?.minSize,
+        maxSize: sectionField?.textValidator?.maxSize,
+        isEmail: sectionField?.textValidator?.isEmail,
+        isNoSpace: sectionField?.textValidator?.isNoSpace,
+        isNoNumber: sectionField?.textValidator?.isNoNumber,
+        regex: sectionField?.textValidator?.regex,
       }
     } as SectionField;
   }

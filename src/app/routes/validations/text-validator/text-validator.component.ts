@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatOption, MatSelect} from '@angular/material/select';
 import {CommonModule} from '@angular/common';
@@ -21,7 +21,7 @@ import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-to
   templateUrl: './text-validator.component.html',
   styleUrls: ['./text-validator.component.scss']
 })
-export class TextValidatorComponent implements OnInit, OnChanges {
+export class TextValidatorComponent implements OnChanges {
   @Input()
   sectionField: SectionField;
   formGroup: FormGroup;
@@ -34,10 +34,6 @@ export class TextValidatorComponent implements OnInit, OnChanges {
     if (this.sectionField) {
       this.createFormAndListenToChanges();
     }
-  }
-
-  ngOnInit(): void {
-    this.createFormAndListenToChanges();
   }
 
   createFormAndListenToChanges(): void {

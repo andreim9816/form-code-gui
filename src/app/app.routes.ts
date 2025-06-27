@@ -15,6 +15,7 @@ export const routes: Routes = [
   {path: 'register', component: RegisterComponent, canActivate: [NotLoggedInGuard]},
   {path: 'create-template', component: CreateTemplateComponent, canActivate: [AuthGuard]},
   {path: 'templates', component: TemplatesComponent, canActivate: [AuthGuard]},
+  {path: 'templates/:id', component: CreateTemplateComponent, canActivate: [AuthGuard]},
   {path: 'companies', component: CompaniesComponent, canActivate: [AuthGuard]},
   {path: 'forms', component: FormsComponent, canActivate: [AuthGuard]},
   {path: 'forms/:id', component: EditFormComponent, canActivate: [AuthGuard]},

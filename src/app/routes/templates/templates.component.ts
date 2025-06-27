@@ -5,6 +5,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {Template} from '../../model/Template';
 import localeRo from '@angular/common/locales/ro';
 import {HttpService} from '../../service/HttpService';
+import {Router} from '@angular/router';
 
 registerLocaleData(localeRo);
 
@@ -26,7 +27,8 @@ export class TemplatesComponent implements OnInit {
 
   templates: Template[];
 
-  constructor(private readonly httpService: HttpService) {
+  constructor(private readonly httpService: HttpService,
+              private readonly router: Router) {
   }
 
   ngOnInit(): void {
@@ -46,6 +48,6 @@ export class TemplatesComponent implements OnInit {
   }
 
   openTemplate(template: Template): void {
-
+    this.router.navigate(['templates', template.id]);
   }
 }
