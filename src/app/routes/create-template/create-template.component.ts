@@ -538,6 +538,8 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
     this.deleteCurrentSection();
   }
 
+  compareRoles = (r1: any, r2: any) => r1 && r2 && r1.id === r2.id;
+
   ////////////////////////////////////////// contextual menu //////////////////////////////////////////
 
   onDismiss(): void {

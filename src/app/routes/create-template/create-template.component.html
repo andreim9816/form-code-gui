@@ -46,6 +46,12 @@
             <span><b>Actions on Elements</b></span>
           </div>
 
+<!--          <button type="button" mat-button class="less-rounded-button me-2 mb-2 py-4" style=" padding-right: 16px"-->
+<!--                  (click)="displayInfo()">-->
+<!--            <img src="assets/icons/btn-icon-new-line.svg" alt="icon" class="custom-icon" style="margin-right: 8px"/>-->
+<!--            Display info-->
+<!--          </button>-->
+
           <button type="button" mat-button class="less-rounded-button me-2 mb-2 py-4" style=" padding-right: 16px"
                   (click)="addNewBreakLine()">
             <img src="assets/icons/btn-icon-new-line.svg" alt="icon" class="custom-icon" style="margin-right: 8px"/>
@@ -118,6 +124,7 @@
                         <mat-select
                           [(ngModel)]="section.companyRoles"
                           [ngModelOptions]="{standalone: true}"
+                          [compareWith]="compareRoles"
                           class="form-control w-auto" multiple
                           style="min-width: 200px; border: 2px solid #ECECEC"
                         >
