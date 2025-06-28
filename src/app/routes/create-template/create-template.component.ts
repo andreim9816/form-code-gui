@@ -269,7 +269,12 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
     }
 
     if (this.isEditTemplateView()) {
-      this.httpService.updateTemplate(this.templateId, this.template)
+      this.httpService.updateTemplate(this.templateId, {
+        id: this.template.id,
+        title: this.form.controls['templateNameCtrl'].value,
+        description: this.form.controls['templateDescriptionCtrl'].value,
+        sections: this.template.sections
+      })
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: result => {
@@ -289,7 +294,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
       this.httpService.createTemplate(body)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
-          next: result => {
+          next: () => {
             this.router.navigateByUrl('/forms');
           },
           error: (err: HttpErrorResponse) => {
