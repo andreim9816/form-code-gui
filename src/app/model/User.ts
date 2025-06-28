@@ -1,4 +1,3 @@
-import {UserType} from './UserType';
 import {Company} from './Company';
 import {CompanyRole} from './CompanyRole';
 
@@ -9,7 +8,6 @@ export interface User {
   lastname: string;
   email: string;
   phoneNumber: string;
-  userTypes: UserType[];
   companies: Company[];
   companyRoles: CompanyRole[];
 }

@@ -66,7 +66,7 @@ export class NavbarComponent {
   }
 
   openMyCompanyModal(): void {
-    const user = this.storageService.getUser();
+    const user = this.storageService.getUser()!;
     this.httpService.getCompanyById(user?.currentCompanyId!).subscribe(company => {
        this.dialog.open(CreateCompanyComponent, {
         data: {
@@ -74,7 +74,11 @@ export class NavbarComponent {
         },
         width: '800px',
         maxWidth: '90vw',
-      });
+      }).afterClosed().subscribe(() => {
+        this.httpService.getUserById(user.id).subscribe(user => {
+          this.storageService.saveUser(user);
+        })
+       });
     })
   }
 }

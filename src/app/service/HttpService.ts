@@ -8,6 +8,7 @@ import {FormSectionUpdate} from '../dto/request/FormSectionUpdate';
 import {CompanyRole} from '../model/CompanyRole';
 import {User} from '../model/User';
 import {Company} from '../model/Company';
+import {UserDto} from '../dto/UserDto';
 
 @Injectable({
   providedIn: 'root'
@@ -107,5 +108,9 @@ export class HttpService {
   ///////////////////// Users /////////////////////
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${URL.USER_URL}`);
+  }
+
+  getUserById(userId: number): Observable<UserDto> {
+    return this.http.get<UserDto>(`${URL.USER_URL}/${userId}`);
   }
 }

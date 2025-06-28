@@ -36,11 +36,13 @@ export class StorageService {
       return false;
     }
     let result = false;
-    user.companyRoles.forEach((role: CompanyRole) => {
-      if (role.createTemplate) {
-        result = true;
-      }
-    });
+    user!.companyRoles
+      .filter(role => role.companyId === user.currentCompanyId)
+      .forEach((role: CompanyRole) => {
+        if (role.createTemplate) {
+          result = true;
+        }
+      });
     return result;
   }
 }
