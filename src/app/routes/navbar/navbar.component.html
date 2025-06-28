@@ -18,6 +18,10 @@
          style="color:white; border-top-left-radius: 1px">Users</a>
       <a *ngIf="isLoggedIn()" mat-button routerLink="/forms" routerLinkActive="my-active-route"
          style="color:white; border-top-left-radius: 1px">Forms</a>
+      <a *ngIf="isCompanyAdmin()" mat-button style="color:white; border-top-left-radius: 1px"
+         (click)="openMyCompanyModal()">
+        My company
+      </a>
       <a *ngIf="isLoggedIn()" style="color: white" (click)="logout()" mat-button>Logout</a>
     </div>
 

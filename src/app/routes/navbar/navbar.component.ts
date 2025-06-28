@@ -5,6 +5,9 @@ import {NgIf} from "@angular/common";
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {StorageService} from '../../service/StorageService';
 import {AuthService} from '../../service/AuthService';
+import {CreateCompanyComponent} from '../companies/create-company/create-company.component';
+import {MatDialog} from '@angular/material/dialog';
+import {HttpService} from '../../service/HttpService';
 
 @Component({
   selector: 'app-navbar',
@@ -24,6 +27,8 @@ export class NavbarComponent {
 
   constructor(private storageService: StorageService,
               private authService: AuthService,
+              private readonly httpService: HttpService,
+              private readonly dialog: MatDialog,
               private router: Router) {
   }
 
@@ -50,7 +55,26 @@ export class NavbarComponent {
     return this.storageService.getUser()?.isAdmin === true;
   }
 
-  isUser(): boolean {
-    return !this.isAdmin();
+  isCompanyAdmin(): boolean {
+    const user = this.storageService.getUser();
+    for(let company of user?.companies ?? []) {
+      if (company.id === user?.currentCompanyId) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  openMyCompanyModal(): void {
+    const user = this.storageService.getUser();
+    this.httpService.getCompanyById(user?.currentCompanyId!).subscribe(company => {
+       this.dialog.open(CreateCompanyComponent, {
+        data: {
+          company: company
+        },
+        width: '800px',
+        maxWidth: '90vw',
+      });
+    })
   }
 }

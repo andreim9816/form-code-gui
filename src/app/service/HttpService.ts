@@ -32,6 +32,10 @@ export class HttpService {
 
   ///////////////////// Company /////////////////////
 
+  getCompanyById(id: number): Observable<Company> {
+    return this.http.get<Company>(`${URL.COMPANIES_URL}/${id}`);
+  }
+
   getCompanies(createTemplate: boolean = false): Observable<Company[]> {
     const params = new HttpParams()
       .set('createTemplate', createTemplate);

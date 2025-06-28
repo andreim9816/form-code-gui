@@ -10,6 +10,7 @@ export interface UserDto {
   lastname: string;
   email: string;
   phoneNumber: string;
+  currentCompanyId: number;
   isAdmin: boolean;
   address: string;
   companies: Company[];
