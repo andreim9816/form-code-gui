@@ -1,35 +1,45 @@
-<ng-container *ngIf="fieldControl.disabled">
-  <span class="me-1">{{ formSectionField.contentFile.name }}</span>
+<div class="form-control py-0">
 
-  <button
-    *ngIf="formSectionField.contentFile && formSectionField.contentFile.name"
-    type="button"
-    (click)="downloadFileFromServer()">
-    Download file
-  </button>
-</ng-container>
-
-<ng-container *ngIf="!fieldControl.disabled">
-  <span class="me-1">{{ getDisplayFileName() }}</span>
-
-  <ng-container *ngIf="(formSectionField.contentFile && formSectionField.contentFile.name) || this.selectedFile">
+  <ng-container *ngIf="fieldControl.disabled">
     <button
-      class="me-1"
+      *ngIf="formSectionField.contentFile && formSectionField.contentFile.name"
+      mat-button
       type="button"
-      (click)="downloadFile()">
-      Download
+      class="card-border-radius opacity-75"
+      (click)="downloadFileFromServer()"
+      style="background-color: var(--accent-color); color: white; height: 36px !important;"
+    >
+      Download file
     </button>
+    <span class="me-1">{{ formSectionField.contentFile.name }}</span>
   </ng-container>
 
-  <button
-    type="button"
-    (click)="fileInput.click()"
-  >Choose File
-  </button>
+  <ng-container *ngIf="!fieldControl.disabled">
+    <ng-container *ngIf="(formSectionField.contentFile && formSectionField.contentFile.name) || this.selectedFile">
+      <button
+        mat-button
+        type="button"
+        class="card-border-radius opacity-75 me-1"
+        (click)="downloadFile()"
+        style="background-color: var(--accent-color); color: white; height: 36px !important;">
+        Download
+      </button>
+    </ng-container>
 
-  <input
-    type="file"
-    #fileInput
-    hidden
-    (change)="onFileSelected($event)">
-</ng-container>
+    <button
+      mat-button
+      type="button"
+      class="card-border-radius opacity-75"
+      (click)="fileInput.click()"
+      style="background-color: var(--accent-color); color: white; height: 36px !important;">
+      Upload file
+    </button>
+
+    <input
+      type="file"
+      #fileInput
+      hidden
+      (change)="onFileSelected($event)">
+    <span class="me-1">{{ getDisplayFileName() }}</span>
+  </ng-container>
+</div>

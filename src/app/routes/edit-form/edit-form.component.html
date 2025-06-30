@@ -1,20 +1,19 @@
-<div class="container-fluid pt-3" style="background-color: var(--my-primary-color); min-height: 630px">
-  <div class="row">
-    <div class="m-auto" style="width: 70%">
-      <div class="card px-3 mb-3"
-           style="border-radius: 12px !important; border: 2px solid #ECECEC">
-        <div class="mb-3">
-          <h3 style="margin-top: 12px"><b>{{ form.template.title }} <!--Declaratia nr 320--></b></h3>
-          <label style="color: var(--label-color);">{{ form.template.description }}
-            <!--            Declaratia nr 320 cu privire la rezidenta fiscala a utilizatorilor. Se completeaza o data pe an, in functie de pragurile de venit-->
-          </label>
+<ng-container *ngIf="this.form">
+  <div class="container-fluid pt-3" style="background-color: var(--my-primary-color); min-height: 630px">
+    <div class="row">
+      <div class="m-auto" style="width: 70%">
+        <div class="card px-3 mb-3"
+             style="border-radius: 12px !important; border: 2px solid #ECECEC">
+          <div class="mb-3">
+            <h3 style="margin-top: 12px"><b>{{ form.template.title }}</b></h3>
+            <label style="color: var(--label-color);">{{ form.template.description }}
+            </label>
+          </div>
         </div>
-      </div>
-      <hr class="mx-3" style="color: #abaabb;height:2px;">
-      <form [formGroup]="formGroup" (ngSubmit)="submit()">
-        <div class="row">
-          <div class="">
-            <ng-container *ngIf="this.form">
+        <hr class="mx-3" style="color: #abaabb;height:2px;">
+        <form [formGroup]="formGroup" (ngSubmit)="submit()">
+          <div class="row">
+            <div class="">
               <ul class="m-0 p-0">
                 <div *ngFor="let sectionControl of sectionControls().controls; index as sectionIndex">
                   <div class="card card-border-radius mb-2 px-3">
@@ -85,41 +84,41 @@
                   </div>
                 </div>
               </ul>
-            </ng-container>
+            </div>
           </div>
-        </div>
-        <ng-container *ngIf="this.form.finishedDate == null">
-          <ng-container
-            *ngIf="FormsComponent.isValidationState(form) && this.storageService.getUser()?.id !== this.form.creatorUser.id">
-            <button
-              (click)="rejectForm()"
-              type="button" mat-button class="ms-2 card-border-radius"
-              style="color: white; background-color: var(--accent-color); padding-left: 40px; padding-right: 40px">
-              Reject
-            </button>
+          <ng-container *ngIf="this.form.finishedDate == null">
+            <ng-container
+              *ngIf="FormsComponent.isValidationState(form) && this.storageService.getUser()?.id !== this.form.creatorUser.id">
+              <button
+                (click)="rejectForm()"
+                type="button" mat-button class="ms-2 card-border-radius"
+                style="color: white; background-color: var(--accent-color); padding-left: 40px; padding-right: 40px">
+                Reject
+              </button>
 
-            <button type="submit" mat-button class="ms-2 card-border-radius"
-                    style="color: white; background-color: var(--accent-color); padding-left: 40px; padding-right: 40px">
-              Validate
-            </button>
+              <button type="submit" mat-button class="ms-2 card-border-radius"
+                      style="color: white; background-color: var(--accent-color); padding-left: 40px; padding-right: 40px">
+                Validate
+              </button>
+            </ng-container>
+
+            <ng-container
+              *ngIf="FormsComponent.isUsersTurnState(form) && this.storageService.getUser()?.id == this.form.creatorUser.id">
+              <button
+                (click)="navigateToForms()"
+                type="button" mat-button class="bg-white card-border-radius"
+                style="color: var(--accent-color); padding-left: 40px; padding-right: 40px">
+                <b>Dismiss</b>
+              </button>
+
+              <button type="submit" mat-button class="ms-2 card-border-radius"
+                      style="color: white; background-color: var(--accent-color); padding-left: 40px; padding-right: 40px">
+                Save form
+              </button>
+            </ng-container>
           </ng-container>
-
-          <ng-container
-            *ngIf="FormsComponent.isUsersTurnState(form) && this.storageService.getUser()?.id == this.form.creatorUser.id">
-            <button
-              (click)="navigateToForms()"
-              type="button" mat-button class="bg-white card-border-radius"
-              style="color: var(--accent-color); padding-left: 40px; padding-right: 40px">
-              <b>Dismiss</b>
-            </button>
-
-            <button type="submit" mat-button class="ms-2 card-border-radius"
-                    style="color: white; background-color: var(--accent-color); padding-left: 40px; padding-right: 40px">
-              Save form
-            </button>
-          </ng-container>
-        </ng-container>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
-</div>
+</ng-container>

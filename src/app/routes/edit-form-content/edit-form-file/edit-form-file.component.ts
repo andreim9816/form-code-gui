@@ -3,12 +3,14 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {NgIf} from '@angular/common';
 import {FormSectionField} from '../../../model/FormSectionField';
 import {HttpService} from '../../../service/HttpService';
+import {MatButton} from '@angular/material/button';
 
 @Component({
   selector: 'app-edit-form-file',
   imports: [
     ReactiveFormsModule,
-    NgIf
+    NgIf,
+    MatButton
   ],
   standalone: true,
   templateUrl: './edit-form-file.component.html'
