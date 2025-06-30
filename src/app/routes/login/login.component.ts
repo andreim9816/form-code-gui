@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   errorMessage: string;
 
+  isSubmitted = false;
   selectedFile: File;
 
   constructor(private readonly fb: FormBuilder,
@@ -45,6 +46,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.isSubmitted = true;
     if (this.loginForm.valid) {
       const body = {
         username: this.loginForm.controls['usernameCtrl'].value,

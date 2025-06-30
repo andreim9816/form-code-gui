@@ -47,6 +47,10 @@
             </label>
             <input type="text" class="form-control my-readonly" id="username"
                    formControlName="usernameCtrl">
+            <div *ngIf="isSubmitted && loginForm.invalid"
+                 class="text-danger d-flex flex-column">
+              <span *ngIf="loginForm.controls['usernameCtrl'].errors?.['required']">This field is required.</span>
+            </div>
           </div>
 
           <div class="mb-2">
@@ -55,6 +59,10 @@
             </label>
             <input type="password" class="form-control my-readonly" id="password"
                    formControlName="passwordCtrl">
+            <div *ngIf="isSubmitted && loginForm.invalid"
+                 class="text-danger d-flex flex-column">
+              <span *ngIf="loginForm.controls['passwordCtrl'].errors?.['required']">This field is required.</span>
+            </div>
             <span
               class="invalid-feedback d-block"
               *ngIf="errorMessage">

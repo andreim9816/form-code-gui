@@ -62,6 +62,7 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
   table: MatTable<RoleRow>;
 
   formGroup: FormGroup;
+  isSubmitted = false;
 
   displayedColumns: string[] = ['name', 'createTemplate', 'validateForm', 'delete'];
   roles: RoleRow[] = [];
@@ -128,6 +129,7 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
+    this.isSubmitted = true;
     const body = {
       name: this.formGroup.controls['nameCtrl'].value,
       companyRoles: this.roles,

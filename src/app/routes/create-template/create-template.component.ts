@@ -61,6 +61,7 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
   public readonly BREAK_LINE = 'BREAKLINE';
   currentFieldType: ContentType;
   form: FormGroup;
+  isSubmitted = false;
   sections: Section[] = [];
   company: Company;
   rolesForCompanies: CompanyRole[] = [];
@@ -262,7 +263,8 @@ export class CreateTemplateComponent implements OnInit, AfterViewChecked, OnDest
   }
 
   submit(): void {
-    this.displayInfo();
+    this.isSubmitted = true;
+    // this.displayInfo();
 
     if (this.form.invalid) {
       return;

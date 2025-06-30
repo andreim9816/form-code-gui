@@ -14,7 +14,7 @@
           <b>Name</b>
         </label>
         <input type="text" class="form-control" id="exampleFormControlInput1" formControlName="nameCtrl">
-        <div *ngIf="formGroup.controls['nameCtrl'].invalid && formGroup.controls['nameCtrl'].dirty"
+        <div *ngIf="isSubmitted && formGroup.invalid"
              class="text-danger d-flex flex-column">
           <span *ngIf="formGroup.controls['nameCtrl'].errors?.['required']">This field is required.</span>
         </div>
