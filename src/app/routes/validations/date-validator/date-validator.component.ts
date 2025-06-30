@@ -50,10 +50,10 @@ export class DateValidatorComponent implements OnInit, OnChanges {
 
   createFormGroup() {
     this.formGroup = this.fb.group({
-      isRequiredCtrl: [{value: this.sectionField.dateValidator!.isRequired ?? true, /*disabled: this.isBirthdayField*/}],
-      startDateCtrl: [{value: this.sectionField.dateValidator!.startDate, /*disabled: this.isBirthdayField*/}],
-      endDateCtrl: [{value: this.sectionField.dateValidator!.endDate, /*disabled: this.isBirthdayField*/}],
-      dateTimeCtrl: [{value: this.sectionField.dateValidator!.dateTime, /*disabled: this.isBirthdayField*/}]
+      isRequiredCtrl: this.sectionField.dateValidator!.isRequired ?? true,
+      startDateCtrl: this.sectionField.dateValidator!.startDate ,
+      endDateCtrl: this.sectionField.dateValidator!.endDate,
+      dateTimeCtrl: this.sectionField.dateValidator!.dateTime
     }, {
       validators: this.maxSizeValueGoeThanMinSize
     });

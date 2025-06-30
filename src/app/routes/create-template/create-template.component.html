@@ -264,7 +264,7 @@
       </div>
 
       <ul #contextMenu class="dropdown-menu show position-absolute" [ngStyle]="contextMenuStyles">
-        <li><a class="dropdown-item" (click)="addNewSectionAfterCurrentSection(undefined, false)">Add section</a></li>
+        <li><a class="dropdown-item" (click)="addNewSectionAfterCurrentSection('Input section', false)">Add section</a></li>
         <li *ngIf="getCurrentSection()?.isValidation === false">
           <a class="dropdown-item"
              (click)="addNewSectionAfterCurrentSection('Validation section', true)">Add validation section
