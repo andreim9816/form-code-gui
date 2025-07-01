@@ -40,6 +40,10 @@ export class NavbarComponent {
     return this.storageService.canCreateTemplate();
   }
 
+  canValidateTemplate(): boolean {
+    return this.storageService.canValidateTemplate();
+  }
+
   computeName(): string {
     return this.storageService.getUser()!.username;
   }

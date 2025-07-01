@@ -45,4 +45,20 @@ export class StorageService {
       });
     return result;
   }
+
+  canValidateTemplate() {
+    const user = this.getUser();
+    if (!user) {
+      return false;
+    }
+    let result = false;
+    user!.companyRoles
+      .filter(role => role.companyId === user.currentCompanyId)
+      .forEach((role: CompanyRole) => {
+        if (role.validateForm) {
+          result = true;
+        }
+      });
+    return result;
+  }
 }
