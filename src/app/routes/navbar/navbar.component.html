@@ -10,7 +10,7 @@
               routerLinkActive="my-active-route"
               style="color: white; border-top-left-radius: 1px">Create template
       </button>
-      <a mat-button routerLink="/templates" routerLinkActive="my-active-route"
+      <a *ngIf="isCompanyAdmin()" mat-button routerLink="/templates" routerLinkActive="my-active-route"
          style="color:white; border-top-left-radius: 1px">Templates</a>
       <a *ngIf="isAdmin()" mat-button routerLink="/companies" routerLinkActive="my-active-route"
          style="color:white; border-top-left-radius: 1px">Companies</a>
