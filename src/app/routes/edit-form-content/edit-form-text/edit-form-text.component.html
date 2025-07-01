@@ -1,4 +1,4 @@
-<p *ngIf="formSectionField.sectionField.defaultValue !== null"
+<p *ngIf="formSectionField.sectionField.defaultValue != null && formSectionField.sectionField.defaultValue != ''"
    class="pt-1">{{ formSectionField.sectionField.defaultValue }}</p>
 
 <ng-container *ngIf="isReadonlyField()">
@@ -6,13 +6,13 @@
          style="height: 34px; min-width: 50px; field-sizing: content"/>
 </ng-container>
 
-<ng-container *ngIf="formSectionField.sectionField.defaultValue == null && !isReadonlyField()">
-<textarea
-  [formControl]="fieldControl"
-  class="form-control"
-  [ngClass]="fieldControl.disabled ? 'my-readonly' : ''"
-  style="min-width: 50px; field-sizing: content"
-></textarea>
+<ng-container *ngIf="(formSectionField.sectionField.defaultValue == null || formSectionField.sectionField.defaultValue == '') && !isReadonlyField()">
+  <textarea
+    [formControl]="fieldControl"
+    class="form-control"
+    [ngClass]="fieldControl.disabled ? 'my-readonly' : ''"
+    style="min-width: 50px; field-sizing: content"
+  ></textarea>
 
   <div *ngIf="fieldControl.invalid" class="text-danger d-flex flex-column">
     <span *ngIf="submitted && fieldControl.errors?.['required']">This field is required.</span>
